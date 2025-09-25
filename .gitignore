@@ -4,6 +4,10 @@
 # Ignora la carpeta node_modules
 node_modules/
 src/backend/node_modules/
+.wwebjs_cache
+.wwebjs_auth
+.wwebjs_cache/
+.wwebjs_auth/
 # Ignora todos los archivos de texto
 *.txt
 
