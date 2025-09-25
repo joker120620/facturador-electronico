@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturador Electronico</title>
+
+    <link rel="stylesheet" href="./stylesFrontens.css">
+</head>
+
+<body>
+    <header class="header">
+        <h1 class="title">Facturador Electronico</h1>
+    </header>
+    <main>
+        <section class="menu-section">
+            <ul class="menu">
+                <li><button id="btnMenuHome">Home</button></li>
+                <li><button id="btnMenuClientes">Clientes</button></li>
+                <li><button id="btnMenuFacturas">Facturas</button></li>
+                <li><button id="btnMenuProductos">Productos</button></li>
+                <li class="salir"><button id="btnMenuSalir">Salir</button></li>
+            </ul>
+
+        </section>
+
+        <section class="content-section" id="ContainerHome">
+            <div class="container-home">
+                <h2>Bienvenido al Facturador Electronico</h2>
+                <p>Seleccione una opción del menú para comenzar.</p>
+                <div></div>
+            </div>
+        </section>
+
+
+
+        <section class="content-section" id="ContainerClientes">
+            <div class="container-clientes">
+                <div class="header-menu-content">
+                    <h2>Clientes</h2>
+                    <div> 
+                        <input type="text" id="buscarCliente" placeholder="Buscar Cliente">
+                        <button id="btnBuscarCliente" class="btn-verde">Buscar</button>
+
+                    </div>
+                   
+                </div>
+                
+                <div class="content-table-items">
+                    <table class="tabla-content">
+                    <thead>
+                        <tr>
+                            <th>CC</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            <th>Options</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>123456789</td>
+                            <td>Pepe Florez Torres</td>
+                            <td>pepe@example.com</td>
+                            <td>Calle Falsa 123</td>
+                            <td>123-456-7890</td>
+                            <td><button type="button" class="btn-azul">Editar</button><button type="button" class="btn-rojo">Eliminar</button></td>
+                        </tr>
+                        <tr>
+                            <td>987654321</td>
+                            <td>Maria Gomez</td>
+                            <td>maria@example.com</td>
+                            <td>Calle Verdadera 456</td>
+                            <td>987-654-3210</td>
+                            <td><button type="button" class="btn-azul">Editar</button><button type="button" class="btn-rojo">Eliminar</button></td>
+                        </tr>
+                        <tr>
+                            <td>456789123</td>
+                            <td>Juan Perez</td>
+                            <td>juan@example.com</td>
+                            <td>Calle Real 789</td>
+                            <td>456-789-1230</td>
+                            <td><button type="button" class="btn-azul">Editar</button><button type="button" class="btn-rojo">Eliminar</button></td>
+                            </tr>
+                            </tbody>
+                            </table>
+                            <div class="modal" id="modal1">
+                                <div class="formulario-agregar">
+                                    <h2 >Agregar Cliente</h2>
+                                    <div class="formulario-agregar">
+                                        <input type="number" id="cc" placeholder="CC">
+                                        <input type="text" id="nombre" placeholder="Nombre">
+                                        <input type="email" id="email" placeholder="Email">
+                                        <input type="text" id="direccion" placeholder="Direccion">
+                                        <input type="text" id="telefono" placeholder="Telefono">
+                                        <button id="btnAgregarCliente" class="btn-azul">Agregar Cliente</button>
+                                        <button class="btn-rojo" data-close="modal1">Cerrar</button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="footer-clientes">
+                                 <button id="open-modal1" class="btn-verde">Agregar Cliente</button>
+
+                            </div>
+                           
+                            
+                            
+                            </div>
+                            
+                            </div>
+                            
+                        </section>
+
+
+
+        <section class="content-section" id="ContainerFacturas">
+            <div class="container-menu-content">
+                <div class="header-menu-content">
+                    <h2>Facturas</h2>
+                    <div> 
+                        <input type="text" id="buscarFactura" placeholder="Buscar Factura">
+                        <button id="btnBuscarFactura" class="btn-verde">Buscar</button>
+
+                    </div>
+                   
+                </div>
+                
+                <div class="content-table-items">
+                    <table class="tabla-content">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>CC</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Options</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>20001</td>
+                            <td>12345678</td>
+                            <td>Pepe Florez Torres</td>
+                            <td>2023-01-01</td>
+                            <td><button type="button" code="20001"class="btn-azul" id="open-modal2">Ver</button><button type="button" class="btn-rojo">Eliminar</button></td>
+                        </tr>
+                        <tr>
+                            <td>20002</td>
+                            <td>987654321</td>
+                            <td>Maria Gomez</td>
+                            <td>2023-01-02</td>
+                            <td><button type="button" code="20002" class="btn-azul" id="open-modal2">Ver</button><button type="button" class="btn-rojo">Eliminar</button></td>
+                        </tr>
+                        <tr>
+                            <td>20003</td>
+                            <td>987654321</td>
+                            <td>Maria Gomez</td>
+                            <td>2023-01-03</td>
+                            <td><button type="button" code="20003" class="btn-azul" id="open-modal2">Ver</button><button type="button" class="btn-rojo">Eliminar</button></td>
+                            </tr>
+                            </tbody>
+                            </table>
+                            <div class="modal" id="modal2">
+                                <div class="formulario-agregar">
+                                    <h2 >Vista Factura</h2>
+                                    <div class="formulario-agregar">
+                                        <input type="number" id="codigo" placeholder="Codigo" disabled>
+                                        <input type="text" id="cc" placeholder="CC" disabled> 
+                                        <input type="text" id="nombre" placeholder="Nombre" disabled>
+                                        <input type="text" id="fecha" placeholder="Fecha" disabled>
+                                        <input type="text" id="descripcion" placeholder="Descripcion" disabled>
+                                        <button class="btn-rojo" data-close="modal2">Cerrar</button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="footer-content">
+                                 <button id="open-modal2" class="btn-verde">Enviar Facturas</button>
+
+                            </div>
+                           
+                            
+                            
+                            </div>
+                            
+                            </div>
+                            </section>  
+
+        
+
+        <section class="content-section" id="ContainerProductos">
+            <div class="container-menu-content">
+                <div class="header-menu-content">
+                    <h2>Productos</h2>
+                    <div> 
+                        <input type="text" id="buscarProducto" placeholder="Buscar Producto">
+                        <button id="btnBuscarProducto" class="btn-verde">Buscar</button>
+
+                    </div>
+                   
+                </div>
+                
+                <div class="content-table-items">
+                    <table class="tabla-content">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Nombre</th>
+                            <th>Descripcion</th>
+                            <th>Options</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>00001</td>
+                            <td>Queso</td>
+                            <td>Queso costeño 1 kilo</td>
+                            <td><button type="button" class="btn-azul">Ver</button><button type="button" class="btn-rojo">Eliminar</button></td>
+                        </tr>
+                        <tr>
+                            <td>00002</td>
+                            <td>Harina</td>
+                            <td>Harina de trigo 1 kilo</td>
+                            <td><button type="button" class="btn-azul">Ver</button><button type="button" class="btn-rojo">Eliminar</button></td>
+                        </tr>
+                        <tr>
+                            <td>00003</td>
+                            <td>cafe</td>
+                            <td>cafe colombiano 1 kilo</td>
+                            <td><button type="button" class="btn-azul">Ver</button><button type="button" class="btn-rojo">Eliminar</button></td>
+                            </tr>
+                            </tbody>
+                            </table>
+                            <div class="modal" id="modal3">
+                                <div class="formulario-agregar">
+                                    <h2 >Agregar Producto</h2>
+                                    <div class="formulario-agregar">
+                                        <input type="number" id="codigo" placeholder="Codigo">
+                                        <input type="text" id="nombre" placeholder="Nombre">
+                                        <input type="text" id="descripcion" placeholder="Descripcion">
+                                        <button id="btnAgregarCliente" class="btn-azul">Agregar Producto</button>
+                                        <button class="btn-rojo" data-close="modal3">Cerrar</button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="footer-content">
+                                 <button id="open-modal3" class="btn-verde">Agregar Producto</button>
+
+                            </div>
+                           
+                            
+                            
+                            </div>
+                            
+                            </div>
+                            </section>     
+        
+        
+    </main>
+                            
+    <footer></footer>
+                            
+                            <script src="scriptFrontend.js"></script>
+                            </body>
+                            
+                            </html>
