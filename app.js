@@ -21,8 +21,16 @@ const client = new Client({
     },
 });
 
-client.on('ready', () => {
+client.on('ready', async() => {
     console.log('Bot iniciado!');
+    //guardar estado del bot en backend
+    try {
+        const response = await fetchData("http://localhost:3000/statusbot", {entity: "bot", status: true });
+        console.log(response.msj);
+    } catch (error) {
+        console.error("Error backend no encontrado:");
+    }
+    
 });
 
 client.on('qr', qr => {
@@ -33,6 +41,7 @@ client.on('message_create', message => {
 });
 client.on('message', async (msg) => {
     let user = await msg.getContact();
+    
     if (msg.body == "Factura") {
         if (msg.hasMedia) {
             const media = await msg.downloadMedia("src/media");

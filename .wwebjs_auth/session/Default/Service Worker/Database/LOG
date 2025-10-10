@@ -1,2 +1,3 @@
-2025/09/25-18:47:42.636 29d0 Creating DB C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Service Worker\Database since it was missing.
-2025/09/25-18:47:42.645 29d0 Reusing MANIFEST C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Service Worker\Database/MANIFEST-000001
+2025/10/01-12:23:31.611 2ee0 Reusing MANIFEST C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Service Worker\Database/MANIFEST-000001
+2025/10/01-12:23:31.611 2ee0 Recovering log #3
+2025/10/01-12:23:31.612 2ee0 Reusing old log C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Service Worker\Database/000003.log 

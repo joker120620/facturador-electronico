@@ -60,6 +60,7 @@ a:hover {
     padding: 10px;
     background-color: var(--soft);
     border: 1px solid var(--text);
+    border-top: none;
 }
 
 .content-section {
@@ -74,7 +75,6 @@ a:hover {
     max-width: 960px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid var(--text);
     background-color: var(--soft);
 }
 .menu {
@@ -88,20 +88,26 @@ a:hover {
 }
 
 .menu button {
-     background-color: #00B4DC;
-    padding: 15px 20px;
+    background-color: #00B4DC;
+    padding: 10px 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
     color: white;
+    border: none;
 
 }
 
 .menu li:hover {
+    border-radius: 8px;
     transform: translateY(-5px);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-    cursor: pointer;
 }
+.menu button:hover{
+    cursor: pointer;
+
+}
+
 
 .content-table-items {
     display: flex;
@@ -123,6 +129,11 @@ a:hover {
     border-bottom: 1px solid var(--text);
 }
 
+.options-table{
+    display: flex;
+    gap: 10px;
+
+}
 .formulario-agregar {
     display: flex;
     justify-content: center;
@@ -157,12 +168,13 @@ input {
 }
 .btn-azul {
     background-color: var(--primary);
-    color: white;
+   color: white;
     border: none;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    height: min-content;
 }
 
 .btn-verde {
@@ -173,6 +185,7 @@ input {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    height: min-content;
     
 }
 .btn-verde:hover {
@@ -187,7 +200,7 @@ input {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    margin: 10px 10px 10px;
+    height: min-content;
 }
 .btn-rojo:hover {
     background-color: #ff3030;
@@ -195,6 +208,10 @@ input {
 .btn-azul:hover {
     background-color: #00cfff;
 }
+.btn-azul:active, .btn-verde:active, .btn-rojo:active {
+    transform: scale(0.95);
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -216,4 +233,54 @@ input {
     opacity: 0;
     transform: translateY(-80px) scale(0.8);
     animation: anim-modal 0.5s forwards;
+}
+
+.container-estado-bot {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--card);
+    text-align: center;
+    padding: 0px 0px 30px 30px;
+    border-radius: 15px;
+}
+
+
+
+
+/* Modal general */
+.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenido del modal de loading */
+.modal-loading-content {
+  background: #fff;
+  padding: 20px 40px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+/* Spinner animado */
+.spinner {
+  margin: 0 auto 15px auto;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
