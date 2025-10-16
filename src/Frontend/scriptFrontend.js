@@ -1,5 +1,8 @@
 // ===================================================================
-
+//==========================IMPORTAR ARCHIVO DE PETICIONES================
+import { fetchData } from "../peticionServer.js";
+//================================================================
+const HOST_API = "http://localhost:3000";
 document.addEventListener("DOMContentLoaded", () => {
 
   // ====================== JSON DE EJEMPLO ======================
@@ -23,6 +26,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ====================== FUNCIONES AUXILIARES ======================
   function capturarItem(id) { return document.getElementById(id); }
+
+  /// ===================== CAMBIAR ESTADO DEL BOT=========================
+  async function changeStatusBot() {
+    const divEstadoBot = capturarItem("estadoBot");
+    let responseStatus = await fetchData(`${HOST_API}/statusbot`, { entity: "client" });
+    if (responseStatus.statusBotServer) {
+      divEstadoBot.textContent = "Conectado"
+    } else {
+      divEstadoBot.textContent = "Desconectado"
+    }
+    setTimeout(changeStatusBot, 10000); // cada 10 segundos
+    const btnRebootBot = capturarItem("btnReiniciarBot");
+      btnRebootBot.addEventListener("click", async () => {
+        //let peticionReboot = await fetchData(`${HOST_API}/rebootbot`, { entity: "client" });
+        
+      });
+
+
+
+  }
+
+
+
 
   // ====================== MODALES PERSONALIZADOS ======================
   // Crea y reutiliza dos modales: mensaje y confirm
@@ -471,5 +497,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProductos();
   renderFacturas();
   mostrarSeccion(ContainerHome);
+  changeStatusBot()
 
-}); // DOMContentLoaded end
+}); // DOMContentLoaded end 
