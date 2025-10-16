@@ -3,26 +3,19 @@
 import { fetchData } from "../peticionServer.js";
 //================================================================
 const HOST_API = "http://localhost:3000";
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
-  // ====================== JSON DE EJEMPLO ======================
-  const dataJSON = {
-    clientes: [
-      { cc: "123456789", nombre: "Pepe Florez Torres", email: "pepe@example.com", direccion: "Calle Falsa 123", telefono: "123-456-7890" },
-      { cc: "987654321", nombre: "Maria Gomez", email: "maria@example.com", direccion: "Calle Verdadera 456", telefono: "987-654-3210" },
-      { cc: "456789123", nombre: "Juan Perez", email: "juan@example.com", direccion: "Calle Real 789", telefono: "456-789-1230" }
-    ],
-    productos: [
-      { codigo: "00001", nombre: "Queso", descripcion: "Queso costeño 1 kilo" },
-      { codigo: "00002", nombre: "Harina", descripcion: "Harina de trigo 1 kilo" },
-      { codigo: "00003", nombre: "Café", descripcion: "Café colombiano 1 kilo" }
-    ],
-    facturas: [
-      { codigo: "20001", cc: "123456789", cliente: "Pepe Florez Torres", fecha: "2023-01-01", descripcion: "Compra de productos lácteos" },
-      { codigo: "20002", cc: "987654321", cliente: "Maria Gomez", fecha: "2023-01-02", descripcion: "Compra de panadería" },
-      { codigo: "20003", cc: "456789123", cliente: "Juan Perez", fecha: "2023-01-03", descripcion: "Compra de café" }
-    ]
-  };
+  // ====================== PEDIR DATOS  ======================
+  const pedirDatos = async (ccUser) => {
+    try {
+      return await fetchData(`${HOST_API}/data` , { ccUser: ccUser });
+    } catch (error) {
+      console.error("Error al obtener datos:", error);
+      mostrarMensaje("Error al obtener datos del servidor");
+      }
+    }
+  const dataJSON =  await pedirDatos("123456789"); // ejemplo ccUser
+  console.log(dataJSON);
 
   // ====================== FUNCIONES AUXILIARES ======================
   function capturarItem(id) { return document.getElementById(id); }
@@ -244,11 +237,14 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   window.eliminarCliente = function (cc) {
-    mostrarConfirm("¿Deseas eliminar este cliente?", (ok) => {
+    mostrarConfirm("¿Deseas eliminar este cliente? " + "\n se eliminaran las facturas asosiadas", (ok) => {
       if (ok) {
         dataJSON.clientes = dataJSON.clientes.filter(c => c.cc !== cc);
+        dataJSON.facturas = dataJSON.facturas.filter(f => f.cc !== cc); // eliminar facturas asociadas
         renderClientes();
+        renderFacturas();
         mostrarMensaje("Cliente eliminado correctamente");
+        console.log(dataJSON);
       }
     });
   };
@@ -385,7 +381,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const filtrados = dataJSON.clientes.filter(c =>
         c.nombre.toLowerCase().includes(texto) || c.cc.includes(texto)
       );
-      tbody.innerHTML = "";
+      if (filtrados.length === 0) {
+        mostrarMensaje("No se encontraron clientes");
+        return;
+      }else{
+        tbody.innerHTML = "";
       filtrados.forEach(c => {
         const fila = document.createElement("tr");
         fila.innerHTML = `
@@ -400,6 +400,9 @@ document.addEventListener("DOMContentLoaded", () => {
           </td>`;
         tbody.appendChild(fila);
       });
+
+      }
+      
     });
   }
 
@@ -412,7 +415,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const filtrados = dataJSON.productos.filter(p =>
         p.nombre.toLowerCase().includes(texto) || p.codigo.includes(texto)
       );
-      tbody.innerHTML = "";
+      if (filtrados.length === 0) {
+        mostrarMensaje("No se encontraron productos");
+        return;
+      }else{
+        tbody.innerHTML = "";
       filtrados.forEach(p => {
         const fila = document.createElement("tr");
         fila.innerHTML = `
@@ -425,6 +432,8 @@ document.addEventListener("DOMContentLoaded", () => {
           </td>`;
         tbody.appendChild(fila);
       });
+      }
+      
     });
   }
 
@@ -437,7 +446,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const filtrados = dataJSON.facturas.filter(f =>
         f.cliente.toLowerCase().includes(texto) || f.codigo.includes(texto)
       );
-      tbody.innerHTML = "";
+      if(filtrados.length === 0) {
+        mostrarMensaje("No se encontraron facturas");
+        return;
+      }else{
+        tbody.innerHTML = "";
       filtrados.forEach(f => {
         const fila = document.createElement("tr");
         fila.innerHTML = `
@@ -451,6 +464,8 @@ document.addEventListener("DOMContentLoaded", () => {
           </td>`;
         tbody.appendChild(fila);
       });
+      }
+      
     });
   }
 
