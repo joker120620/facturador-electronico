@@ -1,3 +1,44 @@
 2025/10/16-10:46:58.812 1080 Reusing MANIFEST C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
 2025/10/16-10:46:58.835 1080 Recovering log #998
 2025/10/16-10:46:58.858 1080 Reusing old log C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000998.log 
+2025/10/16-10:47:09.031 2bac Level-0 table #1017: started
+2025/10/16-10:47:09.042 2bac Level-0 table #1017: 288127 bytes OK
+2025/10/16-10:47:09.045 2bac Delete type=0 #998
+2025/10/16-10:47:09.046 2bac Manual compaction at level-0 from '\x00'\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00(\x00\x00\x00' @ 0 : 0; will stop at '\x00'\x00\x00\x05' @ 6754373 : 1
+2025/10/16-10:47:09.046 2bac Compacting 1@0 + 3@1 files
+2025/10/16-10:47:09.059 2bac Generated table #1018@0: 1889 keys, 66028 bytes
+2025/10/16-10:47:09.065 2bac Generated table #1019@0: 536 keys, 9057 bytes
+2025/10/16-10:47:09.070 2bac Generated table #1020@0: 417 keys, 7341 bytes
+2025/10/16-10:47:09.075 2bac Generated table #1021@0: 47 keys, 4946 bytes
+2025/10/16-10:47:09.076 2bac Compacted 1@0 + 3@1 files => 87372 bytes
+2025/10/16-10:47:09.077 2bac compacted to: files[ 0 4 32 0 0 0 0 ]
+2025/10/16-10:47:09.078 2bac Delete type=2 #1017
+2025/10/16-10:47:09.079 2bac Manual compaction at level-0 from '\x00'\x00\x00\x05' @ 6754373 : 1 .. '\x00(\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/10/16-10:47:14.243 2bac Compacting 1@1 + 10@2 files
+2025/10/16-10:47:14.339 2bac Generated table #1022@1: 29671 keys, 2181802 bytes
+2025/10/16-10:47:14.388 2bac Generated table #1023@1: 242 keys, 2109719 bytes
+2025/10/16-10:47:14.436 2bac Generated table #1024@1: 245 keys, 2110890 bytes
+2025/10/16-10:47:14.485 2bac Generated table #1025@1: 345 keys, 2116492 bytes
+2025/10/16-10:47:14.535 2bac Generated table #1026@1: 242 keys, 2109827 bytes
+2025/10/16-10:47:14.592 2bac Generated table #1027@1: 245 keys, 2110816 bytes
+2025/10/16-10:47:14.641 2bac Generated table #1028@1: 244 keys, 2110491 bytes
+2025/10/16-10:47:14.711 2bac Generated table #1029@1: 242 keys, 2109729 bytes
+2025/10/16-10:47:14.774 2bac Generated table #1030@1: 271 keys, 2114024 bytes
+2025/10/16-10:47:14.895 2bac Generated table #1031@1: 41730 keys, 2167748 bytes
+2025/10/16-10:47:14.903 2bac Generated table #1032@1: 2343 keys, 49669 bytes
+2025/10/16-10:47:14.903 2bac Compacted 1@1 + 10@2 files => 21291207 bytes
+2025/10/16-10:47:14.904 2bac compacted to: files[ 0 3 33 0 0 0 0 ]
+2025/10/16-10:47:14.904 2bac Delete type=2 #1001
+2025/10/16-10:47:14.905 2bac Delete type=2 #1002
+2025/10/16-10:47:14.905 2bac Delete type=2 #1003
+2025/10/16-10:47:14.905 2bac Delete type=2 #1004
+2025/10/16-10:47:14.905 2bac Delete type=2 #1005
+2025/10/16-10:47:14.905 2bac Delete type=2 #1006
+2025/10/16-10:47:14.905 2bac Delete type=2 #1007
+2025/10/16-10:47:14.905 2bac Delete type=2 #1008
+2025/10/16-10:47:14.905 2bac Delete type=2 #1009
+2025/10/16-10:47:14.905 2bac Delete type=2 #1010
+2025/10/16-10:47:14.905 2bac Delete type=2 #1011
+2025/10/16-10:47:14.905 2bac Delete type=2 #1012
+2025/10/16-10:47:14.905 2bac Delete type=2 #1013
+2025/10/16-10:47:14.905 2bac Delete type=2 #1018

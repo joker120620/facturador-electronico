@@ -584,11 +584,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   //================================CERRAR SESION=========================
   document.getElementById("btnMenuSalir").addEventListener("click", () => {
-    
+    mostrarSeccion(ContainerLogin);
     capturarItem("menu-section").style.display = "none"
     localStorage.removeItem("sessionUser");
     mostrarMensaje("Sesión cerrada correctamente");
-    mostrarSeccion(ContainerLogin);
+    
   });
 
   // ====================== INICIALIZACIÓN ======================
