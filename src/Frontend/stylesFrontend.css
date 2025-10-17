@@ -145,6 +145,12 @@ a:hover {
     padding: 20px;
     border-radius: 8px;
 }
+.formulario-agregar label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
+    gap: 5px;
+}
 
 input {
     padding: 10px;
@@ -238,11 +244,26 @@ input {
 .container-estado-bot {
     display: flex;
     align-items: center;
-    flex-direction: column;
+    justify-content:center;
     background-color: var(--card);
     text-align: center;
-    padding: 0px 0px 30px 30px;
+    padding: 30px 30px 30px 30px;
     border-radius: 15px;
+    gap: 100px;
+}
+.container-user-data {
+    margin: 0;
+    text-align: left;
+}
+.container-actions-bot{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+.container-actions-bot input{
+    text-align: center;
 }
 
 
@@ -269,18 +290,28 @@ input {
   box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
 
-/* Spinner animado */
-.spinner {
-  margin: 0 auto 15px auto;
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #3498db;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-}
+/* Spinner animado */ .spinner {
+    display: none;
+    gap: 10px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #09f;
 
+    animation: spin 1s ease infinite;
+}
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+#descripcion_factura{
+    width: 300px;
+    height: 100px;
+    resize: none;
 }

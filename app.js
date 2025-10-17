@@ -168,3 +168,5 @@ client.on('message', async (msg) => {
     }
 });
 client.initialize();
+//client.resetState();
+//client.off('message', messageHandler);

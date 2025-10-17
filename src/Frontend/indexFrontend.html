@@ -11,12 +11,32 @@
     
 </head>
 
-<body>
-    <header class="header">
-        <h1 class="title">Facturador Electronico</h1>
-    </header>
-    <main>
-        <section class="menu-section">
+<body><header class="header">
+    <h1 class="title">Facturador Electronico</h1>
+</header>
+<main id="main-content">
+    <section id="ContainerLogin" class="content-section">
+
+        <!-- ====================== LOGIN ====================== -->
+            <div class="formulario-agregar" style="max-width: 400px; margin: 100px auto;">
+                <h2>Iniciar Sesión</h2>
+                <label for="login_user">Usuario</label>
+                <input type="text" id="login_user" placeholder="Ingrese su usuario">
+
+                <label for="login_pass">Contraseña</label>
+                <input type="password" id="login_pass" placeholder="Ingrese su contraseña">
+
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                    <button id="btnLogin" class="btn-azul">Ingresar</button>
+                    <button id="btnLimpiarLogin" class="btn-rojo">Limpiar</button>
+                    <div id="spinnerContainerLogin" class="spinner"></div>
+                </div>
+                
+            </div>
+
+        </section>
+
+    <section class="menu-section" id="menu-section">
             <ul class="menu">
                 <li><button id="btnMenuHome"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30"
                             height="30" viewBox="0,0,256,256">
@@ -60,18 +80,31 @@
                 <h2>Bienvenido al Facturador Electronico</h2>
                 <p>Seleccione una opción del menú para comenzar.</p>
                 <div class="container-estado-bot">
+                    <div id="container-user-data" class="container-user-data">
+                        <h3>Usuario: <span id="nombreUsuario"></span></h3>
+                        <h3>Cedula: <span id="cedulaUsuario"></span></h3>
+                        <h3>Telefono: <span id="telefonoUsuario"></span></h3>
+                        <h3>Telefono del BOT: <span id="telefonoBot">0987654321</span></h3>
+                    </div>
+                    <div id="container-actions-bot">
                     <h2>Estado del bot</h2>
                     <p id="estadoBot">Error</p>
-                    <button id="btnDesconectarBot" class="btn-rojo"><svg xmlns="http://www.w3.org/2000/svg"
-                            height="30px" viewBox="0 -960 960 960" width="30px" fill="#FFFFFF">
-                            <path
-                                d="M480.07-100q-78.22 0-147.4-29.93-69.18-29.92-120.99-81.72-51.81-51.8-81.75-120.96Q100-401.77 100-480q0-79.38 30.27-148.23t81.58-120.54l32 32q-46.23 45.23-72.35 106.15-26.11 60.91-26.11 130.62 0 139.08 97.76 236.85 97.77 97.76 236.85 97.76 139.69 0 237.15-97.76 97.46-97.77 97.46-236.85 0-69.85-25.8-130.69-25.81-60.85-72.04-106.08l32-32q51.69 51.69 81.46 120.54Q860-559.38 860-479.83q0 77.98-29.92 147.16-29.92 69.18-81.21 120.99-51.29 51.81-120.63 81.75Q558.9-100 480.07-100Zm-22.76-340v-420h45.38v420h-45.38Z" />
-                        </svg></button>
-                    <button id="btnReiniciarBot" class="btn-verde"><svg xmlns="http://www.w3.org/2000/svg" height="30px"
+                    
+                    <div>
+                        <p>Cambia tu Telefono</p>
+                        <input type="text" id="input-telefono-user" placeholder="Nuevo Telefono">
+                        <button id="btnActualizarNumeroBot" class="btn-verde"><svg xmlns="http://www.w3.org/2000/svg" height="30px"
                             viewBox="0 -960 960 960" width="30px" fill="#FFFFFF">
                             <path
                                 d="M447.92-142.77q-113.77-11.15-190.84-96Q180-323.62 180-439.38q0-68.93 31.08-130.2 31.07-61.26 86.23-102.34l32.23 32.61q-49.85 33-77 86.46-27.15 53.47-27.15 113.47 0 96.92 63.49 167.99 63.5 71.08 159.04 83.24v45.38Zm65.39.77v-45.39q96.15-14.3 159.04-84.88 62.88-70.58 62.88-167.11 0-106.7-73.96-180.66T480.62-694h-26.54l65.77 65.77-32.62 32.61-121.07-121.07 121.07-121.08 32.62 32.62-65.77 65.77h26.54q125.53 0 212.76 87.73 87.23 87.73 87.23 212.27 0 115.76-76.76 200.42-76.77 84.65-190.54 96.96Z" />
                         </svg></button>
+
+                    </div>
+                    
+                    
+
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -137,11 +170,21 @@
                         <div class="formulario-agregar">
                             <h2>Agregar Cliente</h2>
                             <div class="formulario-agregar">
+                                <label for="cc_cliente">Cédula / CC</label>
                                 <input type="number" id="cc_cliente" placeholder="CC">
+                                
+                                <label for="nombre_cliente">Nombre</label>
                                 <input type="text" id="nombre_cliente" placeholder="Nombre">
+                                
+                                <label for="email_cliente">Correo electrónico</label>
                                 <input type="email" id="email_cliente" placeholder="Email">
-                                <input type="text" id="direccion_cliente" placeholder="Direccion">
-                                <input type="text" id="telefono_cliente" placeholder="Telefono">
+                                
+                                <label for="direccion_cliente">Dirección</label>
+                                <input type="text" id="direccion_cliente" placeholder="Dirección">
+                                
+                                <label for="telefono_cliente">Teléfono</label>
+                                <input type="text" id="telefono_cliente" placeholder="Teléfono">
+
                                 <button id="btnAgregarCliente" class="btn-azul">Agregar Cliente</button>
                                 <button class="btn-rojo" data-close="modal1" id="btnCerrarModal1">Cerrar</button>
                                 <div class="modal" id="modalLoading">
@@ -226,11 +269,16 @@
                         <div class="formulario-agregar">
                             <h2>Vista Factura</h2>
                             <div class="formulario-agregar">
+                                <label for="codigo_factura">Código</label>
                                 <input type="number" id="codigo_factura" placeholder="Codigo" disabled>
+                                <label for="cc_factura">CC</label>
                                 <input type="text" id="cc_factura" placeholder="CC" disabled>
+                                <label for="nombre_factura">Nombre</label>
                                 <input type="text" id="nombre_factura" placeholder="Nombre" disabled>
+                                <label for="fecha_factura">Fecha</label>
                                 <input type="text" id="fecha_factura" placeholder="Fecha" disabled>
-                                <input type="text" id="descripcion_factura" placeholder="Descripcion" disabled>
+                                <label for="descripcion_factura">Descripción</label>
+                                <textarea id="descripcion_factura" placeholder="Descripción" height="100" disabled></textarea>
                                 <button class="btn-rojo" data-close="modal2">Cerrar</button>
                             </div>
                         </div>
@@ -300,9 +348,12 @@
                         <div class="formulario-agregar">
                             <h2>Agregar Producto</h2>
                             <div class="formulario-agregar">
+                                <label for="codigo_producto">Código</label>
                                 <input type="number" id="codigo_producto" placeholder="Codigo">
+                                <label for="nombre_producto">Nombre</label>
                                 <input type="text" id="nombre_producto" placeholder="Nombre">
-                                <input type="text" id="descripcion_producto" placeholder="Descripcion">
+                                <label for="descripcion_producto">Descripción</label>
+                                <input type="text" id="descripcion_producto" placeholder="Descripción">
                                 <button id="btnAgregarProducto" class="btn-azul">Agregar Producto</button>
                                 <button class="btn-rojo" data-close="modal3">Cerrar</button>
                             </div>
@@ -318,9 +369,7 @@
                 </div>
 
             </div>
-        </section>
-
-
+        </section>  
     </main>
 
     <footer></footer>
