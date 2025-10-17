@@ -592,6 +592,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // ====================== INICIALIZACIÓN ======================
+
   //===================CARGAR SESSION SI EXITE ==============================
   
     if (session) {
@@ -607,11 +608,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       mostrarSeccion(ContainerHome);
     } else {
       mostrarSeccion(ContainerLogin);
-    capturarItem("menu-section").style.display = "none"
+      capturarItem("menu-section").style.display = "none"
 
     }
-    mostrarSeccion(ContainerLogin);
-    capturarItem("menu-section").style.display = "none"
 
 
 }); // DOMContentLoaded end 
