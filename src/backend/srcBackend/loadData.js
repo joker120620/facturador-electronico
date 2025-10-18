@@ -6,10 +6,10 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-async function cargarDatos() {
+async function cargarDatos(nombre) {
   try {
     // Ruta absoluta al archivo data.json
-    const dataPath = path.join(__dirname, "data.json");
+    const dataPath = path.join(__dirname, nombre);
     const contenido = await fs.readFile(dataPath, "utf-8");
     const data = JSON.parse(contenido);
     return data;

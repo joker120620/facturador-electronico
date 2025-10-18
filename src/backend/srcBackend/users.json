@@ -1,0 +1,4 @@
+[ 
+    { "cc": "123456789", "password": "1234", "name": "admin" ,"email": "admin@example.com" , "phone": "555-1234"},
+    { "cc": "987654321", "password": "4321", "name": "María Gómez" , "email": "maria@example.com" , "phone": "555-5678"}
+]

@@ -2,7 +2,7 @@
   "clientes": [
     {
       "cc": "1001",
-      "nombre": "Pepe Florez Torres",
+      "nombre": "pepe Florez Torres",
       "email": "pepe@example.com",
       "direccion": "Calle 1 #10-2",
       "telefono": "3010000001"

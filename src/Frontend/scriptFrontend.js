@@ -33,6 +33,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     setTimeout(changeStatusBot, 10000); // cada 10 segundos
+  }
+  async function updateDataViwer(user) {
+    dataJSON = await pedirDatos(user); // recargar datos al iniciar sesión
+    renderClientes(dataJSON);
+    renderProductos(dataJSON);
+    renderFacturas(dataJSON);
+    console.log("status actu");
+
+    setTimeout(() => updateDataViwer(user), 10000); // cada 10 segundos
+  }
 
 
 
@@ -79,7 +89,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       
 });
-  }
   // ====================== MODALES PERSONALIZADOS ======================
   // Crea y reutiliza dos modales: mensaje y confirm
   // - mostrarMensaje(text) -> muestra texto y cierra en 2.5s o con botón "Cerrar"
@@ -570,10 +579,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         capturarItem("spinnerContainerLogin").style.display = "none";
         btnLogin.style.display = "block";
         btnLimpiarLogin.style.display = "block";
-        dataJSON = await pedirDatos(user); // recargar datos al iniciar sesión
-        renderClientes(dataJSON);
-        renderProductos(dataJSON);
-        renderFacturas(dataJSON);
+        updateDataViwer(user)
         changeStatusBot(); // iniciar ciclo estado bot
         renderUserApp(dataUser.userStatus);
         //Guardar sesión en localStorage

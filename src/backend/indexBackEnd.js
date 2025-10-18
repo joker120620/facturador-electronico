@@ -4,7 +4,7 @@ import { fetchData } from "../peticionServer.js";
 import dotenv from "dotenv";
 import cargarDatos from "./srcBackend/loadData.js";
 
-const data = await cargarDatos();
+
 
 // Cargar las variables del archivo .env
 dotenv.config();
@@ -27,10 +27,7 @@ app.get("/", (req, res) => {
   res.json({ msj: "Servidor Online" });
 });
 
-const usuarios = [
-    { cc: "123456789", password: "1234", name: "admin" ,email: "admin@example.com" , phone: "555-1234"},
-    { cc: "987654321", password: "4321", name: "María Gómez" , email: "maria@example.com" , phone: "555-5678"}
-  ];
+
 //end point para estado del bot
 app.post("/statusbot", (req, res) => {
   const response = req.body;
@@ -45,7 +42,9 @@ app.post("/statusbot", (req, res) => {
  
 });
 ///end point login
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
+  const usuarios = await cargarDatos("users.json");
+  
   const response = req.body;
   if(response.user && response.password){
     const userFound = usuarios.find(user => user.cc === response.user && user.password === response.password);
@@ -84,7 +83,8 @@ app.post("/updateDataUser", (req, res) => {
 
 //end point para datos
 
-app.post("/data", (req, res) => {
+app.post("/data", async (req, res) => {
+  const data = await cargarDatos("data.json");
   const { ccUser } = req.body;
   console.log("CC usuario recibido:", ccUser);
   if (ccUser !== 0) {
