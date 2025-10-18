@@ -6,7 +6,7 @@ import { renderProductos } from "./srcFrontEnd/renderProductos.js";
 import { renderFacturas } from "./srcFrontEnd/renderFacturas.js";
 import { renderClientes } from "./srcFrontEnd/renderClientes.js";
 //================================================================
-const HOST_API = "https://facturador-electronico.onrender.com";
+const HOST_API = "http://localhost:3000";
 document.addEventListener("DOMContentLoaded", async () => {
 //////=====================
   const session = localStorage.getItem("sessionUser");
@@ -55,13 +55,11 @@ document.addEventListener("DOMContentLoaded", async () => {
        
       
         updateSessionField("phone", nuevoNumero);
-        console.log(JSON.parse(session).data.phone)
         async function sendTemporaly(){
           let res = await fetchData(`${HOST_API}/updateDataUser`, { data:{
             cc: JSON.parse(session).data.cc, password: JSON.parse(session).data.password, name: JSON.parse(session).data.name ,email: JSON.parse(session).data.email , phone: nuevoNumero}
         }  );
         if(res.status == "200"){
-          mostrarMensaje("Se actualizo correctamente")
           window.location.reload();
 
         }
@@ -374,18 +372,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // ====================== BUSCADORES ======================
   const btnBuscarCliente = capturarItem("btnBuscarCliente");
-  if (btnBuscarCliente) {
-    btnBuscarCliente.addEventListener("click", () => {
+  const inputBuscarCliente = capturarItem("buscarCliente")
+  if (inputBuscarCliente) {
+    inputBuscarCliente.addEventListener("input", () => {
       const texto = (capturarItem("buscarCliente")?.value || "").trim().toLowerCase();
       const tbody = document.querySelector("#ContainerClientes tbody");
       if (!tbody) return;
       const filtrados = dataJSON.clientes.filter(c =>
         c.nombre.toLowerCase().includes(texto) || c.cc.includes(texto)
       );
-      if (filtrados.length === 0) {
+      btnBuscarCliente.addEventListener("click", () => {
+        if (filtrados.length === 0) {
         mostrarMensaje("No se encontraron clientes");
         return;
-      } else {
+      }else{
+        mostrarMensaje("Busqueda completada");
+      }
+      })
+      if (filtrados.length !== 0) {
         tbody.innerHTML = "";
         filtrados.forEach(c => {
           const fila = document.createElement("tr");
@@ -401,25 +405,31 @@ document.addEventListener("DOMContentLoaded", async () => {
           </td>`;
           tbody.appendChild(fila);
         });
-
+        return;
       }
 
     });
   }
 
   const btnBuscarProducto = capturarItem("btnBuscarProducto");
-  if (btnBuscarProducto) {
-    btnBuscarProducto.addEventListener("click", () => {
+  const inputBuscarProducto = capturarItem("buscarProducto")
+  if (inputBuscarProducto) {
+    inputBuscarProducto.addEventListener("input", () => {
       const texto = (capturarItem("buscarProducto")?.value || "").trim().toLowerCase();
       const tbody = document.querySelector("#ContainerProductos tbody");
       if (!tbody) return;
       const filtrados = dataJSON.productos.filter(p =>
         p.nombre.toLowerCase().includes(texto) || p.codigo.includes(texto)
       );
-      if (filtrados.length === 0) {
-        mostrarMensaje("No se encontraron productos");
+      btnBuscarProducto.addEventListener("click", () => {
+        if (filtrados.length === 0) {
+        mostrarMensaje("No se encontraron Productos");
         return;
-      } else {
+      }else{
+        mostrarMensaje("Busqueda completada");
+      }
+    });
+      if(filtrados.length !== 0){
         tbody.innerHTML = "";
         filtrados.forEach(p => {
           const fila = document.createElement("tr");
@@ -438,19 +448,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  const inputBuscarFactura = capturarItem("buscarFactura")
   const btnBuscarFactura = capturarItem("btnBuscarFactura");
-  if (btnBuscarFactura) {
-    btnBuscarFactura.addEventListener("click", () => {
+  if (inputBuscarFactura) {
+    inputBuscarFactura.addEventListener("input", () => {
+      console.log(inputBuscarFactura.value)
       const texto = (capturarItem("buscarFactura")?.value || "").trim().toLowerCase();
       const tbody = document.querySelector("#ContainerFacturas tbody");
       if (!tbody) return;
       const filtrados = dataJSON.facturas.filter(f =>
         f.cliente.toLowerCase().includes(texto) || f.codigo.includes(texto)
       );
-      if (filtrados.length === 0) {
-        mostrarMensaje("No se encontraron facturas");
+      btnBuscarFactura.addEventListener("click", () => {
+        if (filtrados.length === 0) {
+        mostrarMensaje("No se encontraron Facturas");
         return;
-      } else {
+      }else{
+        mostrarMensaje("Busqueda completada");
+      }
+    });
+      if (filtrados.length !== 0){
         tbody.innerHTML = "";
         filtrados.forEach(f => {
           const fila = document.createElement("tr");
@@ -590,7 +607,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     mostrarMensaje("Sesión cerrada correctamente");
     
   });
-
+///========================ACTUALIZAR DATOS CADA CIERTO TIEMPO===========
   // ====================== INICIALIZACIÓN ======================
 
   //===================CARGAR SESSION SI EXITE ==============================
