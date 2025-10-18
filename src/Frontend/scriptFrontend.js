@@ -6,7 +6,7 @@ import { renderProductos } from "./srcFrontEnd/renderProductos.js";
 import { renderFacturas } from "./srcFrontEnd/renderFacturas.js";
 import { renderClientes } from "./srcFrontEnd/renderClientes.js";
 //================================================================
-const HOST_API = "http://localhost:3000";
+const HOST_API = "https://facturador-electronico.onrender.com";
 document.addEventListener("DOMContentLoaded", async () => {
 //////=====================
   const session = localStorage.getItem("sessionUser");
