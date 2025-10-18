@@ -3,11 +3,29 @@ import cors from "cors";
 import { fetchData } from "../peticionServer.js";
 import dotenv from "dotenv";
 import cargarDatos from "./srcBackend/loadData.js";
+import { guardarDatos } from "./srcBackend/saveData.js";
+import { insertUser, getUser } from "./srcBackend/userServices.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+async function main() {
+  try {
+    const nuevo = await insertUser({ nombre: "Tatiana", edad: 25 });
+    console.log("🟢 Usuario insertado:", nuevo.insertedId);
 
+    const lista = await getUser();
+    console.log("📋 Usuarios actuales:", lista);
+  } catch (err) {
+    console.error("❌ Error:", err);
+  }
+}
+
+main();
 
 // Cargar las variables del archivo .env
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, "./.env") });
 // Crear aplicación
 const app = express();
 
@@ -61,23 +79,44 @@ app.post("/login", async (req, res) => {
   }
 });
 //endpoint para actualizar datosde usuario
-app.post("/updateDataUser", (req, res) => {
-  const response = req.body.data;
-  console.log(usuarios)
 
-  if(response.cc && response.password){
-    const userFound = usuarios.find(user => user.cc === response.cc && user.password === response.password);
-    console.log("Usuario intentando actualizar datos:", response.name);
-    if(userFound){
-       userFound.phone = response.phone;
-      console.log(userFound )
-      res.json({status: 200, msj: "Usuario o contraseña incorrectos" });
+app.post("/updateDataUser", async (req, res) => {
+  try {
+    const usuarios = await cargarDatos("users.json");
+    const response = req.body.data;
+
+    if (response.cc && response.password) {
+      // Buscar el usuario por cc y password
+      const userFound = usuarios.find(
+        (user) => user.cc === response.cc && user.password === response.password
+      );
+
+      console.log("Usuario intentando actualizar datos:", response.name);
+
+      if (userFound) {
+
+        if (response.phone) userFound.phone = response.phone;
+        if (response.name) userFound.name = response.name;
+        if (response.email) userFound.email = response.email;
+        if (response.cc) userFound.cc = response.cc;
+        if (response.pass) userFound.password = response.pass;
+
+        await guardarDatos("users.json", usuarios);
+        console.log(usuarios)
+        //guardarDatos("./src/backend/srcBackend/users.json", [{ nombre: "Prueba", cc: 123 }]);
+
+        console.log("Datos actualizados del usuario:", userFound);
+        res.json({ status: 200, msj: "Datos actualizados correctamente" });
+      } else {
+        console.log("Usuario o contraseña incorrectos:", response.cc);
+        res.json({ status: 401, msj: "Usuario o contraseña incorrectos" });
+      }
     } else {
-      res.json({status: 401, msj: "error" });
-      console.log("Login fallido para el usuario:", response.user);
+      res.status(400).json({ msj: "Faltan datos" });
     }
-  } else {
-    res.status(400).json({ msj: "Faltan datos" });
+  } catch (error) {
+    console.error("Error actualizando datos del usuario:", error);
+    res.status(500).json({ msj: "Error interno del servidor" });
   }
 });
 
