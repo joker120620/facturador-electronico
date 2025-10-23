@@ -1,33 +1,11 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+import mysql from "mysql2/promise";
+import dotenv from "dotenv";
 
+dotenv.config();
 
-const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_CLUSTER}/?retryWrites=true&w=majority`;
-
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
+export const connectionDB = await mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
-
-let dbInstance = null;
-
-export async function connectDB() {
-  if (dbInstance) return dbInstance; // evita reconexiones múltiples
-
-  try {
-    await client.connect();
-    dbInstance = client.db(process.env.MONGO_DB);
-    console.log("✅ Conectado a MongoDB:", process.env.MONGO_DB);
-    return dbInstance;
-  } catch (error) {
-    console.error("❌ Error conectando a MongoDB:", error);
-    throw error;
-  }
-}
-
-export async function closeDB() {
-  await client.close();
-  console.log("🔒 Conexión a MongoDB cerrada");
-}

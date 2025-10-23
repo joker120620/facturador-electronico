@@ -1,25 +1,40 @@
 // ===================================================================
 //==========================IMPORTAR ARCHIVOS================
-import { fetchData } from "../peticionServer.js";
+import { fetchData , fetchDataWithToken } from "../peticionServer.js";
 import { renderUserApp } from "./srcFrontEnd/renderUserApp.js";
 import { renderProductos } from "./srcFrontEnd/renderProductos.js";
 import { renderFacturas } from "./srcFrontEnd/renderFacturas.js";
 import { renderClientes } from "./srcFrontEnd/renderClientes.js";
 //================================================================
-const HOST_API = "https://facturador-electronico.onrender.com";
+const HOST_API = "http://localhost:3000";
 document.addEventListener("DOMContentLoaded", async () => {
 //////=====================
-  const session = localStorage.getItem("sessionUser");
-  // ====================== PEDIR DATOS  ======================
-  const pedirDatos = async (ccUser) => {
-    try {
-      return await fetchData(`${HOST_API}/data`, { ccUser: ccUser });
-    } catch (error) {
-      console.error("Error al obtener datos:", error);
-      mostrarMensaje("Error al obtener datos del servidor");
-    }
+  const session = sessionStorage.getItem("sessionUser");
+  // ====================== PEDIR DATOS Clientes  ======================
+  const pedirDatosClientes = async () => {
+    const session = JSON.parse(sessionStorage.getItem("sessionUser"));
+    const usuarioId = await session.data.id;
+    const dataClientes = await fetchDataWithToken(`${HOST_API}/getClient`, { usuario_id: usuarioId });
+    return dataClientes
+
   }
-  let dataJSON ;
+
+  // ====================== PEDIR DATOS PRODUCTOS  ======================
+  const pedirDatosProductos = async () => {
+    const session = JSON.parse(sessionStorage.getItem("sessionUser"));
+    const usuarioId = session.data.id;
+    const dataClientes = await fetchDataWithToken(`${HOST_API}/getProduct`, { usuario_id: usuarioId });
+    return dataClientes
+
+  }
+  //====================== PEDIR DATOS FACTURAS ======================
+  const pedirDatosFacturas = async () => {
+    const session = JSON.parse(sessionStorage.getItem("sessionUser"));
+    const usuarioId = session.data.id;
+    const dataFacturas = await fetchDataWithToken(`${HOST_API}/getFacturas`, { usuario_id: usuarioId });
+    return dataFacturas
+  }
+  let dataJSON = {};
   // ====================== FUNCIONES AUXILIARES ======================
   function capturarItem(id) { return document.getElementById(id); }
   /// ===================== CAMBIAR ESTADO DEL BOT=========================
@@ -34,61 +49,92 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     setTimeout(changeStatusBot, 10000); // cada 10 segundos
   }
-  async function updateDataViwer(user) {
-    dataJSON = await pedirDatos(user); // recargar datos al iniciar sesión
-    renderClientes(dataJSON);
-    renderProductos(dataJSON);
-    renderFacturas(dataJSON);
-    console.log("status actu");
 
-    setTimeout(() => updateDataViwer(user), 10000); // cada 10 segundos
+
+//==================ACTUALIZAR DATOS DEL SERVIDOR===================
+  async function updateDataViwer() {
+    let data;
+    data = await pedirDatosClientes();// recargar datos al iniciar sesión
+    if(data.status == 403){
+      mostrarMensaje("Session cerrada");
+      mostrarSeccion(ContainerLogin);
+    }else{
+      renderClientes(data);
+      if (!data.clientes) {
+        data.clientes = [];
+      }
+      dataJSON.clientes = data.clientes
+    }
+    data = await pedirDatosProductos();
+    if(data.status == 403){
+      mostrarMensaje("Session cerrada");
+      mostrarSeccion(ContainerLogin);
+    }else{
+      renderProductos(data);
+      if (!data.productos) {
+        data.productos = [];
+      }
+      dataJSON.productos = data.productos
+    }
+    data = await pedirDatosFacturas();
+    if(data.status == 403){
+      mostrarMensaje("Session cerrada");
+      mostrarSeccion(ContainerLogin);
+    }else{
+      renderFacturas(data);
+      if(!data.facturas){
+        data.facturas = [];
+      }
+      dataJSON.facturas = data.facturas;
+      
+    }
+    
+
   }
 
+////btn actualizar de la barra de busqueda
 
 
-
-    const btnActualizarNumeroBot = capturarItem("btnActualizarNumeroBot");
-
-    function updateSessionField(field, value) {
-      const session = JSON.parse(localStorage.getItem("sessionUser"));
-      if (!session || !session.data) return;
-
-      session.data[field] = value;
-      localStorage.setItem("sessionUser", JSON.stringify(session));
+function recharged(){
+    const data = JSON.parse(session).data;
+    updateDataViwer(data);
+    const timeoutId = setTimeout(() => {
+       capturarItem("svgBusqueda1").classList.remove("btn-actualizar-girar");
+       capturarItem("svgBusqueda2").classList.remove("btn-actualizar-girar");
+       capturarItem("svgBusqueda3").classList.remove("btn-actualizar-girar");
+       clearTimeout(timeoutId);
+    }, 3000);
     }
 
-    btnActualizarNumeroBot.addEventListener("click", async () => {
-      const nuevoNumero = capturarItem("input-telefono-user").value.trim();
-      if (nuevoNumero){
-        mostrarConfirm("La pagina se recargara para actualizar. " + "\n se eliminaran los datos temporales "+ "\n ¿Estas Seguro?", (ok) => {
-      if (ok) {
-       
-      
-        updateSessionField("phone", nuevoNumero);
-        async function sendTemporaly(){
-          let res = await fetchData(`${HOST_API}/updateDataUser`, { data:{
-            cc: JSON.parse(session).data.cc, password: JSON.parse(session).data.password, name: JSON.parse(session).data.name ,email: JSON.parse(session).data.email , phone: nuevoNumero}
-        }  );
-        if(res.status == "200"){
-          window.location.reload();
 
-        }
+  const btnActualizarDatos1 = capturarItem("btnActualizarDatosViwer1")
+  btnActualizarDatos1.addEventListener('click', () => {
+    capturarItem("svgBusqueda1").classList.add("btn-actualizar-girar");
+    
+    recharged()
+  })
+  
+///====================================================================
 
-        }
-        sendTemporaly()
-       
-        
-        
-      }
-    });
-        
-      }else{
-        mostrarMensaje("Ingrese su nuevo numero por favor")
-      }
-      
+  const btnActualizarDatos2 = capturarItem("btnActualizarDatosViwer2")
+  btnActualizarDatos2.addEventListener('click', () => {
+    capturarItem("svgBusqueda2").classList.add("btn-actualizar-girar");
+    
+    recharged()
+  });
 
-      
-});
+///====================================================================
+
+  const btnActualizarDatos3 = capturarItem("btnActualizarDatosViwer3")
+  btnActualizarDatos3.addEventListener('click', () => {
+    capturarItem("svgBusqueda3").classList.add("btn-actualizar-girar");
+    
+    recharged()
+  })
+///====================================================================
+
+
+
   // ====================== MODALES PERSONALIZADOS ======================
   // Crea y reutiliza dos modales: mensaje y confirm
   // - mostrarMensaje(text) -> muestra texto y cierra en 2.5s o con botón "Cerrar"
@@ -198,124 +244,159 @@ document.addEventListener("DOMContentLoaded", async () => {
   function validarEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
   function validarNumero(num) { return /^[0-9]+$/.test(num); }
 
-  // ====================== CLIENTES ======================
-  window.editarCliente = function (cc) {
-    const cliente = dataJSON.clientes.find(c => c.cc === cc);
-    if (!cliente) {
-      mostrarMensaje("Cliente no encontrado");
-      return;
-    }
+ // ====================== CLIENTES ======================
+window.editarCliente = function (id) {
+  console.log(dataJSON.clientes)
+  // Asegurarse de que el ID sea numérico (por si viene como string)
+  const cliente = dataJSON.clientes.find(c => c.id === Number(id));
 
-    // Rellenar formulario con los datos (IDs según HTML corregido)
-    const el = capturarItem("modal1");
-    if (!el) return;
-    const ccInput = capturarItem("cc_cliente");
-    const nombreInput = capturarItem("nombre_cliente");
-    const emailInput = capturarItem("email_cliente");
-    const direccionInput = capturarItem("direccion_cliente");
-    const telefonoInput = capturarItem("telefono_cliente");
+  if (!cliente) {
+    mostrarMensaje("Cliente no encontrado");
+    return;
+  }
 
-    if (ccInput) ccInput.value = cliente.cc;
-    if (nombreInput) nombreInput.value = cliente.nombre;
-    if (emailInput) emailInput.value = cliente.email;
-    if (direccionInput) direccionInput.value = cliente.direccion;
-    if (telefonoInput) telefonoInput.value = cliente.telefono;
+  // Capturar los inputs del formulario
+  const el = capturarItem("modal1");
+  if (!el) return;
 
-    el.classList.add("active");
-  };
+  const ccInput = capturarItem("cc_cliente");
+  const nombreInput = capturarItem("nombre_cliente");
+  const emailInput = capturarItem("email_cliente");
+  const direccionInput = capturarItem("direccion_cliente");
+  const telefonoInput = capturarItem("telefono_cliente");
 
-  window.eliminarCliente = function (cc) {
-    mostrarConfirm("¿Deseas eliminar este cliente? " + "\n se eliminaran las facturas asosiadas", (ok) => {
+  // Rellenar los campos
+  if (ccInput) ccInput.value = cliente.cedula || "";
+  if (nombreInput) nombreInput.value = cliente.nombre || "";
+  if (emailInput) emailInput.value = cliente.correo || "";
+  if (direccionInput) direccionInput.value = cliente.direccion || "";
+  if (telefonoInput) telefonoInput.value = cliente.telefono || "";
+
+  // Mostrar modal
+  el.classList.add("active");
+};
+  window.eliminarCliente = function  (cc) {
+    mostrarConfirm("¿Deseas eliminar este cliente? " + "\n se eliminaran las facturas asosiadas", async (ok) => {
       if (ok) {
-        dataJSON.clientes = dataJSON.clientes.filter(c => c.cc !== cc);
-        dataJSON.facturas = dataJSON.facturas.filter(f => f.cc !== cc); // eliminar facturas asociadas
-        renderClientes(dataJSON);
-        renderFacturas(dataJSON);
-        mostrarMensaje("Cliente eliminado correctamente");
+        const response = await fetchDataWithToken(`${HOST_API}/deleteClient`, {
+        "id": cc
+      });
+      if (response) {
+        mostrarMensaje(response.mensaje);
+
+      }
+      updateDataViwer();
 
       }
     });
   };
 
   // Guardar o editar cliente
-  const btnAgregarCliente = capturarItem("btnAgregarCliente");
-  if (btnAgregarCliente) {
-    btnAgregarCliente.addEventListener("click", () => {
-      const cc = (capturarItem("cc_cliente")?.value || "").trim();
-      const nombre = (capturarItem("nombre_cliente")?.value || "").trim();
-      const email = (capturarItem("email_cliente")?.value || "").trim();
-      const direccion = (capturarItem("direccion_cliente")?.value || "").trim();
-      const telefono = (capturarItem("telefono_cliente")?.value || "").trim();
+const btnAgregarCliente = capturarItem("btnAgregarCliente");
+if (btnAgregarCliente) {
+  btnAgregarCliente.addEventListener("click", async () => {
+    const cc = (capturarItem("cc_cliente")?.value || "").trim();
+    const nombre = (capturarItem("nombre_cliente")?.value || "").trim();
+    const email = (capturarItem("email_cliente")?.value || "").trim();
+    const direccion = (capturarItem("direccion_cliente")?.value || "").trim();
+    const telefono = (capturarItem("telefono_cliente")?.value || "").trim();
 
-      if (!cc || !nombre || !email || !direccion || !telefono) {
-        mostrarMensaje("Por favor completa todos los campos");
-        return;
-      }
-      if (!validarNumero(cc)) { mostrarMensaje("El CC debe ser numérico"); return; }
-      if (!validarEmail(email)) { mostrarMensaje("El correo no es válido"); return; }
-
-      const idx = dataJSON.clientes.findIndex(c => c.cc === cc);
-      if (idx >= 0) {
-        dataJSON.clientes[idx] = { cc, nombre, email, direccion, telefono };
-        dataJSON.facturas.forEach(f => {
-          if (f.cc === cc) f.cliente = nombre; // actualizar nombre en facturas asociadas
-        });
-        mostrarMensaje("Cliente actualizado correctamente");
-        renderFacturas(dataJSON);
-      } else {
-        dataJSON.clientes.push({ cc, nombre, email, direccion, telefono });
-        mostrarMensaje("Cliente agregado correctamente");
-        renderFacturas(dataJSON);
-      }
-
-      renderClientes(dataJSON)
-      const modal = capturarItem("modal1");
-      if (modal) modal.classList.remove("active");
-    });
-  }
-
-  // ====================== PRODUCTOS ======================
-  window.verProducto = function (codigo) {
-    const prod = dataJSON.productos.find(p => p.codigo === codigo);
-    if (!prod) {
-      mostrarMensaje("Producto no encontrado");
+    if (!cc || !nombre || !email || !direccion || !telefono) {
+      mostrarMensaje("Por favor completa todos los campos");
       return;
     }
-    // mostramos como mensaje (se autocierrará)
-    mostrarMensaje(`Código: ${prod.codigo}\nNombre: ${prod.nombre}\nDescripción: ${prod.descripcion}`);
-  };
+    if (!validarNumero(cc)) { mostrarMensaje("El CC debe ser numérico"); return; }
+    if (!validarEmail(email)) { mostrarMensaje("El correo no es válido"); return; }
 
-  window.eliminarProducto = function (codigo) {
-    mostrarConfirm("¿Eliminar producto?", (ok) => {
-      if (ok) {
-        dataJSON.productos = dataJSON.productos.filter(p => p.codigo !== codigo);
-        renderProductos(dataJSON)
-        mostrarMensaje("Producto eliminado correctamente");
+    // Buscar cliente existente
+    const idx = dataJSON.clientes.findIndex(c => c.cedula === cc);
+
+    if (idx >= 0) {
+      // Editar existente
+      
+
+      const response = await fetchDataWithToken(`${HOST_API}/updateClient`, {
+        "id": dataJSON.clientes[idx].id,
+        "cedula": cc,
+        "nombre": nombre,
+        "telefono": telefono,
+        "direccion": direccion,
+        "correo": email
+      });
+      
+      if (response){
+        mostrarMensaje(response.mensaje);
+      }
+      updateDataViwer()
+    } else {
+      // Agregar nuevo
+      const response = await fetchDataWithToken(`${HOST_API}/addClient`, {
+        "cedula": cc,
+        "nombre": nombre,
+        "telefono": telefono,
+        "direccion": direccion,
+        "correo": email
+      });
+      if (response){
+        mostrarMensaje(response.mensaje);
+      }
+      updateDataViwer()
+    }
+
+
+    const modal = capturarItem("modal1");
+    if (modal) modal.classList.remove("active");
+  });
+}
+  // ====================== PRODUCTOS =========================
+  
+
+  window.eliminarProducto = function (id) {
+    mostrarConfirm("¿Eliminar producto?", async (ok) => {
+      if  (ok) {
+        const response = await fetchDataWithToken(`${HOST_API}/deleteProduct`, {
+        "id": id
+      });
+      if (response) {
+        mostrarMensaje(response.mensaje);
+
+      }
+      updateDataViwer();
       }
     });
   };
 
   const btnAgregarProducto = capturarItem("btnAgregarProducto");
   if (btnAgregarProducto) {
-    btnAgregarProducto.addEventListener("click", () => {
-      const codigo = (capturarItem("codigo_producto")?.value || "").trim();
-      const nombre = (capturarItem("nombre_producto")?.value || "").trim();
-      const descripcion = (capturarItem("descripcion_producto")?.value || "").trim();
+    btnAgregarProducto.addEventListener("click", async () => {
+      const idProducto = Number((capturarItem("codigo_producto")?.value || "").trim());
+      const nombreProducto = (capturarItem("nombre_producto")?.value || "").trim();
+      const precioProducto = (capturarItem("precio_producto")?.value || "").trim();
+      
 
-      if (!codigo || !nombre || !descripcion) {
+      if (!idProducto || !nombreProducto || !precioProducto) {
         mostrarMensaje("Completa todos los campos");
         return;
       }
-      if (!validarNumero(codigo)) { mostrarMensaje("El código debe ser numérico"); return; }
-      if (dataJSON.productos.some(p => p.codigo === codigo)) {
+      if (!validarNumero(idProducto)) { mostrarMensaje("El código debe ser numérico"); return; }
+      if (dataJSON.productos.some(p => p.id === idProducto)) {
         mostrarMensaje("Ya existe un producto con ese código");
         return;
+      } else {
+        // Agregar nuevo
+        const session = JSON.parse(sessionStorage.getItem("sessionUser"));
+        const response = await fetchDataWithToken(`${HOST_API}/addProduct`, {
+          //////////session falta
+          "usuario_id": session.data.id,
+          "nombre": nombreProducto,
+          "precio": precioProducto
+        });
+      if (response){
+        mostrarMensaje(response.mensaje);
+      }
+      updateDataViwer()
       }
 
-      dataJSON.productos.push({ codigo, nombre, descripcion });
-      renderProductos(dataJSON)
-      mostrarMensaje("Producto agregado correctamente");
-      console.log(dataJSON);
       // Limpiar formulario
       if (capturarItem("codigo_producto")) capturarItem("codigo_producto").value = "";
       if (capturarItem("nombre_producto")) capturarItem("nombre_producto").value = "";
@@ -388,14 +469,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       const tbody = document.querySelector("#ContainerClientes tbody");
       if (!tbody) return;
       const filtrados = dataJSON.clientes.filter(c =>
-        c.nombre.toLowerCase().includes(texto) || c.cc.includes(texto)
+        c.nombre.toLowerCase().includes(texto) || c.cedula.includes(texto)
       );
       btnBuscarCliente.addEventListener("click", () => {
+        console.log(filtrados)
         if (filtrados.length === 0) {
         mostrarMensaje("No se encontraron clientes");
         return;
       }else{
-        mostrarMensaje("Busqueda completada");
+        if(texto !==""){
+          mostrarMensaje("Busqueda completada");
+        }
+        
       }
       })
       if (filtrados.length !== 0) {
@@ -403,9 +488,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         filtrados.forEach(c => {
           const fila = document.createElement("tr");
           fila.innerHTML = `
-          <td>${c.cc}</td>
+          <td>${c.cedula}</td>
           <td>${c.nombre}</td>
-          <td>${c.email}</td>
+          <td>${c.correo}</td>
           <td>${c.direccion}</td>
           <td>${c.telefono}</td>
           <td class="options-table">
@@ -501,23 +586,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   const ContainerFacturas = capturarItem("ContainerFacturas");
   const ContainerProductos = capturarItem("ContainerProductos");
   const ContainerHome = capturarItem("ContainerHome");
+  const ContainerAjustes =capturarItem("ContainerAjustes");
   const ContainerLogin = capturarItem("ContainerLogin");
+  const ContainerRegister =capturarItem("ContainerRegister");
   const btnSalir = capturarItem("btnMenuSalir");
+  function ocultarMainBtn (){
+    const mainSections = document.querySelectorAll(".menu-section");
+      mainSections.forEach(sec => sec.style.display = "none");
+  }
   if (btnSalir) {
     btnSalir.addEventListener("click", () => {
-      const mainSections = document.querySelectorAll(".menu-section");
-      // Ocultar todo el contenido al cargar, excepto login
       mostrarSeccion(ContainerLogin);
-      mainSections.forEach(sec => sec.style.display = "none");
+      ocultarMainBtn()
+      
     });
   }
 
   function mostrarSeccion(seccion) {
-    [ContainerClientes, ContainerFacturas, ContainerProductos, ContainerHome, ContainerLogin].forEach(s =>
+    [ContainerClientes, ContainerFacturas, ContainerProductos, ContainerHome, ContainerLogin , ContainerAjustes , ContainerRegister].forEach(s =>
       s && s.classList.add("content-section-disabled")
     );
-    capturarItem("menu-section").style.display = "block"
+    
     seccion && seccion.classList.remove("content-section-disabled");
+    capturarItem("menu-section").style.display = "block"
     
   }
 
@@ -525,6 +616,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   capturarItem("btnMenuClientes")?.addEventListener("click", () => mostrarSeccion(ContainerClientes));
   capturarItem("btnMenuFacturas")?.addEventListener("click", () => mostrarSeccion(ContainerFacturas));
   capturarItem("btnMenuProductos")?.addEventListener("click", () => mostrarSeccion(ContainerProductos));
+  capturarItem("btnMenuAjustes")?.addEventListener("click", ()=> mostrarSeccion(ContainerAjustes));
+  capturarItem("btnSubMenuRegister")?.addEventListener("click", () => {
+    mostrarSeccion(ContainerRegister)
+    ocultarMainBtn()
+  });
+  capturarItem("btnVolverLogin")?.addEventListener("click", () => {
+    mostrarSeccion(ContainerLogin);
+    ocultarMainBtn();
+  });
+  
 
   // ====================== MODALES (abrir/cerrar botones de HTML) ======================
   // Solo enlazamos si existen los botones; si no, no hacemos nada.
@@ -547,7 +648,82 @@ document.addEventListener("DOMContentLoaded", async () => {
   conectarAbrirCerrar();
 
 
-  ///====================== 
+  ///====================== EDITAR USUARIO =========================
+  const btnChancgeUserData = capturarItem("btnChangeDataUser");
+  
+  if(btnChancgeUserData){
+    btnChancgeUserData.addEventListener("click", async ()=>{
+      
+    const newName = capturarItem("changeUserName").value.trim();
+    const newEmail = capturarItem("changeUserEmail").value.trim();
+    const newPhone = capturarItem("changeUserPhone").value.trim();
+    const passwordUser = capturarItem("changeUserPass").value.trim();
+    const newPass = capturarItem("changeUserNewPass").value.trim();
+    if(!newName || !newEmail || !newPhone || !passwordUser){
+      mostrarMensaje("Datos Incompletos!")
+    }else{
+      if(!validarEmail(newEmail) || !validarNumero(newPhone)){
+        mostrarMensaje("Datos invalidos")
+      }else{
+        if(newPass !== ""){
+          if(newPass && newPass.length <6){
+          mostrarMensaje("La nueva contraseña debe tener al menos 6 caracteres")
+          return;
+        }else if(newPass && newPass.length >=6){
+        const response = await fetchDataWithToken(`${HOST_API}/updateDataUser`, {
+          nombre : newName,
+          correo : newEmail,
+          telefono : newPhone,
+          actualPass : passwordUser,
+          newPass : newPass
+        });
+        if(response){
+          mostrarConfirm(response.mensaje + "\n Se cerrara la sesión para aplicar los cambios", (ok)=>{
+            if(ok){
+              mostrarSeccion(ContainerLogin);
+              capturarItem("menu-section").style.display = "none"
+              sessionStorage.clear();
+            }else{
+              mostrarSeccion(ContainerLogin);
+              capturarItem("menu-section").style.display = "none"
+              sessionStorage.clear();
+            }
+          
+        })
+      }
+      }
+        
+    }else{
+      const response = await fetchDataWithToken(`${HOST_API}/updateDataUser`, {
+          nombre : newName,
+          correo : newEmail,
+          telefono : newPhone,
+          actualPass : passwordUser,
+        });
+        if(response){
+          mostrarConfirm(response.mensaje + "\n Se cerrara la sesión para aplicar los cambios", (ok)=>{
+            if(ok){
+              mostrarSeccion(ContainerLogin);
+              capturarItem("menu-section").style.display = "none"
+              sessionStorage.clear();
+            }else{
+              mostrarSeccion(ContainerLogin);
+              capturarItem("menu-section").style.display = "none"
+              sessionStorage.clear();
+            }
+          
+        })
+      }
+    }
+        
+    }
+    }
+
+  });
+  
+
+  }
+  
   // ====================== LOGIN ======================
   const mainSections = document.querySelectorAll(".menu-section");
 
@@ -556,43 +732,49 @@ document.addEventListener("DOMContentLoaded", async () => {
   mainSections.forEach(sec => sec.style.display = "none");
 
   const btnLogin = document.getElementById("btnLogin");
-  const btnLimpiarLogin = document.getElementById("btnLimpiarLogin");
+  const btnSubMenuRegister = document.getElementById("btnSubMenuRegister");
 
   btnLogin.addEventListener("click", async () => {
     capturarItem("spinnerContainerLogin").style.display = "block";
     btnLogin.style.display = "none";
-    btnLimpiarLogin.style.display = "none";
+    btnSubMenuRegister.style.display = "none";
     const user = document.getElementById("login_user").value.trim();
     const pass = document.getElementById("login_pass").value.trim();
 
     if (!user || !pass) {
+      capturarItem("spinnerContainerLogin").style.display = "none";
+      btnLogin.style.display = "block";
+      btnSubMenuRegister.style.display = "block";
       mostrarMensaje("Por favor complete todos los campos");
       return;
     } else {
 
 
       const dataUser = await fetchData(`${HOST_API}/login`, { user: user, password: pass });
+      console.log(dataUser.userAppData.cedula)
       if (dataUser.userStatus) {
         mostrarMensaje("Inicio de sesión exitoso");
         mostrarSeccion(ContainerHome);
         mainSections.forEach(sec => sec.style.display = "block");
         capturarItem("spinnerContainerLogin").style.display = "none";
         btnLogin.style.display = "block";
-        btnLimpiarLogin.style.display = "block";
-        updateDataViwer(user)
+        btnSubMenuRegister.style.display = "block";
+        updateDataViwer(dataUser.userAppData)
         changeStatusBot(); // iniciar ciclo estado bot
-        renderUserApp(dataUser.userStatus);
+        renderUserApp(dataUser.userAppData);
+
         //Guardar sesión en localStorage
-        localStorage.setItem("sessionUser", JSON.stringify({
-          data: dataUser.userStatus,
-          loginTime: new Date().toISOString()
+        sessionStorage.setItem("sessionUser", JSON.stringify({
+          data: dataUser.userAppData,
+          token: dataUser.token
         }));
       } else if (dataUser.status === 401) {
         mostrarMensaje("Usuario o contraseña incorrectos");
         mainSections.forEach(sec => sec.style.display = "block");
         capturarItem("spinnerContainerLogin").style.display = "none";
         btnLogin.style.display = "block";
-        btnLimpiarLogin.style.display = "block";
+        btnSubMenuRegister.style.display = "block";
+        capturarItem("menu-section").style.display = "none"
       }
 
 
@@ -600,32 +782,58 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   });
 
-  btnLimpiarLogin.addEventListener("click", () => {
-    document.getElementById("login_user").value = "";
-    document.getElementById("login_pass").value = "";
-  });
 
   //================================CERRAR SESION=========================
   document.getElementById("btnMenuSalir").addEventListener("click", () => {
     mostrarSeccion(ContainerLogin);
     capturarItem("menu-section").style.display = "none"
-    localStorage.removeItem("sessionUser");
+    sessionStorage.clear();
     mostrarMensaje("Sesión cerrada correctamente");
     
   });
-///========================ACTUALIZAR DATOS CADA CIERTO TIEMPO===========
+ // ========================REGISTRAR USUARIO =======================
+
+
+ capturarItem("btnRegistrarUsuario").addEventListener("click", async ()=>{
+ const newUserCC = capturarItem("registerCedula").value.trim();
+ const newUserName = capturarItem("registerNombre").value.trim();
+ const newUserEmail = capturarItem("registerCorreo").value.trim();
+ const newUserPhone = capturarItem("registerTelefono").value.trim();
+ const newUserPass = capturarItem("registerContrasena").value.trim();
+  if(!newUserCC || !newUserEmail || !newUserName || !newUserPass || !newUserPhone){
+    
+    mostrarMensaje("Datos Incompletos!")
+  }else{
+    if(!validarEmail(newUserEmail) || !validarNumero(newUserPhone) || !validarNumero(newUserCC)){
+      mostrarMensaje("Datos invalidos")
+    }else{
+      const response = await fetchData(`${HOST_API}/registerUser`, {
+        cedula: newUserCC, 
+        contrasena :newUserPass, 
+        nombre : newUserName, 
+        correo : newUserEmail, 
+        telefono : newUserPhone});
+      if(response){
+        mostrarMensaje("Registro Exitoso!")
+      }else{
+        mostrarMensaje("Error del servidor")
+      }
+      mostrarSeccion(ContainerLogin);
+      capturarItem("menu-section").style.display = "none"
+
+    }
+  }
+   
+ })
+
+
   // ====================== INICIALIZACIÓN ======================
 
   //===================CARGAR SESSION SI EXITE ==============================
   
     if (session) {
       const data = JSON.parse(session).data
-      console.log(data.cc)
-      dataJSON = await pedirDatos(data.cc); // recargar datos al iniciar sesión
-      console.log(dataJSON)
-      renderClientes(dataJSON);
-      renderProductos(dataJSON);
-      renderFacturas(dataJSON);
+      updateDataViwer(data)
       changeStatusBot(); // iniciar ciclo estado bot
       renderUserApp(data);
       mostrarSeccion(ContainerHome);

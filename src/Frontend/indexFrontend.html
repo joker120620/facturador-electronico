@@ -8,17 +8,25 @@
 
     <link rel="stylesheet" href="./stylesFrontend.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    
+
 </head>
 
-<body><header class="header">
-    <h1 class="title">Facturador Electronico</h1>
-</header>
-<main id="main-content">
-    <section id="ContainerLogin" class="content-section">
+<body>
+    <header class="header">
+        <h1 class="title">Facturador Electronico</h1>
+    </header>
+    <main id="main-content">
+        <section id="ContainerLogin" class="content-section">
 
-        <!-- ====================== LOGIN ====================== -->
-            <div class="formulario-agregar" style="max-width: 400px; margin: 100px auto;">
+            <!-- ====================== LOGIN ====================== -->
+            <div class="formulario-agregar">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px"
+                        fill="#00B4DC">
+                        <path
+                            d="M242-251.15q56.85-38.62 113.46-60.58 56.62-21.96 124.54-21.96 67.92 0 124.65 21.96 56.73 21.96 113.58 60.58 43.23-47.08 67.12-104.45 23.88-57.38 23.88-124.4 0-138.08-95.58-233.65-95.57-95.58-233.65-95.58t-233.65 95.58Q150.77-618.08 150.77-480q0 67.02 24 124.4 24 57.37 67.23 104.45Zm237.75-213.47q-50.06 0-84.17-34.36-34.12-34.36-34.12-84.42t34.36-84.18q34.37-34.11 84.43-34.11 50.06 0 84.17 34.36 34.12 34.36 34.12 84.42t-34.36 84.18q-34.37 34.11-84.43 34.11Zm.72 344.62q-75.55 0-141.02-28.04-65.47-28.04-114.42-77.15-48.95-49.12-76.99-114.19Q120-404.46 120-479.88q0-75.43 28.04-140.62t77.15-114.31q49.12-49.11 114.19-77.15Q404.46-840 479.88-840q75.43 0 140.62 28.04t114.31 77.15q49.11 49.12 77.15 114.34 28.04 65.23 28.04 140 0 75.55-28.04 141.02-28.04 65.47-77.15 114.42-49.12 48.95-114.34 76.99-65.23 28.04-140 28.04Zm-.47-30.77q56.54 0 112.5-19.46t100.81-58.69q-44.85-34.46-99-54.23-54.16-19.77-114.31-19.77-60.15 0-114.69 19.38-54.54 19.39-97.85 54.62 44.08 39.23 100.04 58.69 55.96 19.46 112.5 19.46Zm.11-344.61q37.74 0 62.7-25.07t24.96-62.81q0-37.74-25.07-62.7t-62.81-24.96q-37.74 0-62.7 25.07-24.96 25.06-24.96 62.8 0 37.74 25.07 62.7 25.07 24.97 62.81 24.97Zm-.11-87.77Zm0 356.3Z" />
+                    </svg>
+                </div>
                 <h2>Iniciar Sesión</h2>
                 <label for="login_user">Usuario</label>
                 <input type="text" id="login_user" placeholder="Ingrese su usuario">
@@ -26,17 +34,58 @@
                 <label for="login_pass">Contraseña</label>
                 <input type="password" id="login_pass" placeholder="Ingrese su contraseña">
 
-                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                <div class="container-options-login">
                     <button id="btnLogin" class="btn-azul">Ingresar</button>
-                    <button id="btnLimpiarLogin" class="btn-rojo">Limpiar</button>
+                    <button id="btnSubMenuRegister" class="btn-verde">Registrarse</button>
                     <div id="spinnerContainerLogin" class="spinner"></div>
                 </div>
-                
+                <div class="container-recuperar-pass">
+                    <button class="btn-recuperar-pass">Recuperar Contraseña</button>
+                </div>
+
             </div>
 
         </section>
 
-    <section class="menu-section" id="menu-section">
+        <section id="ContainerRegister" class="content-section">
+
+            <!-- ====================== REGISTRAR USUARIO ====================== -->
+            <div class="formulario-agregar">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px"
+                        fill="#00B4DC">
+                        <path
+                            d="M730-400v-130H600v-60h130v-130h60v130h130v60H790v130h-60Zm-370-81q-66 0-108-42t-42-108q0-66 42-108t108-42q66 0 108 42t42 108q0 66-42 108t-108 42ZM40-160v-94q0-35 17.5-63.5T108-360q75-33 133.34-46.5t118.5-13.5Q420-420 478-406.5T611-360q33 15 51 43t18 63v94H40Zm60-60h520v-34q0-16-9-30.5T587-306q-71-33-120-43.5T360-360q-58 0-107.5 10.5T132-306q-15 7-23.5 21.5T100-254v34Zm260-321q39 0 64.5-25.5T450-631q0-39-25.5-64.5T360-721q-39 0-64.5 25.5T270-631q0 39 25.5 64.5T360-541Zm0-90Zm0 411Z" />
+                    </svg>
+                </div>
+
+                <h2>Registrar Usuario</h2>
+
+                <label for="registerCedula">Cédula</label>
+                <input type="number" id="registerCedula" placeholder="Ingrese su número de cédula">
+
+                <label for="registerNombre">Nombre completo</label>
+                <input type="text" id="registerNombre" placeholder="Ingrese su nombre completo">
+
+                <label for="registerCorreo">Correo electrónico</label>
+                <input type="email" id="registerCorreo" placeholder="Ingrese su correo electrónico">
+
+                <label for="registerTelefono">Teléfono</label>
+                <input type="tel" id="registerTelefono" placeholder="Ingrese su número telefónico">
+
+                <label for="registerContrasena">Contraseña</label>
+                <input type="password" id="registerContrasena" placeholder="Cree una contraseña">
+
+                <div class="container-options-login">
+                    <button id="btnRegistrarUsuario" class="btn-verde">Registrar</button>
+                    <button id="btnVolverLogin" class="btn-azul">Volver al Login</button>
+                    <div id="spinnerContainerRegister" class="spinner"></div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="menu-section" id="menu-section">
             <ul class="menu">
                 <li><button id="btnMenuHome"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30"
                             height="30" viewBox="0,0,256,256">
@@ -66,6 +115,11 @@
                             <path
                                 d="M197.69-100q-23.59 0-40.64-17.05T140-157.69v-471.46q-17-5.24-28.5-20.43-11.5-15.2-11.5-35.04v-117.69q0-23.59 17.05-40.64T157.69-860h644.62q23.59 0 40.64 17.05T860-802.31v117.69q0 19.84-11.5 35.04-11.5 15.19-28.5 20.43v471.46q0 23.59-17.05 40.64T762.31-100H197.69Zm-12.3-526.92v467.3q0 6.16 4.42 10.2 4.42 4.03 10.96 4.03h561.54q5.38 0 8.84-3.46t3.46-8.84v-469.23H185.39Zm-27.7-45.39h644.62q5.38 0 8.84-3.46t3.46-8.85v-117.69q0-5.38-3.46-8.84t-8.84-3.46H157.69q-5.38 0-8.84 3.46t-3.46 8.84v117.69q0 5.39 3.46 8.85t8.84 3.46Zm210 235h224.62V-480H367.69v42.69ZM480-386.15Z" />
                         </svg></button></li>
+                <li><button id="btnMenuAjustes"><svg xmlns="http://www.w3.org/2000/svg" height="30px"
+                            viewBox="0 -960 960 960" width="30px" fill="#FFFFFF">
+                            <path
+                                d="m413.38-120-16.15-114.46q-22.08-7-48.46-21.69-26.39-14.7-44.69-31.54l-105.7 47.84-66.84-118.61 94.15-69.77q-2-12.08-3.27-25.5t-1.27-25.5q0-11.31 1.27-24.73t3.27-27.81l-94.15-70.54 66.84-116.31 104.93 46.31q20.61-16.84 45.46-31.15 24.85-14.31 47.69-21.08L413.38-840h133.24l16.15 115.23q25.15 9.31 47.81 21.96 22.65 12.66 43.04 30.5l108.76-46.31 66.08 116.31-97.23 71.62q3.54 13.84 4.42 26.5.89 12.65.89 24.19 0 10.77-1.27 23.31t-4.04 27.92l96.46 70.31-66.84 118.61-107.23-48.61q-21.39 18.38-44.2 32.42-22.8 14.04-46.65 20.81L546.62-120H413.38Zm24.93-30.77h82.61L535.69-262q30.69-8 56.35-22.69 25.65-14.69 51.96-39.46l102.92 44.46 40-69.69L696-416.85q4-18.53 6.12-33.5 2.11-14.96 2.11-29.65 0-16.23-2-30.42-2-14.2-6.23-31.2l92.46-69-40-69.69-105.23 44.46q-19.15-21.38-49.69-40.03Q563-694.54 534.92-698l-13.23-111.23h-83.38l-12.46 110.46q-32.47 6.23-58.89 21.31-26.42 15.08-51.73 40.84l-103.69-43.69-40 69.69 90.92 66.7q-4.77 14.69-6.88 30.8-2.12 16.12-2.12 33.89 0 16.23 2.12 31.58 2.11 15.34 6.11 30.8l-90.15 67.47 40 69.69 102.92-43.69q24 24.76 50.81 39.46 26.81 14.69 59.81 22.69l13.23 110.46Zm39.38-233.85q40.16 0 67.77-27.61 27.62-27.62 27.62-67.77 0-40.15-27.62-67.77-27.61-27.61-67.77-27.61-39.38 0-67.38 27.61-28 27.62-28 67.77 0 40.15 28 67.77 28 27.61 67.38 27.61ZM480-480Z" />
+                        </svg></button></li>
                 <li class="salir"><button id="btnMenuSalir"><svg xmlns="http://www.w3.org/2000/svg" height="30px"
                             viewBox="0 -960 960 960" width="30px" fill="#FFFFFF">
                             <path
@@ -87,21 +141,16 @@
                         <h3>Telefono del BOT: <span id="telefonoBot">0987654321</span></h3>
                     </div>
                     <div id="container-actions-bot">
-                    <h2>Estado del bot</h2>
-                    <p id="estadoBot">Error</p>
-                    
-                    <div>
-                        <p>Cambia tu Telefono</p>
-                        <input type="text" id="input-telefono-user" placeholder="Nuevo Telefono">
-                        <button id="btnActualizarNumeroBot" class="btn-verde"><svg xmlns="http://www.w3.org/2000/svg" height="30px"
-                            viewBox="0 -960 960 960" width="30px" fill="#FFFFFF">
-                            <path
-                                d="M447.92-142.77q-113.77-11.15-190.84-96Q180-323.62 180-439.38q0-68.93 31.08-130.2 31.07-61.26 86.23-102.34l32.23 32.61q-49.85 33-77 86.46-27.15 53.47-27.15 113.47 0 96.92 63.49 167.99 63.5 71.08 159.04 83.24v45.38Zm65.39.77v-45.39q96.15-14.3 159.04-84.88 62.88-70.58 62.88-167.11 0-106.7-73.96-180.66T480.62-694h-26.54l65.77 65.77-32.62 32.61-121.07-121.07 121.07-121.08 32.62 32.62-65.77 65.77h26.54q125.53 0 212.76 87.73 87.23 87.73 87.23 212.27 0 115.76-76.76 200.42-76.77 84.65-190.54 96.96Z" />
-                        </svg></button>
+                        <h2>Estado del bot</h2>
+                        <p id="estadoBot">Error</p>
 
-                    </div>
-                    
-                    
+                        <div>
+                            <p>Telefono Bot: 3111567789</p>
+                            
+
+                        </div>
+
+
 
                     </div>
 
@@ -110,12 +159,17 @@
         </section>
 
 
-
         <section class="content-section" id="ContainerClientes">
             <div class="container-clientes">
                 <div class="header-menu-content">
                     <h2>Clientes</h2>
-                    <div>
+                    <div class="container-items-busqueda">
+                        <button id="btnActualizarDatosViwer1" class="btn-actualizar"><svg id="svgBusqueda1"
+                                xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="30px"
+                                fill="#FFFFFF">
+                                <path
+                                    d="M167.48-156.41v-62.63H291.5l-12.61-10.33q-64.24-52.2-93.84-112.55-29.59-60.36-29.59-135.08 0-108.87 65.37-195.04 65.37-86.18 170.71-117.46v70.13q-75.24 27.57-121.47 94.59-46.24 67.02-46.24 147.78 0 62.04 23.14 107.71 23.14 45.66 62.66 79.18l28.57 19.57V-390h62.63v233.59H167.48Zm401.98-13.09v-71.13q76.24-27.57 121.47-94.59 45.24-67.02 45.24-147.78 0-47.04-23.26-95.71-23.26-48.66-60.3-86.18l-27.57-24.57V-570h-62.87v-233.59h233.59v62.63H670.5l12.85 12.33q60.48 56.48 90.83 121.2 30.36 64.71 30.36 124.43 0 108.87-64.87 195.54-64.87 86.68-170.21 117.96Z" />
+                            </svg></button>
                         <input type="text" id="buscarCliente" placeholder="Buscar Cliente">
                         <button id="btnBuscarCliente" class="btn-verde">Buscar</button>
 
@@ -172,16 +226,16 @@
                             <div class="formulario-agregar">
                                 <label for="cc_cliente">Cédula / CC</label>
                                 <input type="number" id="cc_cliente" placeholder="CC">
-                                
+
                                 <label for="nombre_cliente">Nombre</label>
                                 <input type="text" id="nombre_cliente" placeholder="Nombre">
-                                
+
                                 <label for="email_cliente">Correo electrónico</label>
                                 <input type="email" id="email_cliente" placeholder="Email">
-                                
+
                                 <label for="direccion_cliente">Dirección</label>
                                 <input type="text" id="direccion_cliente" placeholder="Dirección">
-                                
+
                                 <label for="telefono_cliente">Teléfono</label>
                                 <input type="text" id="telefono_cliente" placeholder="Teléfono">
 
@@ -210,12 +264,17 @@
         </section>
 
 
-
         <section class="content-section" id="ContainerFacturas">
             <div class="container-menu-content">
                 <div class="header-menu-content">
                     <h2>Facturas</h2>
-                    <div>
+                    <div class="container-items-busqueda">
+                        <button id="btnActualizarDatosViwer2" class="btn-actualizar"><svg id="svgBusqueda2"
+                                xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="30px"
+                                fill="#FFFFFF">
+                                <path
+                                    d="M167.48-156.41v-62.63H291.5l-12.61-10.33q-64.24-52.2-93.84-112.55-29.59-60.36-29.59-135.08 0-108.87 65.37-195.04 65.37-86.18 170.71-117.46v70.13q-75.24 27.57-121.47 94.59-46.24 67.02-46.24 147.78 0 62.04 23.14 107.71 23.14 45.66 62.66 79.18l28.57 19.57V-390h62.63v233.59H167.48Zm401.98-13.09v-71.13q76.24-27.57 121.47-94.59 45.24-67.02 45.24-147.78 0-47.04-23.26-95.71-23.26-48.66-60.3-86.18l-27.57-24.57V-570h-62.87v-233.59h233.59v62.63H670.5l12.85 12.33q60.48 56.48 90.83 121.2 30.36 64.71 30.36 124.43 0 108.87-64.87 195.54-64.87 86.68-170.21 117.96Z" />
+                            </svg></button>
                         <input type="text" id="buscarFactura" placeholder="Buscar Factura">
                         <button id="btnBuscarFactura" class="btn-verde">Buscar</button>
 
@@ -278,7 +337,8 @@
                                 <label for="fecha_factura">Fecha</label>
                                 <input type="text" id="fecha_factura" placeholder="Fecha" disabled>
                                 <label for="descripcion_factura">Descripción</label>
-                                <textarea id="descripcion_factura" placeholder="Descripción" height="100" disabled></textarea>
+                                <textarea id="descripcion_factura" placeholder="Descripción" height="100"
+                                    disabled></textarea>
                                 <button class="btn-rojo" data-close="modal2">Cerrar</button>
                             </div>
                         </div>
@@ -295,13 +355,17 @@
             </div>
         </section>
 
-
-
         <section class="content-section" id="ContainerProductos">
             <div class="container-menu-content">
                 <div class="header-menu-content">
                     <h2>Productos</h2>
-                    <div>
+                    <div class="container-items-busqueda">
+                        <button id="btnActualizarDatosViwer3" class="btn-actualizar"><svg id="svgBusqueda3"
+                                xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="30px"
+                                fill="#FFFFFF">
+                                <path
+                                    d="M167.48-156.41v-62.63H291.5l-12.61-10.33q-64.24-52.2-93.84-112.55-29.59-60.36-29.59-135.08 0-108.87 65.37-195.04 65.37-86.18 170.71-117.46v70.13q-75.24 27.57-121.47 94.59-46.24 67.02-46.24 147.78 0 62.04 23.14 107.71 23.14 45.66 62.66 79.18l28.57 19.57V-390h62.63v233.59H167.48Zm401.98-13.09v-71.13q76.24-27.57 121.47-94.59 45.24-67.02 45.24-147.78 0-47.04-23.26-95.71-23.26-48.66-60.3-86.18l-27.57-24.57V-570h-62.87v-233.59h233.59v62.63H670.5l12.85 12.33q60.48 56.48 90.83 121.2 30.36 64.71 30.36 124.43 0 108.87-64.87 195.54-64.87 86.68-170.21 117.96Z" />
+                            </svg></button>
                         <input type="text" id="buscarProducto" placeholder="Buscar Producto">
                         <button id="btnBuscarProducto" class="btn-verde">Buscar</button>
 
@@ -315,7 +379,7 @@
                             <tr>
                                 <th>Codigo</th>
                                 <th>Nombre</th>
-                                <th>Descripcion</th>
+                                <th>Precio</th>
                                 <th>Options</th>
 
                             </tr>
@@ -352,8 +416,8 @@
                                 <input type="number" id="codigo_producto" placeholder="Codigo">
                                 <label for="nombre_producto">Nombre</label>
                                 <input type="text" id="nombre_producto" placeholder="Nombre">
-                                <label for="descripcion_producto">Descripción</label>
-                                <input type="text" id="descripcion_producto" placeholder="Descripción">
+                                <label for="precio_producto">Precio</label>
+                                <input type="text" id="precio_producto" placeholder="Precio">
                                 <button id="btnAgregarProducto" class="btn-azul">Agregar Producto</button>
                                 <button class="btn-rojo" data-close="modal3">Cerrar</button>
                             </div>
@@ -369,10 +433,63 @@
                 </div>
 
             </div>
-        </section>  
+        </section>
+
+        <section class="content-section" id="ContainerAjustes">
+            <div>
+                <h2>Configuracion</h2>
+                <div class="container-Ajustes">
+                    <div id="formEditarUsuario" class="form-editar-usuario">
+                        <h2>Editar Usuario</h2>
+
+
+                        <div class="form-group">
+                            <label for="changeUserName">Nombre completo:</label>
+                            <input type="text" id="changeUserName" name="nombre" placeholder="Ingrese su nombre completo"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="changeUserEmail">Correo electrónico:</label>
+                            <input type="email" id="changeUserEmail" name="correo" placeholder="Ingrese su correo" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="changeUserPhone">Teléfono:</label>
+                            <input type="tel" id="changeUserPhone" name="telefono" placeholder="Ingrese su número de teléfono">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="changeUserPass">Contraseña actual:</label>
+                            <input type="password" id="changeUserPass" name="contrasenaActual"
+                                placeholder="Ingrese su contraseña actual" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="changeUserNewPass">Nueva contraseña:</label>
+                            <input type="password" id="changeUserNewPass" name="nuevaContrasena"
+                                placeholder="Ingrese nueva contraseña (opcional)">
+                        </div>
+                        <div class="form-group">
+                            <button  id="btnChangeDataUser" class="btn-verde">Guardar cambios</button>
+
+                        </div>
+
+
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+
+        </section>
     </main>
 
-    <footer></footer>
+    <footer style="display:flex;justify-content: center;">
+        <h2>Desarrollado por Juan David Toloza Ortega</h2>
+    </footer>
 
     <script type="module" src="./scriptFrontend.js" defer></script>
 </body>

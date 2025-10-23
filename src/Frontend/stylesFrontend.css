@@ -111,7 +111,9 @@ a:hover {
 
 .content-table-items {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     gap: 20px;
     margin-top: 20px;
@@ -138,12 +140,13 @@ a:hover {
     display: flex;
     justify-content: center;
     text-align: center;
-    padding: 20px;
     flex-direction: column;
-    margin-top: 20px;
     background-color: var(--card);
     padding: 20px;
     border-radius: 8px;
+    border: solid 1px black;
+    max-width: 400px; 
+    margin: 10px auto;
 }
 .formulario-agregar label {
     font-weight: bold;
@@ -194,6 +197,26 @@ input {
     height: min-content;
     
 }
+.container-items-busqueda{
+    display: flex;
+    justify-content: space-between;
+}
+.btn-actualizar{
+    background-color: var(--secondary);
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    height: min-content;
+    margin-right: 5px;
+
+}
+.btn-actualizar-girar {
+    animation: spin 1s ease infinite;
+}
+
 .btn-verde:hover {
     background-color: #4be9ac;
 }
@@ -240,7 +263,37 @@ input {
     transform: translateY(-80px) scale(0.8);
     animation: anim-modal 0.5s forwards;
 }
+.container-options-login{
+    display: flex; justify-content: center; gap: 10px; margin-top: 10px;
+}
+.container-options-register{
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    width: min-content;
+    flex-direction: column;
+    justify-content: center;
+}
+.container-recuperar-pass{
 
+    font-weight: bold;
+    height: min-content;
+    padding: 10px;
+}
+.btn-recuperar-pass{
+    background-color: white;
+    color: var(--muted);
+    border: white solid 1px;
+    font-weight: bold;
+    height: min-content;
+}
+#btnMenuAjustes svg:hover{
+    animation: spin 1s ease infinite;
+}
+.btn-recuperar-pass:hover{
+    border-bottom: solid 1px var(--primary);
+    cursor: pointer;
+}
 .container-estado-bot {
     display: flex;
     align-items: center;
@@ -290,7 +343,8 @@ input {
   box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
 
-/* Spinner animado */ .spinner {
+/* Spinner animado */ 
+.spinner {
     display: none;
     gap: 10px;
     border: 4px solid rgba(0, 0, 0, 0.1);
@@ -315,3 +369,40 @@ input {
     height: 100px;
     resize: none;
 }
+.container-Ajustes{
+    padding: 20px 20px 20px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.form-editar-usuario {
+  width: 350px;
+  margin: 0px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.form-editar-usuario h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+

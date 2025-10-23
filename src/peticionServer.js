@@ -28,3 +28,18 @@ export async function fetchData(apiUrl, datosEnviar) {
         console.error('Hubo un problema con la solicitud:', error);
     }
 }
+export async function fetchDataWithToken(url, data, method = "POST") {
+  const session = JSON.parse(sessionStorage.getItem("sessionUser"));
+  const token = session.token || "";
+
+  const response = await fetch(url, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` // 🔒 token aquí
+    },
+    body: JSON.stringify(data)
+  });
+
+  return response.json();
+}

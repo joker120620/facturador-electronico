@@ -1,8 +1,17 @@
 export function renderFacturas(dataJSON) {
+  console.log(dataJSON)
     const tbody = document.querySelector("#ContainerFacturas tbody");
     if (!tbody) return;
     tbody.innerHTML = "";
-    dataJSON.facturas.forEach(fact => {
+    if (dataJSON.status !== 200) {
+      const fila = document.createElement("tr");
+      fila.innerHTML = `
+        <td colspan="5">No se encontraron facturas</td>
+      `;
+      tbody.appendChild(fila);
+      return;
+    }else{
+      dataJSON.facturas.forEach(fact => {
       const fila = document.createElement("tr");
       fila.innerHTML = `
         <td>${fact.codigo}</td>
@@ -15,4 +24,7 @@ export function renderFacturas(dataJSON) {
         </td>`;
       tbody.appendChild(fila);
     });
+    }
+
+    
   }

@@ -5,9 +5,9 @@ export function renderUserApp(data) {
 
   // Crear elementos de la interfaz de usuario según los datos
   container.innerHTML = `
-      <h3>Usuario: ${data.name}</h3>
-      <p>Cédula: ${data.cc}</p>
-      <p>Email: ${data.email}</p>
-      <p>Teléfono: ${data.phone}</p>
+      <h3>Usuario: ${data.nombre}</h3>
+      <p>Cédula: ${data.cedula}</p>
+      <p>Email: ${data.correo}</p>
+      <p>Teléfono: ${data.telefono}</p>
     `;
 }
