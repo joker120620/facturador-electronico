@@ -145,7 +145,7 @@ a:hover {
     padding: 20px;
     border-radius: 8px;
     border: solid 1px black;
-    max-width: 400px; 
+    width: min-content;
     margin: 10px auto;
 }
 .formulario-agregar label {

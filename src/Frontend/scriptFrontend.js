@@ -409,7 +409,8 @@ if (btnAgregarCliente) {
 
   // ====================== FACTURAS ======================
   window.verFactura = function (codigo) {
-    const fact = dataJSON.facturas.find(f => f.codigo === codigo);
+    
+    const fact = dataJSON.facturas.find(f => f.factura_id == codigo);
     if (!fact) {
       mostrarMensaje("Factura no encontrada");
       return;
@@ -421,21 +422,23 @@ if (btnAgregarCliente) {
     const inCC = capturarItem("cc_factura");
     const inNombre = capturarItem("nombre_factura");
     const inFecha = capturarItem("fecha_factura");
-    const inDescripcion = capturarItem("descripcion_factura");
+    const inTotal = capturarItem("total_factura");
+    const inDescripcion = capturarItem("productos_factura");
 
-    if (inCodigo) inCodigo.value = fact.codigo;
-    if (inCC) inCC.value = fact.cc;
+    if (inCodigo) inCodigo.value = fact.factura_id;
+    if (inCC) inCC.value = fact.cliente_cedula;
     if (inNombre) inNombre.value = fact.cliente;
+    if (inTotal) inTotal.value = fact.total;
     if (inFecha) inFecha.value = fact.fecha;
     //ciclo for paramostrar productos que compro
     //hay que iterar por que son varios productos de cada factura
     if (inDescripcion) {
       inDescripcion.value = "";
-      for (const item of fact.descripcion) {
-        inDescripcion.value += "Producto " + item.producto + "\n " +
+      for (const item of fact.productos) {
+        inDescripcion.value += "Producto " + item.nombre + "\n " +
           " Cantidad: " + item.cantidad + "\n " +
           " Precio: " + item.precio + "\n " +
-          " Total: " + item.total + "\n\n";
+          " Total: " + item.subtotal + "\n\n";
       }
     }
 
@@ -443,11 +446,16 @@ if (btnAgregarCliente) {
   };
 
   window.eliminarFactura = function (codigo) {
-    mostrarConfirm("¿Deseas eliminar la factura?", (ok) => {
+    mostrarConfirm("¿Deseas eliminar la factura?", async (ok) => {
       if (ok) {
-        dataJSON.facturas = dataJSON.facturas.filter(f => f.codigo !== codigo);
-        renderFacturas(dataJSON);
-        mostrarMensaje("Factura eliminada correctamente");
+        const response = await fetchDataWithToken(`${HOST_API}/deleteFactura`, {
+          "id_factura": codigo
+        });
+        console.log(response)
+        if (response) {
+          updateDataViwer();
+          mostrarMensaje(response.mensaje);
+        }
       }
     });
   };

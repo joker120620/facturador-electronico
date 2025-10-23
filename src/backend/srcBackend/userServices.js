@@ -200,48 +200,57 @@ export async function deleteCliente(id, usuario_id) {
 }
 
 // ====================== FACTURAS ======================
-
-// Crear factura con varios productos
+// Agregar factura con sus productos
 export async function addFacturaCompleta({ usuario_id, cliente_id, items }) {
-  const connection = await connectionDB.getConnection();
+  const conn = await connectionDB.getConnection();
+
   try {
-    await connection.beginTransaction();
+    await conn.beginTransaction();
 
-    // Calcular total general
-    const total = items.reduce((acc, item) => acc + item.cantidad * item.precio, 0);
+    // Calcular total
+    const total = items.reduce((acc, i) => acc + i.precio * i.cantidad, 0);
 
-    // Insertar cabecera
-    const [facturaResult] = await connection.query(
-      "INSERT INTO tbl_facturas (usuario_id, cliente_id, total) VALUES (?, ?, ?)",
+    // Crear factura
+    const [facturaResult] = await conn.query(
+      `INSERT INTO tbl_facturas (usuario_id, cliente_id, total) VALUES (?, ?, ?)`,
       [usuario_id, cliente_id, total]
     );
 
     const factura_id = facturaResult.insertId;
 
-    // Insertar detalles
+    // Insertar los productos
     for (const item of items) {
-      await connection.query(
-        "INSERT INTO tbl_factura_detalle (factura_id, producto_id, cantidad, precio) VALUES (?, ?, ?, ?)",
+      await conn.query(
+        `INSERT INTO tbl_factura_detalle (factura_id, producto_id, cantidad, precio)
+         VALUES (?, ?, ?, ?)`,
         [factura_id, item.producto_id, item.cantidad, item.precio]
       );
     }
 
-    await connection.commit();
+    await conn.commit();
     return factura_id;
   } catch (error) {
-    await connection.rollback();
+    await conn.rollback();
     console.error("Error al crear factura:", error);
     throw error;
   } finally {
-    connection.release();
+    conn.release();
   }
 }
-
 // Obtener todas las facturas con sus productos
 export async function getFacturasByUsuario(usuario_id) {
   const sql = `
-    SELECT f.id AS factura_id, f.fecha, f.total, c.nombre AS cliente,
-           d.producto_id, p.nombre AS producto, d.cantidad, d.precio, d.subtotal
+    SELECT 
+      f.id AS factura_id, 
+      f.fecha, 
+      f.total, 
+      c.nombre AS cliente,
+      c.cedula AS cliente_cedula,
+      d.producto_id, 
+      p.nombre AS producto, 
+      d.cantidad, 
+      d.precio, 
+      (d.cantidad * d.precio) AS subtotal
     FROM tbl_facturas f
     JOIN tbl_clientes c ON f.cliente_id = c.id
     JOIN tbl_factura_detalle d ON d.factura_id = f.id
@@ -249,10 +258,35 @@ export async function getFacturasByUsuario(usuario_id) {
     WHERE f.usuario_id = ?
     ORDER BY f.fecha DESC
   `;
-  const [rows] = await connectionDB.query(sql, [usuario_id]);
-  return rows;
-}
 
+  const [rows] = await connectionDB.query(sql, [usuario_id]);
+
+  // Agrupar por factura_id
+  const facturasMap = {};
+
+  for (const row of rows) {
+    if (!facturasMap[row.factura_id]) {
+      facturasMap[row.factura_id] = {
+        factura_id: row.factura_id,
+        fecha: row.fecha,
+        total: row.total,
+        cliente: row.cliente,
+        cliente_cedula: row.cliente_cedula, 
+        productos: []
+      };
+    }
+
+    facturasMap[row.factura_id].productos.push({
+      producto_id: row.producto_id,
+      nombre: row.producto,
+      cantidad: row.cantidad,
+      precio: row.precio,
+      subtotal: row.subtotal
+    });
+  }
+
+  return Object.values(facturasMap);
+}
 // Eliminar una factura (y sus detalles automáticamente por CASCADE)
 export async function deleteFactura(id, usuario_id) {
   const [result] = await connectionDB.query(
@@ -264,7 +298,7 @@ export async function deleteFactura(id, usuario_id) {
 
 // ====================== PRODUCTOS ======================
 
-// 🔹 Obtener todos los productos de un usuario
+// Obtener todos los productos de un usuario
 export async function getProductosByUsuario(usuario_id) {
   try {
     const sql = `

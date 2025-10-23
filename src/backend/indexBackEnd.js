@@ -423,10 +423,14 @@ app.post("/addFactura", verificarToken, async (req, res) => {
     const usuario_id = req.user.id;
     const { cliente_id, items } = req.body;
 
-    if (!cliente_id || !items || items.length === 0) {
-      return res.status(400).json({ mensaje: "Debe incluir cliente_id y al menos un producto en items" });
+    // Validaciones básicas
+    if (!cliente_id || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({
+        mensaje: "Debe incluir cliente_id y al menos un producto en items"
+      });
     }
 
+    // Crear factura con sus productos
     const factura_id = await addFacturaCompleta({ usuario_id, cliente_id, items });
 
     res.status(201).json({
@@ -458,16 +462,17 @@ app.post("/getFacturas", verificarToken, async (req, res) => {
 app.post("/deleteFactura", verificarToken, async (req, res) => {
   try {
     const usuario_id = req.user.id;
-    const { id } = req.body;
+    const { id_factura } = req.body;
+    console.log("Solicitud para eliminar factura:", id_factura, "Usuario ID:", usuario_id);
 
-    if (!id) {
-      return res.status(400).json({ mensaje: "Falta el campo id de la factura" });
+    if (!id_factura) {
+      return res.json({ mensaje: "Falta el campo id de la factura" });
     }
 
-    const filasEliminadas = await deleteFactura(id, usuario_id);
+    const filasEliminadas = await deleteFactura(id_factura, usuario_id);
 
     if (filasEliminadas === 0) {
-      return res.status(404).json({ mensaje: "Factura no encontrada o no pertenece a este usuario" });
+      return res.json({ mensaje: "Factura no encontrada o no pertenece a este usuario" });
     }
 
     res.status(200).json({ mensaje: "Factura eliminada correctamente" });
