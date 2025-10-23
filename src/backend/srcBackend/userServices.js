@@ -8,6 +8,17 @@ export async function getUsuarios() {
   const [rows] = await connectionDB.query("SELECT * FROM tbl_usuarios");
   return rows;
 }
+// BUSCAR USUARIO POR CEDULA O CORREO 
+export async function getUsuarioByCedulaOCorreo(user) {
+  const sql = `
+    SELECT id, cedula, nombre, correo, telefono
+    FROM tbl_usuarios
+    WHERE cedula = ? OR correo = ?
+    LIMIT 1
+  `;
+  const [rows] = await connectionDB.query(sql, [user, user]);
+  return rows[0] || null;
+}
 
 /// VERIFICAR EL TOKEN 
 

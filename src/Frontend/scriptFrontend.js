@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const session = sessionStorage.getItem("sessionUser");
   // ====================== PEDIR DATOS Clientes  ======================
   const pedirDatosClientes = async () => {
-    const session = JSON.parse(sessionStorage.getItem("sessionUser"));
+    const session = await JSON.parse(sessionStorage.getItem("sessionUser"));
     const usuarioId = await session.data.id;
     const dataClientes = await fetchDataWithToken(`${HOST_API}/getClient`, { usuario_id: usuarioId });
     return dataClientes
@@ -589,6 +589,7 @@ if (btnAgregarCliente) {
   const ContainerAjustes =capturarItem("ContainerAjustes");
   const ContainerLogin = capturarItem("ContainerLogin");
   const ContainerRegister =capturarItem("ContainerRegister");
+  const ContainerRecoveryPass = capturarItem("ContainerRecoverPass");
   const btnSalir = capturarItem("btnMenuSalir");
   function ocultarMainBtn (){
     const mainSections = document.querySelectorAll(".menu-section");
@@ -603,7 +604,7 @@ if (btnAgregarCliente) {
   }
 
   function mostrarSeccion(seccion) {
-    [ContainerClientes, ContainerFacturas, ContainerProductos, ContainerHome, ContainerLogin , ContainerAjustes , ContainerRegister].forEach(s =>
+    [ContainerClientes, ContainerFacturas, ContainerProductos, ContainerHome, ContainerLogin , ContainerAjustes , ContainerRegister , ContainerRecoveryPass].forEach(s =>
       s && s.classList.add("content-section-disabled")
     );
     
@@ -621,9 +622,24 @@ if (btnAgregarCliente) {
     mostrarSeccion(ContainerRegister)
     ocultarMainBtn()
   });
+  capturarItem("btnRecuperarPass")?.addEventListener("click", () => {
+    mostrarSeccion(ContainerRecoveryPass);
+    ocultarMainBtn();
+  })
   capturarItem("btnVolverLogin")?.addEventListener("click", () => {
     mostrarSeccion(ContainerLogin);
     ocultarMainBtn();
+  });
+  capturarItem("btnVolverLoginRecuperar")?.addEventListener("click", () => {
+    mostrarSeccion(ContainerLogin);
+    ocultarMainBtn();
+    capturarItem("step3RecoveryPass").style.display = "none";
+    capturarItem("step2RecoveryPass").style.display = "none";
+    capturarItem("step1RecoveryPass").style.display = "block";
+    capturarItem("inputRecoverUser").value = "";
+    capturarItem("inputRecoveryCodePass").value = "";
+    capturarItem("inputNewPasswordRecovery").value = "";
+
   });
   
 
@@ -753,6 +769,11 @@ if (btnAgregarCliente) {
       const dataUser = await fetchData(`${HOST_API}/login`, { user: user, password: pass });
       console.log(dataUser.userAppData.cedula)
       if (dataUser.userStatus) {
+        //Guardar sesión en localStorage
+          sessionStorage.setItem("sessionUser", JSON.stringify({
+          data: dataUser.userAppData,
+          token: dataUser.token
+        }));
         mostrarMensaje("Inicio de sesión exitoso");
         mostrarSeccion(ContainerHome);
         mainSections.forEach(sec => sec.style.display = "block");
@@ -763,11 +784,7 @@ if (btnAgregarCliente) {
         changeStatusBot(); // iniciar ciclo estado bot
         renderUserApp(dataUser.userAppData);
 
-        //Guardar sesión en localStorage
-        sessionStorage.setItem("sessionUser", JSON.stringify({
-          data: dataUser.userAppData,
-          token: dataUser.token
-        }));
+        
       } else if (dataUser.status === 401) {
         mostrarMensaje("Usuario o contraseña incorrectos");
         mainSections.forEach(sec => sec.style.display = "block");
@@ -826,7 +843,57 @@ if (btnAgregarCliente) {
    
  })
 
+/////====================== RECUPERAR CONTRASEÑA =======================
+ capturarItem("btnEnviarCodigoRecovery").addEventListener("click", async ()=>{
+  const emailOrPhoneRecovery = capturarItem("inputRecoverUser").value.trim();
+  if(!validarEmail(emailOrPhoneRecovery) && !validarNumero(emailOrPhoneRecovery)){
+    mostrarMensaje("Correo o usuario inválido")
+  }else{
+    const response = await fetchData(`${HOST_API}/recoveryPassword`, { cedulaOCorreo: emailOrPhoneRecovery});
+    if(response.status == 200){
+      mostrarMensaje(response.mensaje);
+      capturarItem("step2RecoveryPass").style.display = "block";
+      capturarItem("step1RecoveryPass").style.display = "none";
+      
+      capturarItem("btnVerificarCodigoPass").addEventListener("click", async ()=>{
+        const inputCodigo = capturarItem("inputRecoveryCodePass").value.trim();
+        if(inputCodigo == ""){
+        mostrarMensaje("Ingresa el código enviado")
+        }else{
+          const response = await fetchData(`${HOST_API}/verifyRecoveryCodePass`, { codigo: inputCodigo, cedulaOCorreo: emailOrPhoneRecovery});
+          if(response.status == 200){
+            mostrarMensaje(response.mensaje);
+            capturarItem("step3RecoveryPass").style.display = "block";
+            capturarItem("step2RecoveryPass").style.display = "none";
+            
+            capturarItem("btnGuardarNuevaPass").addEventListener("click", async ()=>{
+              const newPasswordRecovery = capturarItem("inputNewPasswordRecovery").value.trim();
+              if(newPasswordRecovery.length <6){
+                mostrarMensaje("La nueva contraseña debe tener al menos 6 caracteres")
+              }else{
+                const response = await fetchData(`${HOST_API}/updateRecoveryPassword`, { newPassword: newPasswordRecovery, cedulaOCorreo: emailOrPhoneRecovery});
+                if(response.status ==200){
+                  mostrarSeccion(ContainerLogin);
+                  capturarItem("menu-section").style.display = "none"      
+                  mostrarMensaje("Contraseña actualizada correctamente");
+                }else{
+                  mostrarMensaje("Error al actualizar la contraseña");
+                }
+              }
+            })
+          }else{
+            mostrarMensaje(response.mensaje);
+          }
+        }
 
+      });
+      
+    }else{
+      console.log(response)
+      mostrarMensaje(response.mensaje);
+    }
+  }
+  });
   // ====================== INICIALIZACIÓN ======================
 
   //===================CARGAR SESSION SI EXITE ==============================

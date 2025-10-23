@@ -11,10 +11,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^5.1.0",
     "qrcode-terminal": "^0.12.0",
     "tesseract.js": "^6.0.1",
     "whatsapp-web.js": "^1.34.1"
-    
-
   }
 }

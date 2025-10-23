@@ -40,7 +40,7 @@
                     <div id="spinnerContainerLogin" class="spinner"></div>
                 </div>
                 <div class="container-recuperar-pass">
-                    <button class="btn-recuperar-pass">Recuperar Contraseña</button>
+                    <button id="btnRecuperarPass" class="btn-recuperar-pass">Recuperar Contraseña</button>
                 </div>
 
             </div>
@@ -83,6 +83,47 @@
                 </div>
             </div>
 
+        </section>
+
+        
+        <section id="ContainerRecoverPass" class="content-section">
+            <div class="formulario-agregar">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px" fill="#00B4DC"><path d="M145-170v-72.85q0-29.46 16.25-52.68 16.24-23.22 42.67-36.16 61.31-28.16 119.99-42.12Q382.6-387.77 440-387.77q23.6 0 47.24 2.89 23.64 2.88 47.68 6.88-.61 50.92 22.62 94.12 23.23 43.19 64.61 70.11V-170H145ZM755.69-59.23l-51.31-50.13v-157.92q-37.56-9.95-61.05-41.31-23.48-31.36-23.48-70.95 0-48.7 34.66-83.47 34.66-34.76 83.69-34.76t83.42 34.68Q856-428.42 856-379.37q0 38.06-21.05 67.46-21.04 29.39-54.18 41.76l41.46 42.3-50.4 50.09 50.4 51.08-66.54 67.45ZM439.67-504.46q-52.71 0-89.38-36.89-36.67-36.89-36.67-89.44 0-52.56 36.79-89.5t89.21-36.94q52.42 0 89.59 36.89t37.17 89.44q0 52.55-37 89.5-37 36.94-89.71 36.94ZM738.5-362.92q13.19 0 23.38-10.72 10.2-10.71 10.2-23.91 0-12.47-10.39-22.58-10.38-10.1-23.58-10.1-13.19 0-23.76 10.1-10.58 10.11-10.58 23.08 0 12.97 10.77 23.55t23.96 10.58Z"/></svg>
+                </div>
+
+                <h2>Recuperar Contraseña</h2>
+
+                <!-- Paso 1: Enviar solicitud -->
+                <div id="step1RecoveryPass">
+                    <p>Ingresa tu cédula o correo electrónico registrado. El bot de WhatsApp te enviará un código de
+                        verificación.</p>
+                    <label for="inputRecoverUser">Cédula o Correo</label>
+                    <input type="text" id="inputRecoverUser" placeholder="Ej: 10652333 o usuario@mail.com">
+                    <button id="btnEnviarCodigoRecovery" class="btn-azul">Enviar código por WhatsApp</button>
+                </div>
+
+                <!-- Paso 2: Verificar código -->
+                <div id="step2RecoveryPass" style="display:none;">
+                    <p>Ingresa el código que recibiste en WhatsApp.</p>
+                    <label for="inputRecoveryCodePass">Código de verificación</label>
+                    <input type="text" id="inputRecoveryCodePass" placeholder="Ej: 123456">
+                    <button id="btnVerificarCodigoPass" class="btn-verde">Verificar código</button>
+                </div>
+
+                <!-- Paso 3: Nueva contraseña -->
+                <div id="step3RecoveryPass" style="display:none;">
+                    <p>Ingresa tu nueva contraseña.</p>
+                    <label for="inputNewPasswordRecovery">Nueva contraseña</label>
+                    <input type="password" id="inputNewPasswordRecovery" placeholder="Crea una nueva contraseña">
+                    <button id="btnGuardarNuevaPass" class="btn-azul">Guardar contraseña</button>
+                </div>
+
+                <div class="container-options-login">
+                    <button id="btnVolverLoginRecuperar" class="btn-verde">Volver al Login</button>
+                    <div id="spinnerContainerRecover" class="spinner"></div>
+                </div>
+            </div>
         </section>
 
         <section class="menu-section" id="menu-section">
@@ -146,7 +187,7 @@
 
                         <div>
                             <p>Telefono Bot: 3111567789</p>
-                            
+
 
                         </div>
 
@@ -445,17 +486,19 @@
 
                         <div class="form-group">
                             <label for="changeUserName">Nombre completo:</label>
-                            <input type="text" id="changeUserName" name="nombre" placeholder="Ingrese su nombre completo"
-                                required>
+                            <input type="text" id="changeUserName" name="nombre"
+                                placeholder="Ingrese su nombre completo" required>
                         </div>
                         <div class="form-group">
                             <label for="changeUserEmail">Correo electrónico:</label>
-                            <input type="email" id="changeUserEmail" name="correo" placeholder="Ingrese su correo" required>
+                            <input type="email" id="changeUserEmail" name="correo" placeholder="Ingrese su correo"
+                                required>
                         </div>
 
                         <div class="form-group">
                             <label for="changeUserPhone">Teléfono:</label>
-                            <input type="tel" id="changeUserPhone" name="telefono" placeholder="Ingrese su número de teléfono">
+                            <input type="tel" id="changeUserPhone" name="telefono"
+                                placeholder="Ingrese su número de teléfono">
                         </div>
 
                         <div class="form-group">
@@ -470,7 +513,7 @@
                                 placeholder="Ingrese nueva contraseña (opcional)">
                         </div>
                         <div class="form-group">
-                            <button  id="btnChangeDataUser" class="btn-verde">Guardar cambios</button>
+                            <button id="btnChangeDataUser" class="btn-verde">Guardar cambios</button>
 
                         </div>
 

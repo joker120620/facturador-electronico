@@ -3,12 +3,14 @@ import cors from "cors";
 import { fetchData } from "../peticionServer.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import { 
   addUsuario, 
   addCliente, 
   getClientesByUsuario , 
   getUsersLogin,
-  getUsuarioById, 
+  getUsuarioById,
+  getUsuarioByCedulaOCorreo,
   updateUsuarioCompleto , 
   verificarToken , 
   updateCliente,
@@ -21,6 +23,7 @@ import {
   getProductosByUsuario
  } from "./srcBackend/userServices.js";
 import jwt from "jsonwebtoken";
+import { stat } from "fs";
 
 
 
@@ -38,6 +41,9 @@ app.use(express.json());
 
 ///////////////////variable estado bot
 let statusBot = false;
+const codes = [];
+const HOST_BOT = process.env.HOST_BOT || "http://localhost:4000";
+
 /////////////////////////
 const SECRET_KEY = process.env.SECRET_KEY;
 //////////////////
@@ -184,7 +190,106 @@ app.post("/updateDataUser", verificarToken, async (req, res) => {
   }
 });
 
-//end point para datos
+app.post("/recoveryPassword", async (req, res) =>{
+  const { cedulaOCorreo } = req.body;
+  if (!cedulaOCorreo) {
+    res.status(400).json({ mensaje: "Falta el campo cedulaOCorreo" });
+  };
+  try{
+    const usuario = await getUsuarioByCedulaOCorreo(cedulaOCorreo);
+    if(!usuario){
+      res.json({status: 404, mensaje: "Usuario no encontrado" });
+    }else{
+      
+       const codigo = crypto.randomInt(0, 1000000).toString().padStart(6, "0");
+       codes[usuario.id] = codigo;
+       console.log("Código de recuperación generado para el usuario:", usuario.id, codigo);
+       const mensaje = `🔐 Código de recuperación de contraseña: ${codigo}\n\nEste código es válido por 1 minuto. Si no solicitaste este código, ignora este mensaje.`;
+      const response = await fetchData(`${HOST_BOT}/bot/sendMessage`, { mensaje , phone: usuario.telefono });
+      if (response.status === 200) {
+        setTimeout(() => {
+          delete codes[usuario.id];
+        }, 60000);
+        res.status(200).json({ status: 200 , mensaje: "Código de recuperación enviado correctamente" });
+       }
+    }
+
+  }catch(error){
+    console.error("Error al recuperar contraseña:", error);
+    res.status(500).json({ mensaje: "Error interno del servidor" });
+  }
+});
+///====================== VERIFICAR CÓDIGO DE RECUPERACIÓN ======================
+app.post("/verifyRecoveryCodePass", async (req, res) => {
+const { codigo, cedulaOCorreo} = req.body;
+
+if (!codigo || !cedulaOCorreo) {
+  res.status(400).json({ mensaje: "Faltan datos obligatorios" });
+}
+
+try {
+  const usuario = await getUsuarioByCedulaOCorreo(cedulaOCorreo);
+  console.log("Código almacenado para el usuario:", usuario.id, codes[usuario.id] || "No existe");
+  if (!usuario) {
+    res.status(404).json({ status: 404, mensaje: "Usuario no encontrado" });
+  }
+  
+
+  if (codes[usuario.id] === codigo) {
+    codes[usuario.id]= true; // marcar como verificado
+    res.status(200).json({status: 200 , mensaje: "Código de recuperación verificado correctamente" });
+  } else {
+    res.json({status: 400 , mensaje: "Código de recuperación incorrecto o caducado" });
+  }
+} catch (error) {
+  console.error("Error al verificar código de recuperación:", error);
+  res.json({ status: 500, mensaje: "Error interno del servidor" });
+}
+});
+// ====================== GUARDAR NUEVA CONTRASEÑA ======================
+app.post("/updateRecoveryPassword", async (req, res) => {
+  const { newPassword, cedulaOCorreo } = req.body;
+
+  if (!newPassword || !cedulaOCorreo) {
+    return res.status(400).json({ mensaje: "Faltan datos obligatorios" });
+  }
+
+  try {
+    const usuario = await getUsuarioByCedulaOCorreo(cedulaOCorreo);
+    if (!usuario) {
+      res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+    console.log("Verificación de código para el usuario:", usuario.id, codes[usuario.id]);
+
+    if (!codes[usuario.id]) {
+      res.status(403).json({ mensaje: "Código de recuperación no verificado" });
+    }
+
+    // Aquí se actualizaría la contraseña en la base de datos
+    // Actualizar incluyendo nueva contraseña
+      const filasAfectadas = await updateUsuarioCompleto(usuario.id, {
+        cedula: usuario.cedula,
+        nombre: usuario.nombre,
+        correo: usuario.correo,
+        telefono: usuario.telefono,
+        nuevaContrasena: newPassword
+      });
+
+    if (filasAfectadas === 0) {
+      res.status(400).json({ mensaje: "No se pudo actualizar el usuario" });
+    } else {
+
+      delete codes[usuario.id]; // Eliminar el código después de usarlo
+
+      res.status(200).json({ status: 200 , mensaje: "Contraseña actualizada correctamente" });
+    }
+
+  } catch (error) {
+    console.error("Error al actualizar contraseña:", error);
+    res.status(500).json({ mensaje: "Error interno del servidor" });
+  }
+});
+// ====================== MOSTRAR CLIENTE ======================
 
 app.post("/getClient", verificarToken, async (req, res) => {
   const { usuario_id } = req.body;

@@ -1,6 +1,0 @@
-2025/10/17-19:17:42.603 30f8 Reusing MANIFEST C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/10/17-19:17:42.604 30f8 Recovering log #1052
-2025/10/17-19:17:42.639 30f8 Reusing old log C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/001052.log 
-2025/10/17-19:17:42.640 30f8 Delete type=2 #1040
-2025/10/17-19:17:42.640 30f8 Delete type=2 #1054
-2025/10/17-19:17:48.066 3084 Manual compaction at level-0 from '\x00*\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00+\x00\x00\x00' @ 0 : 0; will stop at (end)
