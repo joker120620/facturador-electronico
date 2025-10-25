@@ -1,58 +1,44 @@
-import Tesseract from "tesseract.js";
-import fs from "fs";
 
-export  async function extraerDatos(imagen) {
+//////============EXTRAER DATOS DE FACTURA=================
+// src/extractorFacturaTexto.js
+export function extraerJSONdelTexto(texto) {
   try {
-    const { data: { text } } = await Tesseract.recognize(imagen, "spa");
+    if (!texto || typeof texto !== "string") return null;
 
-    console.log("Texto OCR detectado:\n", text);
-    return text;
-  } catch (error) {
-    console.error(" Error al procesar la archivo:", error);
-  }
-}
+    //  Extraer número de teléfono del encabezado
+    const telefonoMatch = texto.match(/userPeticion\s*:\s*(\d+)/i);
+    const telefono_usuario = telefonoMatch ? telefonoMatch[1] : null;
 
+    // Intentar aislar el bloque JSON entre ```json ... ```
+    let jsonString = "";
+    const matchCodeBlock = texto.match(/```json([\s\S]*?)```/i);
 
-export async function extraerDatosFactura(imagen) {
-  try {
-    const text = await extraerDatos(imagen);
-    // Regex para campos principales
-    const vendedor = text.match(/Vendedor[:\s]*(.+)/i)?.[1]?.trim() || null;
-    const cliente = text.match(/Cliente[:\s]*(.+)/i)?.[1]?.trim() || null;
-    const nit = text.match(/NIT[:\s]*([\d\.\-]+)/i)?.[1] || null;
-    const total = text.match(/Total\s*a\s*pagar[:\s]*([\d\.,]+)/i)?.[1] || null;
+    if (matchCodeBlock && matchCodeBlock[1]) {
+      jsonString = matchCodeBlock[1].trim();
+    } else {
+      // Si no hay bloque con ```json```, intentar buscar el primer { ... } válido
+      const matchBraces = texto.match(/\{[\s\S]*\}/);
+      if (matchBraces && matchBraces[0]) {
+        jsonString = matchBraces[0].trim();
+      } else {
+        console.error("⚠️ No se encontró ningún bloque JSON en el texto.");
+        return null;
+      }
+    }
 
-    // Detectar productos (ejemplo sencillo: líneas que contienen precio con coma o punto)
-    const lineas = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
-    const productos = lineas
-      .filter(l => /\d+[\.,]\d{3}/.test(l)) // busca líneas con precios
-      .map(l => {
-        const partes = l.split(/\s{2,}/); // separar por muchos espacios
-        return {
-          descripcion: partes[0] || "",
-          detalle: partes.slice(1).join(" ") || ""
-        };
-      });
+    //  Limpiar posibles caracteres extra o comentarios
+    jsonString = jsonString
+      .replace(/^[^\{]*/, "") // eliminar texto antes del primer {
+      .replace(/[^}]*$/, ""); // eliminar texto después del último }
 
-    const facturaJSON = {
-      vendedor,
-      cliente,
-      nit,
-      productos,
-      total
-    };
+    // Intentar parsear el JSON
+    const data = JSON.parse(jsonString);
 
-    // Guardar resultado en un archivo JSON
-    fs.writeFileSync("src/facturaExtraida.json", JSON.stringify(facturaJSON, null, 2));
-
-    console.log(" Datos extraídos guardados en facturaExtraida.json");
-    return facturaJSON;
+    //  Añadir teléfono al objeto resultante
+    return { telefono_usuario, ...data };
 
   } catch (error) {
-    console.error("Error al filtrar datos:", error);
+    console.error("Error al parsear JSON:", error);
     return null;
   }
 }
-
-// Ejecutar
-//extraerDatosFactura("factura.jpg");

@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="./stylesFrontend.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
 
@@ -85,11 +86,15 @@
 
         </section>
 
-        
+
         <section id="ContainerRecoverPass" class="content-section">
             <div class="formulario-agregar">
                 <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px" fill="#00B4DC"><path d="M145-170v-72.85q0-29.46 16.25-52.68 16.24-23.22 42.67-36.16 61.31-28.16 119.99-42.12Q382.6-387.77 440-387.77q23.6 0 47.24 2.89 23.64 2.88 47.68 6.88-.61 50.92 22.62 94.12 23.23 43.19 64.61 70.11V-170H145ZM755.69-59.23l-51.31-50.13v-157.92q-37.56-9.95-61.05-41.31-23.48-31.36-23.48-70.95 0-48.7 34.66-83.47 34.66-34.76 83.69-34.76t83.42 34.68Q856-428.42 856-379.37q0 38.06-21.05 67.46-21.04 29.39-54.18 41.76l41.46 42.3-50.4 50.09 50.4 51.08-66.54 67.45ZM439.67-504.46q-52.71 0-89.38-36.89-36.67-36.89-36.67-89.44 0-52.56 36.79-89.5t89.21-36.94q52.42 0 89.59 36.89t37.17 89.44q0 52.55-37 89.5-37 36.94-89.71 36.94ZM738.5-362.92q13.19 0 23.38-10.72 10.2-10.71 10.2-23.91 0-12.47-10.39-22.58-10.38-10.1-23.58-10.1-13.19 0-23.76 10.1-10.58 10.11-10.58 23.08 0 12.97 10.77 23.55t23.96 10.58Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px"
+                        fill="#00B4DC">
+                        <path
+                            d="M145-170v-72.85q0-29.46 16.25-52.68 16.24-23.22 42.67-36.16 61.31-28.16 119.99-42.12Q382.6-387.77 440-387.77q23.6 0 47.24 2.89 23.64 2.88 47.68 6.88-.61 50.92 22.62 94.12 23.23 43.19 64.61 70.11V-170H145ZM755.69-59.23l-51.31-50.13v-157.92q-37.56-9.95-61.05-41.31-23.48-31.36-23.48-70.95 0-48.7 34.66-83.47 34.66-34.76 83.69-34.76t83.42 34.68Q856-428.42 856-379.37q0 38.06-21.05 67.46-21.04 29.39-54.18 41.76l41.46 42.3-50.4 50.09 50.4 51.08-66.54 67.45ZM439.67-504.46q-52.71 0-89.38-36.89-36.67-36.89-36.67-89.44 0-52.56 36.79-89.5t89.21-36.94q52.42 0 89.59 36.89t37.17 89.44q0 52.55-37 89.5-37 36.94-89.71 36.94ZM738.5-362.92q13.19 0 23.38-10.72 10.2-10.71 10.2-23.91 0-12.47-10.39-22.58-10.38-10.1-23.58-10.1-13.19 0-23.76 10.1-10.58 10.11-10.58 23.08 0 12.97 10.77 23.55t23.96 10.58Z" />
+                    </svg>
                 </div>
 
                 <h2>Recuperar Contraseña</h2>
@@ -262,25 +267,37 @@
                         </tbody>
                     </table>
                     <div class="modal" id="modal1">
-                        <div class="formulario-agregar">
+                        <div class="formulario-agregar-producto">
                             <h2>Agregar Cliente</h2>
                             <div class="formulario-agregar">
-                                <label for="cc_cliente">Cédula / CC</label>
+                                <div class="formulario-agregar-items">
+                                    <label for="cc_cliente">Cédula / CC</label>
                                 <input type="number" id="cc_cliente" placeholder="CC">
 
                                 <label for="nombre_cliente">Nombre</label>
                                 <input type="text" id="nombre_cliente" placeholder="Nombre">
 
-                                <label for="email_cliente">Correo electrónico</label>
-                                <input type="email" id="email_cliente" placeholder="Email">
+                                </div>
+                                <div class="formulario-agregar-items">
+                                    <label for="email_cliente">Correo electrónico</label>
+                                <input type="email" id="email_cliente" placeholder="Email" class="input-largo">
 
-                                <label for="direccion_cliente">Dirección</label>
+                                </div>
+                                
+
+                                
+
+                                <div class="formulario-agregar-items">
+                                    <label for="direccion_cliente">Dirección</label>
                                 <input type="text" id="direccion_cliente" placeholder="Dirección">
 
                                 <label for="telefono_cliente">Teléfono</label>
                                 <input type="text" id="telefono_cliente" placeholder="Teléfono">
 
-                                <button id="btnAgregarCliente" class="btn-azul">Agregar Cliente</button>
+                                </div>
+
+                                <div class="footer-modal-factura">
+                                    <button id="btnAgregarCliente" class="btn-verde">Guardar</button>
                                 <button class="btn-rojo" data-close="modal1" id="btnCerrarModal1">Cerrar</button>
                                 <div class="modal" id="modalLoading">
                                     <div class="modal-loading-content">
@@ -288,6 +305,12 @@
                                         <p>Cargando, por favor espere...</p>
                                     </div>
                                 </div>
+
+                                </div>
+
+                                
+
+                                
                             </div>
                         </div>
                     </div>
@@ -366,23 +389,40 @@
                         </tbody>
                     </table>
                     <div class="modal" id="modal2">
-                        <div class="formulario-agregar">
+                        <div class="formulario-agregar-factura">
                             <h2>Vista Factura</h2>
                             <div class="formulario-agregar">
-                                <label for="codigo_factura">Código</label>
-                                <input type="number" id="codigo_factura" placeholder="Codigo" disabled>
-                                <label for="cc_factura">CC</label>
-                                <input type="text" id="cc_factura" placeholder="CC" disabled>
-                                <label for="nombre_factura">Nombre</label>
-                                <input type="text" id="nombre_factura" placeholder="Nombre" disabled>
-                                <label for="fecha_factura">Fecha</label>
-                                <input type="text" id="fecha_factura" placeholder="Fecha" disabled>
-                                <label for="total_factura">Total</label>
-                                <input type="text" id="total_factura" placeholder="Fecha" disabled>
+                                <div class="formulario-agregar-items">
+                                    <label for="codigo_factura">Código</label>
+                                    <input type="number" id="codigo_factura" placeholder="Codigo" disabled>
+                                    <label for="cc_factura">CC</label>
+                                    <input type="text" id="cc_factura" placeholder="CC" disabled>
+                                </div>
+                                <div class="formulario-agregar-items">
+                                    <label for="nombre_factura">Nombre</label>
+                                    <input type="text" id="nombre_factura" placeholder="Nombre" disabled>
+
+
+                                </div>
+                                <div  class="formulario-agregar-items">
+                                    <label for="fecha_factura">Fecha</label>
+                                    <input type="text" id="fecha_factura" placeholder="Fecha" disabled>
+                                    <label for="total_factura">Total</label>
+                                    <input type="text" id="total_factura" placeholder="Fecha" disabled>
+
+                                </div>
+
+
+
+
                                 <label for="productos_factura">Productos</label>
                                 <textarea id="productos_factura" placeholder="Productos" rows="8" cols="60"
                                     disabled></textarea>
-                                <button class="btn-rojo" data-close="modal2">Cerrar</button>
+                                <div class="footer-modal-factura">
+                                    <button class="btn-rojo" data-close="modal2">Cerrar</button>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -456,7 +496,7 @@
                             <h2>Agregar Producto</h2>
                             <div class="formulario-agregar">
                                 <label for="codigo_producto">Código</label>
-                                <input type="number" id="codigo_producto" placeholder="Codigo">
+                                <input type="number" id="codigo_producto" placeholder="Codigo" disabled>
                                 <label for="nombre_producto">Nombre</label>
                                 <input type="text" id="nombre_producto" placeholder="Nombre">
                                 <label for="precio_producto">Precio</label>
@@ -532,7 +572,7 @@
         </section>
     </main>
 
-    <footer style="display:flex;justify-content: center;">
+    <footer style="display:none;justify-content: center;">
         <h2>Desarrollado por Juan David Toloza Ortega</h2>
     </footer>
 

@@ -125,6 +125,7 @@ a:hover {
     background-color: var(--card);
     border-radius: 12px;
     padding: 10px;
+    min-width: 600px;
 }
 .tabla-content td {
     padding: 10px;
@@ -144,9 +145,50 @@ a:hover {
     background-color: var(--card);
     padding: 20px;
     border-radius: 8px;
-    border: solid 1px black;
+    min-width: 350px;
     width: min-content;
     margin: 10px auto;
+    gap: 10px;
+}
+.formulario-agregar-factura {
+    display: flex;
+    color: rgb(255, 255, 255);
+    background-color:  var(--primary);
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 20px 0px 0px 0px;
+    border-radius: 8px;
+    min-width: 350px;
+    width: min-content;
+    gap: 10px;
+}
+
+.formulario-agregar-producto{
+    display: flex;
+    color: rgb(255, 255, 255);
+    background-color:  var(--primary);
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 20px 0px 0px 0px;
+    border-radius: 8px;
+    min-width: 350px;
+    width: min-content;
+    gap: 10px;
+}
+.formulario-agregar-items {
+    color: var(--text);
+    display: flex;
+    justify-content: start;
+    text-align: start;
+    align-items: start;
+    width: max-content;
+    gap: 10px;
+    width: 100%;
+}
+.input-largo{
+    width: 100%;
 }
 .formulario-agregar label {
     font-weight: bold;
@@ -154,7 +196,13 @@ a:hover {
     text-align: left;
     gap: 5px;
 }
-
+.footer-modal-factura{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+    gap:20px;
+}
 input {
     padding: 10px;
     margin-bottom: 5px;
@@ -406,3 +454,72 @@ input {
   border-radius: 4px;
 }
 
+
+
+@media (min-width: 375px) and (max-width: 458px) {
+
+  .formulario-agregar{
+    min-width: none;
+    border: none;
+  }
+  .content-section{
+    min-width: none;
+    justify-content: center;
+    padding: 0;
+    border: none;
+  }
+  .menu-section{
+    min-width: none;
+    padding: 0;
+    border: none;
+  }
+  .menu{
+    gap: 5px;
+  }
+  .menu li{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .menu button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+
+    width: 50px;
+    height: 50px;
+
+  }
+  .menu svg{
+    width: 20px;
+    height: 20px;
+
+  }
+  .container-home{
+    justify-content: center;
+    padding: 15px;
+  }
+  .container-estado-bot{
+    flex-direction: column;
+    gap: 20px;
+  }
+  .container-clientes{
+    justify-content: center;
+  }
+  .header-menu-content{
+    text-align: start;
+    justify-content: start;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .content-table-items{
+    min-width: none;
+    max-width: 375px;
+    padding: 0;
+  }
+  .tabla-content{
+    min-width: none;
+    max-width: 375px;
+  }
+}

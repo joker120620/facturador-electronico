@@ -1,9 +1,7 @@
 export async function fetchData(apiUrl, datosEnviar) {
     try {
         async function respuesta(response) {
-            if (!response.ok) {
-                throw new Error(`Error en la solicitud: ${response.status}`);
-            }
+            console.log("Respuesta de la API:", response.status);
             const data = await response.json();
             //console.log('Datos obtenidos:', data);
             return data;

@@ -5,7 +5,7 @@ import * as fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import pkg from "whatsapp-web.js";
-import { extraerDatosFactura, extraerDatos } from "./src/extractor.js";
+import { extraerJSONdelTexto } from "./src/extractor.js";
 import { fetchData } from "./src/peticionServer.js";
 
 const { Client, LocalAuth, MessageMedia } = pkg;
@@ -57,45 +57,75 @@ client.on("ready", async () => {
 client.on("message", async msg => {
   let user = await msg.getContact();
   const body = msg.body.trim();
+  const chatId = `59894101100@c.us`;
+  console.log("Mensaje recibido de", user.number, ":", body);
 
   // === Comandos del bot ===
-  if (body === "Factura") {
+  if (body === "Facturar") {
     if (msg.hasMedia) {
       const media = await msg.downloadMedia();
-      if (media) {
-        const extension = media.mimetype.split("/")[1];
-        const filePath = path.join(__dirname, "src/media", `factura.${extension}`);
-        fs.writeFileSync(filePath, media.data, { encoding: "base64" });
+      const mensaje = `extraer los datos de la imagen: en el siguiente formato
+      {
+    vendedor: { nombre: "", cedula: "" },
+    cliente: { nombre: "", cedula: "" },
+    fecha: "",
+    items: [
+    {
+    "producto_nombre": "",
+      "cantidad": number,
+      "precio_unitario": number,
+      "precio_total": number
+    },
 
-        await extraerDatosFactura(filePath);
+    ],
+    total_factura: "number",
+  } 
+       y el titulo pon "Texto:" y añade un subtitulo llamado "userPeticion : ${user.number}" (este numero te lo doy yo no lo extraigas solo quita el codigo del pais) tambien necesito que omitas cualquier otra informacion que no pida como garantias, selos, etc . ademas quita las tildes`;
 
-        const jsonPath = path.join(__dirname, "src/facturaExtraida.json");
-        if (!fs.existsSync(jsonPath)) return msg.reply("⚠️ No encontré los datos procesados.");
+      await client.sendMessage(chatId, media, { caption: mensaje });
+      msg.reply("Imagen recibida para facturación. Espera la respuesta.");
+    }
 
-        const jsonData = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-        await msg.reply("🧾 Datos procesados:\n```" + JSON.stringify(jsonData, null, 2) + "```");
+  } else if (msg.from == chatId && (body.includes("Texto:") || body.includes("Titulo:"))) {
+    const infoFactura = body.replace("Titulo:", "").replace("Texto:", "").trim();
+    const numeroCliente = body.match(/userPeticion\s*:\s*(\d{6,15})/);
+    console.log("Número Cliente Extraído:", numeroCliente ? numeroCliente[1] : "No encontrado");
+    const numero = "57"+numeroCliente[1] + "@c.us";
+    await client.sendMessage(numero, "📄 Texto Extraido:\n```" + body.split("--")[0].trim(body.replace("Titulo:", "").replace("Texto:", "")) + "```");
+    await client.sendMessage(numero, "Desea realizar la factura con estos Datos?");
 
-        fs.unlink(jsonPath, () => console.log("🗑 Factura procesada eliminada."));
+    client.on("message", async msg2 => {
+
+      if (msg2.from === numero && msg2.body.toLowerCase() === "si") {
+        await client.sendMessage(numero, "Generando factura...");
+        // Extraer información estructurada
+        const datosFactura = extraerJSONdelTexto(infoFactura);
+        console.log("Datos Extraidos de la Factura");
+        console.log(datosFactura);
+        try{
+          const response = await fetchData("http://localhost:3000/addFacturaByName",
+          datosFactura
+        );
+        await client.sendMessage(numero, "Informacion:\n```" + JSON.stringify(response.mensaje, null, 2) + "```");
+
+        }catch(error){
+          console.error("Error al enviar datos al servidor:", error);
+          await client.sendMessage(numero, "⚠️ Hubo un error al procesar la factura. Inténtalo de nuevo.");
+        }
+        
+
       }
-    }
-  } 
-  else if (body === "Extraer") {
-    if (msg.hasMedia) {
-      const media = await msg.downloadMedia();
-      const extension = media.mimetype.split("/")[1];
-      const filePath = path.join(__dirname, "src/media", `imgExtraer.${extension}`);
-      fs.writeFileSync(filePath, media.data, { encoding: "base64" });
-      const textoExtraido = await extraerDatos(filePath);
-      await msg.reply("📄 Texto extraído:\n```" + textoExtraido + "```");
-    }
-  } 
-  else if (body === "Hola") {
+
+    });
+///===================================BASIC COMMANDS=============================
+
+  } else if (body === "Hola") {
     msg.reply(`👋 ¡Hola ${user.pushname || "amigo"}! ¿En qué puedo ayudarte hoy?`);
-  } 
+  }
   else if (body === "Foto") {
     const media = await MessageMedia.fromUrl("https://cdn.memegenerator.es/imagenes/memes/full/2/81/2813751.jpg");
     await msg.reply(media);
-  } 
+  }
   else if (body === "Sticker" && msg.hasMedia) {
     const media = await msg.downloadMedia();
     await client.sendMessage(msg.from, media, {
@@ -103,7 +133,7 @@ client.on("message", async msg => {
       stickerAuthor: "Mi Bot WhatsApp",
       stickerName: "Pack Stickers",
     });
-  } 
+  }
   else if (body === "Servidor") {
     const response = await fetchData("http://localhost:3000/token");
     await msg.reply("📡 Token del servidor:\n```" + JSON.stringify(response.access_token, null, 2) + "```");

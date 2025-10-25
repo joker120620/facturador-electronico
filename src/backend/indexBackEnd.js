@@ -20,10 +20,14 @@ import {
   deleteFactura,
   addProducto,
   deleteProducto,
-  getProductosByUsuario
+  getProductosByUsuario,
+  getUsuarioByTelefono, 
+  getClienteByNombre,
+  getProductoByNombreTolerante
+
+  
  } from "./srcBackend/userServices.js";
 import jwt from "jsonwebtoken";
-import { stat } from "fs";
 
 
 
@@ -549,11 +553,116 @@ app.post("/deleteProduct", verificarToken, async (req, res) => {
 });
 
 
+/////////////BOT ================================
 
+// ====================== CREAR FACTURA DESDE BOT (por nombres) ======================
+// ====================== CREAR FACTURA DESDE BOT (TOLERANTE A ERRORES) ======================
+app.post("/addFacturaByName", async (req, res) => {
+  try {
+    const {
+      telefono_usuario,
+      vendedor,
+      cliente,
+      fecha,
+      total_factura,
+      items
+    } = req.body;
+    console.log("-----------------------------------------------------------")
+    console.log(req.body)
 
+    // 🧩 Validaciones básicas
+    if (!telefono_usuario || !cliente?.nombre || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({
+        status: 400,
+        mensaje: "Faltan datos: teléfono del usuario, cliente o lista de productos."
+      });
+    }
 
+    // 🔹 Buscar usuario (vendedor)
+    const usuario = await getUsuarioByTelefono(telefono_usuario);
+    if (!usuario) {
+      return res.status(404).json({
+        status: 404,
+        mensaje: "Usuario (vendedor) no encontrado con ese número de teléfono."
+      });
+    }
+    console.log("----------------------usuario---------------------------------------")
+    console.log(usuario)
+    const usuario_id = usuario.id;
 
+    // 🔹 Buscar cliente
+    const clienteDB = await getClienteByNombre(cliente.nombre, usuario_id);
+    if (!clienteDB) {
+      return res.status(404).json({
+        status: 404,
+        mensaje: `El cliente "${cliente.nombre}" no está registrado.`
+      });
+    }
+    console.log("----------------------cliente---------------------------------------")
+    console.log(clienteDB)
+    const cliente_id = clienteDB.id;
 
+    // 🔹 Buscar productos tolerantes (por coincidencia parcial)
+    const productosBuscados = [];
+    const productosNoEncontrados = [];
+
+    for (const item of items) {
+      const nombreBuscar = item.producto_nombre
+    .normalize("NFD") // elimina tildes y acentos
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
+      console.log("Nombre a buscar:", nombreBuscar);
+      if (!nombreBuscar) continue;
+
+      const producto = await getProductoByNombreTolerante(nombreBuscar, usuario_id);
+      console.log("-------------------------producto--------------------------------------")
+      console.log(producto)
+      if (producto) {
+        productosBuscados.push({
+          producto_id: producto.id,
+          nombre: producto.nombre,
+          cantidad: item.cantidad || 1,
+          precio: producto.precio,
+          subtotal: producto.precio * (item.cantidad || 1)
+        });
+      } else {
+        productosNoEncontrados.push(item.producto_nombre);
+      }
+      console.log("-------------------------------------------------------------")
+    }
+
+    // ⚠️ Si faltan productos, avisamos pero no detenemos todo
+    if (productosNoEncontrados.length > 0 && productosBuscados.length === 0) {
+      return res.status(404).json({
+        status: 404,
+        mensaje: `No se encontraron productos con nombres similares a: ${productosNoEncontrados.join(", ")}`
+      });
+    }
+
+    // 🔹 Calcular total
+    const totalCalculado = productosBuscados.reduce((acc, p) => acc + p.subtotal, 0);
+
+    // 🔹 Crear factura
+    const factura_id = await addFacturaCompleta({
+      usuario_id,
+      cliente_id,
+      items: productosBuscados
+    });
+
+    res.status(201).json({
+      status: 201,
+      mensaje: `Factura creada correctamente para ${cliente.nombre}`,
+      factura_id,
+      productos_no_encontrados: productosNoEncontrados,
+      total_calculado: totalCalculado
+    });
+
+  } catch (error) {
+    console.error("Error al crear factura desde bot:", error);
+    res.status(500).json({status: 500, mensaje: "Error interno del servidor" });
+  }
+});
 
 
 

@@ -315,7 +315,7 @@ export async function getProductosByUsuario(usuario_id) {
   }
 }
 
-// 🔹 Agregar nuevo producto
+// Agregar nuevo producto
 export async function addProducto({ usuario_id, nombre, precio }) {
   try {
     const sql = `
@@ -330,7 +330,7 @@ export async function addProducto({ usuario_id, nombre, precio }) {
   }
 }
 
-// 🔹 Eliminar producto
+// Eliminar producto
 export async function deleteProducto(id, usuario_id) {
   try {
     // Verificar que el producto pertenece al usuario
@@ -357,5 +357,67 @@ export async function deleteProducto(id, usuario_id) {
   } catch (error) {
     console.error("Error al eliminar producto:", error);
     throw error;
+  }
+}
+///==================ACTIONS BOT=======================
+// Buscar usuario por teléfono
+export async function getUsuarioByTelefono(telefono) {
+  const sql = `SELECT * FROM tbl_usuarios WHERE telefono = ? LIMIT 1`;
+  const [rows] = await connectionDB.query(sql, [telefono]);
+  return rows[0];
+}
+
+// Buscar cliente por nombre dentro de un usuario
+export async function getClienteByNombre(nombre, usuario_id) {
+  const sql = `
+    SELECT * FROM tbl_clientes
+    WHERE LOWER(nombre) = LOWER(?) AND usuario_id = ?
+    LIMIT 1
+  `;
+  const [rows] = await connectionDB.query(sql, [nombre, usuario_id]);
+  return rows[0];
+}
+
+//Buscar productos por una lista de nombres (de un usuario)
+export async function getProductosByNombres(nombres, usuario_id) {
+  if (!Array.isArray(nombres) || nombres.length === 0) {
+    return [];
+  }
+
+  // Asegurar que todos los nombres son strings válidos
+  const nombresLimpios = nombres.filter(n => typeof n === "string" && n.trim() !== "");
+
+  if (nombresLimpios.length === 0) {
+    console.warn("⚠️ No hay nombres válidos de productos para buscar.");
+    return [];
+  }
+
+  const placeholders = nombresLimpios.map(() => "?").join(",");
+  const sql = `
+    SELECT id, nombre, precio 
+    FROM tbl_productos 
+    WHERE usuario_id = ? 
+    AND LOWER(nombre) IN (${placeholders.map(() => "LOWER(?)").join(",")})
+  `;
+  const params = [usuario_id, ...nombresLimpios];
+  
+  const [rows] = await connectionDB.query(sql, params);
+  return rows;
+}
+// BUSCAR PRODUCTO POR NOMBRE (TOLERANTE)
+export async function getProductoByNombreTolerante(nombre, usuario_id) {
+  try {
+    const sql = `
+      SELECT id, nombre, precio
+      FROM tbl_productos
+      WHERE usuario_id = ?
+      AND LOWER(REPLACE(nombre, 'á', 'a')) LIKE CONCAT('%', REPLACE(LOWER(?), 'á', 'a'), '%')
+      LIMIT 1
+    `;
+    const [rows] = await connectionDB.query(sql, [usuario_id, nombre]);
+    return rows.length > 0 ? rows[0] : null;
+  } catch (error) {
+    console.error("Error en getProductoByNombreTolerante:", error);
+    return null;
   }
 }

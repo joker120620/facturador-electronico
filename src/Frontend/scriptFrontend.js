@@ -64,8 +64,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         data.clientes = [];
       }
       dataJSON.clientes = data.clientes
+      
     }
     data = await pedirDatosProductos();
+    
     if(data.status == 403){
       mostrarMensaje("Session cerrada");
       mostrarSeccion(ContainerLogin);
@@ -75,6 +77,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         data.productos = [];
       }
       dataJSON.productos = data.productos
+      const maxProductoId = Math.max(...dataJSON.productos.map(p => p.id));
+     capturarItem("codigo_producto").value = maxProductoId+1
     }
     data = await pedirDatosFacturas();
     if(data.status == 403){
@@ -368,7 +372,9 @@ if (btnAgregarCliente) {
 
   const btnAgregarProducto = capturarItem("btnAgregarProducto");
   if (btnAgregarProducto) {
+    
     btnAgregarProducto.addEventListener("click", async () => {
+      
       const idProducto = Number((capturarItem("codigo_producto")?.value || "").trim());
       const nombreProducto = (capturarItem("nombre_producto")?.value || "").trim();
       const precioProducto = (capturarItem("precio_producto")?.value || "").trim();
