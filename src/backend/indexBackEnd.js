@@ -43,7 +43,8 @@ const allowedOrigins = [
   "http://localhost:5173", // Vite
   "http://localhost:3000", // Dev
   "https://joker120620.github.io", // GitHub Pages
-  "https://facturador-electronico-web.up.railway.app", // Tu backend
+  "https://front-web.up.railway.app", // front
+  "https://facturabot.dev", // produccion
 ];
 
 // ✅ Middleware global para todas las rutas
