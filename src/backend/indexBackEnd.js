@@ -35,15 +35,13 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 // Crear aplicación
 const app = express();
-
-// Habilitar CORS (para aceptar peticiones de otros orígenes)
+ //cors
 const allowedOrigins = [
-  "http://localhost:5173", // si usas Vite
+  "http://localhost:5173", // Vite
   "http://localhost:3000", // desarrollo
-  "http://localhost:3000" ,// tu dominio en producción
+  "http://127.0.0.1:5500", // 👈 Live Server (VS Code)
   "https://facturador-electronico-1.onrender.com", // ejemplo si tu frontend está en Render
-  "https://joker120620.github.io/facturador-electronico/src/Frontend/indexFrontend.html",
-
+  "https://joker120620.github.io/facturador-electronico/src/Frontend/indexFrontend.html", // GitHub Pages
 ];
 
 app.use(cors({
@@ -54,7 +52,7 @@ app.use(cors({
       callback(new Error("No autorizado por CORS"));
     }
   },
-  credentials: true, // si usas cookies o tokens
+  credentials: true,
 }));
 
 // Middleware para leer JSON
