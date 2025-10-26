@@ -30,11 +30,11 @@ import {
 import jwt from "jsonwebtoken";
 
 
+// Crear aplicación
+const app = express();
 
 // Cargar las variables del archivo .env
 dotenv.config();
-// Crear aplicación
-const app = express();
  //cors
 const allowedOrigins = [
   "http://localhost:5173", // Vite
@@ -56,9 +56,10 @@ app.use(cors({
 }));
 
 // Middleware para leer JSON
+
 app.use(express.json());
 
-
+app.options("*", cors());
 ///////////////////variable estado bot
 let statusBot = false;
 const codes = [];
