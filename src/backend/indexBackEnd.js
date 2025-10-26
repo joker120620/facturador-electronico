@@ -56,9 +56,6 @@ app.use(cors({
   credentials: true,
 }));
 
-// IMPORTANTE: manejar preflight antes de cualquier otra cosa
-app.options("/*", cors());
-
 // ======================= CONFIGURACIÓN BÁSICA =======================
 app.use(express.json());
 
