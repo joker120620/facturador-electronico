@@ -41,23 +41,27 @@ const allowedOrigins = [
   "https://joker120620.github.io",        // ✅ GitHub Pages base URL
   "https://facturador-electronico-1.onrender.com", // si usas Render
 ];
+// 🔹 Middleware CORS — debe ir antes de todo lo demás
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log("Bloqueado por CORS:", origin);
-      callback(new Error("No autorizado por CORS"));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-}));
+  // Preflight
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
 
-// ======================= CONFIGURACIÓN BÁSICA =======================
+  next();
+});
+
+// Luego usa express.json() y tus rutas
 app.use(express.json());
+
 
 // Cargar las variables del archivo .env
 dotenv.config();
