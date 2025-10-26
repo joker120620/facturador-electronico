@@ -67,8 +67,9 @@ a:hover {
     max-width: 960px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid var(--text);
     background-color: var(--soft);
+    
+    
 }
 .content-section-disabled {
     display: none;
@@ -149,6 +150,9 @@ a:hover {
     width: min-content;
     margin: 10px auto;
     gap: 10px;
+    box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.5);
+    -webkit-animation: flip-in-hor-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: flip-in-hor-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 .formulario-agregar-factura {
     display: flex;
@@ -295,12 +299,14 @@ input {
     inset: 0;
     background: rgba(0, 0, 0, 0.7);
     z-index: 1012;
+    
 }
 
 .modal.active {
     display: flex;
     align-items: center;
     justify-content: center;
+    
 }
 .modal .modal-inner {
     background: #fff;
@@ -412,6 +418,31 @@ input {
     transform: rotate(360deg);
   }
 }
+@-webkit-keyframes flip-in-hor-bottom {
+  0% {
+    -webkit-transform: rotateX(80deg);
+            transform: rotateX(80deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotateX(0);
+            transform: rotateX(0);
+    opacity: 1;
+  }
+}
+@keyframes flip-in-hor-bottom {
+  0% {
+    -webkit-transform: rotateX(80deg);
+            transform: rotateX(80deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotateX(0);
+            transform: rotateX(0);
+    opacity: 1;
+  }
+}
+
 #descripcion_factura{
     width: 300px;
     height: 100px;
