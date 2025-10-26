@@ -29,37 +29,41 @@ import {
  } from "./srcBackend/userServices.js";
 import jwt from "jsonwebtoken";
 
+dotenv.config();
 
-// Crear aplicación
 const app = express();
 
-// Cargar las variables del archivo .env
-dotenv.config();
- //cors
+// ======================= CONFIGURAR CORS CORRECTAMENTE =======================
 const allowedOrigins = [
-  "http://localhost:5173", // Vite
-  "http://localhost:3000", // desarrollo
-  "http://127.0.0.1:5500", // 👈 Live Server (VS Code)
-  "https://facturador-electronico-1.onrender.com", // ejemplo si tu frontend está en Render
-  "https://joker120620.github.io/facturador-electronico/src/Frontend/indexFrontend.html", // GitHub Pages
+  "http://127.0.0.1:5500",                // Live Server (VSCode)
+  "http://localhost:5173",                // Vite local
+  "http://localhost:3000",                // desarrollo
+  "https://joker120620.github.io",        // ✅ GitHub Pages base URL
+  "https://facturador-electronico-1.onrender.com", // si usas Render
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
+  origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log("Bloqueado por CORS:", origin);
       callback(new Error("No autorizado por CORS"));
     }
   },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 }));
 
-// Middleware para leer JSON
+// IMPORTANTE: manejar preflight antes de cualquier otra cosa
+app.options("*", cors());
 
+// ======================= CONFIGURACIÓN BÁSICA =======================
 app.use(express.json());
 
-app.options("*", cors());
+// Cargar las variables del archivo .env
+dotenv.config();
 ///////////////////variable estado bot
 let statusBot = false;
 const codes = [];
