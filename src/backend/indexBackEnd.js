@@ -29,42 +29,24 @@ import {
  } from "./srcBackend/userServices.js";
 import jwt from "jsonwebtoken";
 
-dotenv.config();
-
-const app = express();
-
-// ======================= CONFIGURAR CORS CORRECTAMENTE =======================
-const allowedOrigins = [
-  "http://127.0.0.1:5500",                // Live Server (VSCode)
-  "http://localhost:5173",                // Vite local
-  "http://localhost:3000",                // desarrollo
-  "https://joker120620.github.io",        // ✅ GitHub Pages base URL
-  "https://facturador-electronico-1.onrender.com", // si usas Render
-];
-// 🔹 Middleware CORS — debe ir antes de todo lo demás
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-
-  // Preflight
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-
-  next();
-});
-
-// Luego usa express.json() y tus rutas
-app.use(express.json());
 
 
 // Cargar las variables del archivo .env
 dotenv.config();
+// Crear aplicación
+const app = express();
+
+// Habilitar CORS (para aceptar peticiones de otros orígenes)
+app.use(cors({
+  origin: 'http://127.0.0.1:5500',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type']
+}));
+
+// Middleware para leer JSON
+app.use(express.json());
+
+
 ///////////////////variable estado bot
 let statusBot = false;
 const codes = [];
