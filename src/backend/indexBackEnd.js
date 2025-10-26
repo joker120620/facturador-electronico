@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { fetchData } from "../peticionServer.js";
+import { fetchData } from "../Frontend/peticionServer.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import crypto from "crypto";

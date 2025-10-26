@@ -6,7 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import pkg from "whatsapp-web.js";
 import { extraerJSONdelTexto } from "./src/extractor.js";
-import { fetchData } from "./src/peticionServer.js";
+import { fetchData } from "./src/srcFrontEnd/peticionServer.js";
 
 const { Client, LocalAuth, MessageMedia } = pkg;
 

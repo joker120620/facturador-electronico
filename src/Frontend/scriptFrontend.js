@@ -1,12 +1,12 @@
 // ===================================================================
 //==========================IMPORTAR ARCHIVOS================
-import { fetchData , fetchDataWithToken } from "../peticionServer.js";
+import { fetchData , fetchDataWithToken } from "./peticionServer.js";
 import { renderUserApp } from "./srcFrontEnd/renderUserApp.js";
 import { renderProductos } from "./srcFrontEnd/renderProductos.js";
 import { renderFacturas } from "./srcFrontEnd/renderFacturas.js";
 import { renderClientes } from "./srcFrontEnd/renderClientes.js";
 //================================================================
-const HOST_API = "https://facturador-electronico-web.up.railway.app";
+const HOST_API = "facturabot.dev";
 document.addEventListener("DOMContentLoaded", async () => {
 //////=====================
   const session = sessionStorage.getItem("sessionUser");
