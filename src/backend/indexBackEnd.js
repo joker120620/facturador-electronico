@@ -37,7 +37,25 @@ dotenv.config();
 const app = express();
 
 // Habilitar CORS (para aceptar peticiones de otros orígenes)
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173", // si usas Vite
+  "http://localhost:3000", // desarrollo
+  "http://localhost:3000" ,// tu dominio en producción
+  "https://facturador-electronico-1.onrender.com", // ejemplo si tu frontend está en Render
+  "https://joker120620.github.io/facturador-electronico/src/Frontend/indexFrontend.html",
+
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("No autorizado por CORS"));
+    }
+  },
+  credentials: true, // si usas cookies o tokens
+}));
 
 // Middleware para leer JSON
 app.use(express.json());
