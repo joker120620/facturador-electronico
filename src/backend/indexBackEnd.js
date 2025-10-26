@@ -36,13 +36,42 @@ dotenv.config();
 // Crear aplicación
 const app = express();
 
-// Habilitar CORS (para aceptar peticiones de otros orígenes)
-app.use(cors({
-  origin: 'http://127.0.0.1:5500',
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type']
-}));
 
+// =================== CONFIGURAR CORS ===================
+const allowedOrigins = [
+  "http://127.0.0.1:5500", // Live Server (VS Code)
+  "http://localhost:5173", // Vite
+  "http://localhost:3000", // Dev
+  "https://joker120620.github.io", // GitHub Pages
+  "https://facturador-electronico-web.up.railway.app", // Tu backend
+];
+
+// ✅ Middleware global para todas las rutas
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
+// También puedes mantener cors() por compatibilidad
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
 // Middleware para leer JSON
 app.use(express.json());
 

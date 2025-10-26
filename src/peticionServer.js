@@ -13,6 +13,7 @@ export async function fetchData(apiUrl, datosEnviar) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(datosEnviar),
+                credentials: "include"
             });
             return await respuesta(response);
 
@@ -36,7 +37,8 @@ export async function fetchDataWithToken(url, data, method = "POST") {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${token}` // 🔒 token aquí
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
+    credentials: "include"
   });
 
   return response.json();
