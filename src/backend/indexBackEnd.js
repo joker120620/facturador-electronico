@@ -28,6 +28,7 @@ import {
   
  } from "./srcBackend/userServices.js";
 import jwt from "jsonwebtoken";
+const path = require('path');
 
 
 
@@ -88,8 +89,8 @@ const SECRET_KEY = process.env.SECRET_KEY;
 //////////////////
 // Ruta de prueba
 app.get("/", (req, res) => {
-  res.header("Access-Control-Allow-Origin" , "*");
-  res.json({ msj: "Servidor Online" });
+  res.header("Access-Control-Allow-Origin", "*");
+  res.sendFile(path.join(__dirname, 'src', 'Frontend', 'index.html'));
 });
 
 
