@@ -106,7 +106,7 @@ client.on("message", async msg => {
         console.log("Datos Extraidos de la Factura");
         console.log(datosFactura);
         try{
-          const response = await fetchData("facturador-electronico.railway.internal/addFacturaByName",
+          const response = await fetchData(`${HOST_API}/addFacturaByName`,
           datosFactura
         );
         await client.sendMessage(numero, "Informacion:\n```" + JSON.stringify(response.mensaje, null, 2) + "```");
@@ -138,7 +138,7 @@ client.on("message", async msg => {
     });
   }
   else if (body === "Servidor") {
-    const response = await fetchData("facturador-electronico.railway.internal/token");
+    const response = await fetchData(`${HOST_API}/token`);
     await msg.reply("📡 Token del servidor:\n```" + JSON.stringify(response.access_token, null, 2) + "```");
   }
 });
