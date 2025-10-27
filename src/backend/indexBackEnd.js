@@ -45,6 +45,7 @@ const allowedOrigins = [
   "https://joker120620.github.io", // GitHub Pages
   "https://front-web.up.railway.app", // front
   "https://facturabot.dev", // produccion
+  "https://facturador-electronico-web.up.railway.app"
 ];
 
 // ✅ Middleware global para todas las rutas
@@ -67,14 +68,14 @@ app.use((req, res, next) => {
   }
   next();
 });
-
+app.use(express.json());
 // También puedes mantener cors() por compatibilidad
 app.use(cors({
-  origin: allowedOrigins,
+  origin: 'http://localhost:3000',
   credentials: true,
 }));
 // Middleware para leer JSON
-app.use(express.json());
+
 
 
 ///////////////////variable estado bot
