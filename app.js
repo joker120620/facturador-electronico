@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import qrcode from "qrcode-terminal";
-import * as fs from "fs";
+import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import pkg from "whatsapp-web.js";
@@ -29,7 +29,10 @@ const client = new Client({
   puppeteer: { headless: true, args: ["--no-sandbox", "--disable-setuid-sandbox"] },
 });
 
+// Cargar las variables del archivo .env
+dotenv.config();
 let BOT_STATUS = false;
+const HOST_API = process.env.HOST_API || "http://localhost:4000";
 
 // Evento: QR para vincular sesión
 client.on("qr", qr => {
