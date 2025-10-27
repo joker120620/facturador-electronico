@@ -28,11 +28,9 @@ import {
   
  } from "./srcBackend/userServices.js";
 import jwt from "jsonwebtoken";
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
+
 // Cargar las variables del archivo .env
 dotenv.config();
 // Crear aplicación
@@ -73,7 +71,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 // También puedes mantener cors() por compatibilidad
 app.use(cors({
-  origin: 'https://facturabot.dev',
+  origin: allowedOrigins,
   credentials: true,
 }));
 // Middleware para leer JSON
@@ -90,14 +88,13 @@ const SECRET_KEY = process.env.SECRET_KEY;
 //////////////////
 // Ruta de prueba
 app.get("/", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.sendFile(path.join(__dirname, 'src', 'Frontend', 'index.html'));
+  res.header("Access-Control-Allow-Origin" , "*");
+  res.json({ msj: "Servidor Online" });
 });
 
 
 // ====================== ESTADO DEL BOT ======================
 app.post("/statusbot", (req, res) => {
-  res.header("Access-Control-Allow-Origin" , "*");
   const response = req.body;
   if(response.entity === "bot"){
     statusBot = response.status;
@@ -111,7 +108,6 @@ app.post("/statusbot", (req, res) => {
 });
 // ====================== LOGUEARSE  ======================
 app.post("/login", async (req, res) => {
-  res.header("Access-Control-Allow-Origin" , "*");
   const response = req.body;
   const usuario = await getUsersLogin(response.user, response.password);
   if(response.user && response.password){
