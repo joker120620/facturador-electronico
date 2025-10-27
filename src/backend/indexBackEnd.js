@@ -88,12 +88,14 @@ const SECRET_KEY = process.env.SECRET_KEY;
 //////////////////
 // Ruta de prueba
 app.get("/", (req, res) => {
+  res.header("Access-Control-Allow-Origin" , "*");
   res.json({ msj: "Servidor Online" });
 });
 
 
 // ====================== ESTADO DEL BOT ======================
 app.post("/statusbot", (req, res) => {
+  res.header("Access-Control-Allow-Origin" , "*");
   const response = req.body;
   if(response.entity === "bot"){
     statusBot = response.status;
@@ -107,6 +109,7 @@ app.post("/statusbot", (req, res) => {
 });
 // ====================== LOGUEARSE  ======================
 app.post("/login", async (req, res) => {
+  res.header("Access-Control-Allow-Origin" , "*");
   const response = req.body;
   const usuario = await getUsersLogin(response.user, response.password);
   if(response.user && response.password){
