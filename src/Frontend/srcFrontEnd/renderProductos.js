@@ -14,9 +14,9 @@ export function renderProductos(dataJSON) {
       dataJSON.productos.forEach(prod => {
       const fila = document.createElement("tr");
       fila.innerHTML = `
-        <td>${prod.id}</td>
-        <td>${prod.nombre}</td>
-        <td>${prod.precio}</td>
+        <td><p>Codigo: </p>${prod.id}</td>
+        <td><p>Nombre: </p>${prod.nombre}</td>
+        <td><p>Precio: </p>${prod.precio}</td>
         <td class="options-table">
           <button class="btn-rojo" onclick="eliminarProducto('${prod.id}')">Eliminar</button>
         </td>`;

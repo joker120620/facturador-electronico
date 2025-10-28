@@ -14,10 +14,10 @@ export function renderFacturas(dataJSON) {
       dataJSON.facturas.forEach(fact => {
       const fila = document.createElement("tr");
       fila.innerHTML = `
-        <td>${fact.factura_id}</td>
-        <td>${fact.cliente_cedula}</td>
-        <td>${fact.cliente}</td>
-        <td>${fact.fecha}</td>
+        <td><p>Codigo: </p>${fact.factura_id}</td>
+        <td><p>Cedula: </p>${fact.cliente_cedula}</td>
+        <td><p>CLiente: </p>${fact.cliente}</td>
+        <td><p>Fecha: </p>${fact.fecha}</td>
         <td class="options-table">
           <button class="btn-azul" onclick="verFactura('${fact.factura_id}')">Ver</button>
           <button class="btn-rojo" onclick="eliminarFactura('${fact.factura_id}')">Eliminar</button>

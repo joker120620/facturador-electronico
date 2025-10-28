@@ -82,6 +82,7 @@ app.use(cors({
 let statusBot = false;
 const codes = [];
 const HOST_BOT = process.env.HOST_BOT || "http://localhost:4000";
+const HOST_API_FACTUS = process.env.HOST_API_FACTUS;
 
 /////////////////////////
 const SECRET_KEY = process.env.SECRET_KEY;

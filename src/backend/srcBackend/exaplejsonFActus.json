@@ -1,0 +1,86 @@
+{
+    "numbering_range_id":8,
+    "reference_code": "2",
+    "observation": "",
+    "payment_form": "1",
+    "payment_due_date": "2024-12-30",
+    "payment_method_code": "10",
+    "operation_type": 10,
+    "send_email": false,
+    "order_reference": {
+        "reference_code": "ref-001",
+        "issue_date": ""
+    },
+    "billing_period": {
+        "start_date": "2024-01-10",
+        "start_time": "00:00:00",
+        "end_date": "2024-02-09",
+        "end_time": "23:59:59"
+    },
+    "establishment": {
+        "name": "Factus pro",
+        "address": "cra 01 # 223 - 22",
+        "phone_number": "123456789",
+        "email": "fatuspro@factus.co",
+        "municipality_id": "980"
+    },
+    "customer": {
+        "identification": "123456789",
+        "dv": "3",
+        "company": "",
+        "trade_name": "",
+        "names": "Alan Turing",
+        "address": "calle 1 # 2-68",
+        "email": "alanturing@enigmasas.com",
+        "phone": "1234567890",
+        "legal_organization_id": "2",
+        "tribute_id": "21",
+        "identification_document_id": "3",
+        "municipality_id": "980"
+    },
+    "items": [
+        {
+            "scheme_id": "1",
+            "note": "",
+            "code_reference": "12345",
+            "name": "producto de prueba",
+            "quantity": 1,
+            "discount_rate": 20,
+            "price": 50000,
+            "tax_rate": "19.00",
+            "unit_measure_id": 70,
+            "standard_code_id": 1,
+            "is_excluded": 0,
+            "tribute_id": 1,
+            "withholding_taxes": [
+                {
+                    "code": "06",
+                    "withholding_tax_rate": "7.00"
+                },
+                {
+                    "code": "05",
+                    "withholding_tax_rate": "15.00"
+                }
+            ],
+            "mandate": {
+                "identification_document_id": 6,
+                "identification": "123456789"
+            }
+        },
+        {
+            "scheme_id": "0",
+            "note": "",
+            "code_reference": "54321",
+            "name": "producto de prueba 2",
+            "quantity": 1,
+            "discount_rate": 0,
+            "price": 50000,
+            "tax_rate": "5.00",
+            "unit_measure_id": 70,
+            "standard_code_id": 1,
+            "is_excluded": 0,
+            "tribute_id": 1,
+            "withholding_taxes": []
+        }
+    ]
+}
