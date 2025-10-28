@@ -568,6 +568,13 @@ td p{
     .formulario-agregar{
     min-width: none;
     border: none;
+    width: 100%;
+
+  }
+  .formulario-agregar-items{
+    display: flex;
+    flex-direction: column;
+
   }
   .content-section{
     min-width: none;
@@ -644,6 +651,13 @@ td p{
   .options-table{
     display: flex;
     flex-direction: row;
+  }
+  .modal {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    padding: 1.2rem;
   }
   
 }
