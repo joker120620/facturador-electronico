@@ -110,34 +110,6 @@ a:hover {
 }
 
 
-.content-table-items {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.tabla-content  {
-    margin-top: 20px;
-    border: solid var(--text);
-    background-color: var(--card);
-    border-radius: 12px;
-    padding: 10px;
-    min-width: 600px;
-}
-.tabla-content td {
-    padding: 10px;
-    border-bottom: 1px solid var(--text);
-}
-
-.options-table{
-    display: flex;
-    gap: 10px;
-
-}
 .formulario-agregar {
     display: flex;
     justify-content: center;
@@ -226,6 +198,7 @@ input {
     width: 100%;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 .btn-azul {
     background-color: var(--primary);
@@ -485,11 +458,114 @@ input {
   border-radius: 4px;
 }
 
+.content-table-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    overflow-x: auto;
+}
+.tabla-content  {
+    margin-top: 20px;
+    background-color: var(--card);
+    border-radius: 12px;
+    padding: 15px;
+    min-width: 600px;
+}
+.tabla-content td {
+    padding: 10px;
+}
 
+.options-table{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
 
-@media (min-width: 375px) and (max-width: 458px) {
+}
+#tbody tr:hover {
+    background-color: #ebe9e9;
 
-  .formulario-agregar{
+  }
+  .tabla-content{
+    font-size: 15px;
+  }
+  table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+td, th {
+  padding: 8px;
+  text-align: left;
+  vertical-align: middle;
+  height: auto;
+  word-wrap: break-word;
+}
+
+tr {
+  height: auto;
+}
+td p{
+    display: none;
+  }
+@media (max-width: 600px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 200px;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: start;
+  }
+
+  td {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: start;
+    position: relative;
+    padding: 5px 5px;
+    gap: 0;
+  }
+  td p{
+    display: block;
+    margin: 0;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-align: start;
+  }
+  .content-section{
+    min-width: none;
+    width: 100%;
+    justify-content: center;
+    padding: 0;
+    border: none;
+  }
+  .content-table-items{
+    min-width: none;
+    padding: 0;
+    border-radius: none;
+  }
+    .formulario-agregar{
     min-width: none;
     border: none;
   }
@@ -545,12 +621,29 @@ input {
     gap: 10px;
   }
   .content-table-items{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     min-width: none;
-    max-width: 375px;
     padding: 0;
+  }
+  tbody{
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    background-color: var(--bg);
   }
   .tabla-content{
     min-width: none;
-    max-width: 375px;
+    width: fit-content;
+    border-radius: none;
+    overflow-x: auto;
+    font-size: 10px;
   }
+  .options-table{
+    display: flex;
+    flex-direction: row;
+  }
+  
 }

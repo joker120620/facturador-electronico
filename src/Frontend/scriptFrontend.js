@@ -6,8 +6,70 @@ import { renderProductos } from "./srcFrontEnd/renderProductos.js";
 import { renderFacturas } from "./srcFrontEnd/renderFacturas.js";
 import { renderClientes } from "./srcFrontEnd/renderClientes.js";
 //================================================================
-const HOST_API = "https://facturador-electronico-production.up.railway.app";
+const HOST_API = "https://facturador-electronico-production.up.railway.app"; //"http://localhost:3000" 
+
 document.addEventListener("DOMContentLoaded", async () => {
+    // ====================== MENÚ NAVEGACIÓN ======================
+  const ContainerClientes = capturarItem("ContainerClientes");
+  const ContainerFacturas = capturarItem("ContainerFacturas");
+  const ContainerProductos = capturarItem("ContainerProductos");
+  const ContainerHome = capturarItem("ContainerHome");
+  const ContainerAjustes =capturarItem("ContainerAjustes");
+  const ContainerLogin = capturarItem("ContainerLogin");
+  const ContainerRegister =capturarItem("ContainerRegister");
+  const ContainerRecoveryPass = capturarItem("ContainerRecoverPass");
+  const btnSalir = capturarItem("btnMenuSalir");
+  function ocultarMainBtn (){
+    const mainSections = document.querySelectorAll(".menu-section");
+      mainSections.forEach(sec => sec.style.display = "none");
+  }
+  if (btnSalir) {
+    btnSalir.addEventListener("click", () => {
+      mostrarSeccion(ContainerLogin);
+      ocultarMainBtn()
+      
+    });
+  }
+  function mostrarSeccion(seccion) {
+    [ContainerClientes, ContainerFacturas, ContainerProductos, ContainerHome, ContainerLogin , ContainerAjustes , ContainerRegister , ContainerRecoveryPass].forEach(s =>
+      s && s.classList.add("content-section-disabled")
+    );
+    
+    seccion && seccion.classList.remove("content-section-disabled");
+    capturarItem("menu-section").style.display = "block"
+    
+  }
+
+  capturarItem("btnMenuHome")?.addEventListener("click", () => mostrarSeccion(ContainerHome));
+  capturarItem("btnMenuClientes")?.addEventListener("click", () => mostrarSeccion(ContainerClientes));
+  capturarItem("btnMenuFacturas")?.addEventListener("click", () => mostrarSeccion(ContainerFacturas));
+  capturarItem("btnMenuProductos")?.addEventListener("click", () => mostrarSeccion(ContainerProductos));
+  capturarItem("btnMenuAjustes")?.addEventListener("click", ()=> mostrarSeccion(ContainerAjustes));
+  capturarItem("btnSubMenuRegister")?.addEventListener("click", () => {
+    mostrarSeccion(ContainerRegister)
+    ocultarMainBtn()
+  });
+  capturarItem("btnRecuperarPass")?.addEventListener("click", () => {
+    mostrarSeccion(ContainerRecoveryPass);
+    ocultarMainBtn();
+  })
+  capturarItem("btnVolverLogin")?.addEventListener("click", () => {
+    mostrarSeccion(ContainerLogin);
+    ocultarMainBtn();
+  });
+  capturarItem("btnVolverLoginRecuperar")?.addEventListener("click", () => {
+    mostrarSeccion(ContainerLogin);
+    ocultarMainBtn();
+    capturarItem("step3RecoveryPass").style.display = "none";
+    capturarItem("step2RecoveryPass").style.display = "none";
+    capturarItem("step1RecoveryPass").style.display = "block";
+    capturarItem("inputRecoverUser").value = "";
+    capturarItem("inputRecoveryCodePass").value = "";
+    capturarItem("inputNewPasswordRecovery").value = "";
+
+  });
+  
+
 //////=====================
   const session = sessionStorage.getItem("sessionUser");
   // ====================== PEDIR DATOS Clientes  ======================
@@ -595,67 +657,6 @@ if (btnAgregarCliente) {
     });
   }
 
-  // ====================== MENÚ NAVEGACIÓN ======================
-  const ContainerClientes = capturarItem("ContainerClientes");
-  const ContainerFacturas = capturarItem("ContainerFacturas");
-  const ContainerProductos = capturarItem("ContainerProductos");
-  const ContainerHome = capturarItem("ContainerHome");
-  const ContainerAjustes =capturarItem("ContainerAjustes");
-  const ContainerLogin = capturarItem("ContainerLogin");
-  const ContainerRegister =capturarItem("ContainerRegister");
-  const ContainerRecoveryPass = capturarItem("ContainerRecoverPass");
-  const btnSalir = capturarItem("btnMenuSalir");
-  function ocultarMainBtn (){
-    const mainSections = document.querySelectorAll(".menu-section");
-      mainSections.forEach(sec => sec.style.display = "none");
-  }
-  if (btnSalir) {
-    btnSalir.addEventListener("click", () => {
-      mostrarSeccion(ContainerLogin);
-      ocultarMainBtn()
-      
-    });
-  }
-
-  function mostrarSeccion(seccion) {
-    [ContainerClientes, ContainerFacturas, ContainerProductos, ContainerHome, ContainerLogin , ContainerAjustes , ContainerRegister , ContainerRecoveryPass].forEach(s =>
-      s && s.classList.add("content-section-disabled")
-    );
-    
-    seccion && seccion.classList.remove("content-section-disabled");
-    capturarItem("menu-section").style.display = "block"
-    
-  }
-
-  capturarItem("btnMenuHome")?.addEventListener("click", () => mostrarSeccion(ContainerHome));
-  capturarItem("btnMenuClientes")?.addEventListener("click", () => mostrarSeccion(ContainerClientes));
-  capturarItem("btnMenuFacturas")?.addEventListener("click", () => mostrarSeccion(ContainerFacturas));
-  capturarItem("btnMenuProductos")?.addEventListener("click", () => mostrarSeccion(ContainerProductos));
-  capturarItem("btnMenuAjustes")?.addEventListener("click", ()=> mostrarSeccion(ContainerAjustes));
-  capturarItem("btnSubMenuRegister")?.addEventListener("click", () => {
-    mostrarSeccion(ContainerRegister)
-    ocultarMainBtn()
-  });
-  capturarItem("btnRecuperarPass")?.addEventListener("click", () => {
-    mostrarSeccion(ContainerRecoveryPass);
-    ocultarMainBtn();
-  })
-  capturarItem("btnVolverLogin")?.addEventListener("click", () => {
-    mostrarSeccion(ContainerLogin);
-    ocultarMainBtn();
-  });
-  capturarItem("btnVolverLoginRecuperar")?.addEventListener("click", () => {
-    mostrarSeccion(ContainerLogin);
-    ocultarMainBtn();
-    capturarItem("step3RecoveryPass").style.display = "none";
-    capturarItem("step2RecoveryPass").style.display = "none";
-    capturarItem("step1RecoveryPass").style.display = "block";
-    capturarItem("inputRecoverUser").value = "";
-    capturarItem("inputRecoveryCodePass").value = "";
-    capturarItem("inputNewPasswordRecovery").value = "";
-
-  });
-  
 
   // ====================== MODALES (abrir/cerrar botones de HTML) ======================
   // Solo enlazamos si existen los botones; si no, no hacemos nada.

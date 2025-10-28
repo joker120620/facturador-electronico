@@ -16,3 +16,7 @@
 undefined [Caught in: failed-to-parse-notification-stanza-mex]
 
 Subsequent non-fatal errors won't be logged; see https://fburl.com/debugjs. [object Object]", source: https://static.whatsapp.net/rsrc.php/v4/yY/r/eRnMbAHOets.js (77)
+[1026/220621.414:INFO:CONSOLE(113)] "Event handler of 'x-storagemutated-1' event must be added on the initial evaluation of worker script.", source: https://static.whatsapp.net/rsrc.php/v4/yl/r/T4ZL7cu9KG6.js (113)
+[1026/221026.389:INFO:CONSOLE(882)] "Failed to parse video contentType: video/mp4; codecs=avc1.42000a", source: https://static.whatsapp.net/rsrc.php/v4iWB04/y2/l/es_LA-j/KJ5UpwDkiO-.js (882)
+[1026/221026.392:INFO:CONSOLE(882)] "Failed to parse video contentType: video/mp4; codecs=hev1.1.6.L93.B0", source: https://static.whatsapp.net/rsrc.php/v4iWB04/y2/l/es_LA-j/KJ5UpwDkiO-.js (882)
+[1026/221934.132:INFO:CONSOLE(113)] "Event handler of 'x-storagemutated-1' event must be added on the initial evaluation of worker script.", source: https://static.whatsapp.net/rsrc.php/v4/yl/r/T4ZL7cu9KG6.js (113)

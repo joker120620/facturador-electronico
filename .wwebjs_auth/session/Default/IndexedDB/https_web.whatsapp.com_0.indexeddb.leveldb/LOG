@@ -13,3 +13,26 @@
 2025/10/26-22:05:10.355 3b18 Delete type=2 #3894
 2025/10/26-22:05:10.355 3b18 Delete type=2 #3913
 2025/10/26-22:05:15.272 2a30 Manual compaction at level-0 from '\x00\xbb\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\xbc\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/10/26-22:10:26.557 f68 Level-0 table #3934: started
+2025/10/26-22:10:26.600 f68 Level-0 table #3934: 1192844 bytes OK
+2025/10/26-22:10:26.603 f68 Delete type=0 #3910
+2025/10/26-22:10:26.604 f68 Manual compaction at level-0 from '\x00\xbc\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\xbd\x00\x00\x00' @ 0 : 0; will stop at '\x00\xbc\x00\x00\x05' @ 8611727 : 1
+2025/10/26-22:10:26.604 f68 Compacting 1@0 + 2@1 files
+2025/10/26-22:10:26.670 f68 Generated table #3935@0: 19698 keys, 502110 bytes
+2025/10/26-22:10:26.683 f68 Generated table #3936@0: 1707 keys, 56470 bytes
+2025/10/26-22:10:26.696 f68 Generated table #3937@0: 2547 keys, 36985 bytes
+2025/10/26-22:10:26.702 f68 Generated table #3938@0: 358 keys, 6601 bytes
+2025/10/26-22:10:26.702 f68 Compacted 1@0 + 2@1 files => 602166 bytes
+2025/10/26-22:10:26.704 f68 compacted to: files[ 0 4 71 0 0 0 0 ]
+2025/10/26-22:10:26.705 f68 Delete type=2 #3934
+2025/10/26-22:10:26.708 f68 Manual compaction at level-0 from '\x00\xbc\x00\x00\x05' @ 8611727 : 1 .. '\x00\xbd\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/10/26-22:19:33.049 2264 Compacting 1@1 + 5@2 files
+2025/10/26-22:19:33.661 2264 Generated table #3939@1: 86808 keys, 2236864 bytes
+2025/10/26-22:19:33.809 2264 Generated table #3940@1: 55412 keys, 2327071 bytes
+2025/10/26-22:19:33.860 2264 Generated table #3941@1: 1092 keys, 2129392 bytes
+2025/10/26-22:19:33.958 2264 Generated table #3942@1: 18349 keys, 2167962 bytes
+2025/10/26-22:19:33.990 2264 Generated table #3943@1: 2822 keys, 1004189 bytes
+2025/10/26-22:19:33.990 2264 Compacted 1@1 + 5@2 files => 9865478 bytes
+2025/10/26-22:19:33.991 2264 compacted to: files[ 0 3 71 0 0 0 0 ]
+2025/10/26-22:19:33.993 2264 Delete type=2 #3914
+2025/10/26-22:19:33.993 2264 Delete type=2 #3915
