@@ -1,3 +1,2 @@
-2025/10/26-22:05:12.697 3b18 Reusing MANIFEST C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Session Storage/MANIFEST-000001
-2025/10/26-22:05:12.712 3b18 Recovering log #3
-2025/10/26-22:05:12.713 3b18 Reusing old log C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Session Storage/000003.log 
+2025/10/28-20:58:28.457 2c48 Creating DB C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Session Storage since it was missing.
+2025/10/28-20:58:28.487 2c48 Reusing MANIFEST C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Session Storage/MANIFEST-000001

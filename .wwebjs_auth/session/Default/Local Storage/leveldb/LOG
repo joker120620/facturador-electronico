@@ -1,3 +1,2 @@
-2025/10/26-22:05:07.465 4210 Reusing MANIFEST C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
-2025/10/26-22:05:07.492 4210 Recovering log #49
-2025/10/26-22:05:07.493 4210 Reusing old log C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Local Storage\leveldb/000049.log 
+2025/10/28-20:58:26.496 2c48 Creating DB C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Local Storage\leveldb since it was missing.
+2025/10/28-20:58:26.505 2c48 Reusing MANIFEST C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
