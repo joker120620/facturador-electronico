@@ -1,5 +1,4 @@
 export function renderFacturas(dataJSON) {
-  console.log(dataJSON)
     const tbody = document.querySelector("#ContainerFacturas tbody");
     if (!tbody) return;
     tbody.innerHTML = "";

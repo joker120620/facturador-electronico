@@ -140,7 +140,7 @@ a:hover {
     gap: 10px;
 }
 
-.formulario-agregar-producto{
+.formulario-agregar-cliente{
     display: flex;
     color: rgb(255, 255, 255);
     background-color:  var(--primary);
@@ -150,6 +150,18 @@ a:hover {
     padding: 20px 0px 0px 0px;
     border-radius: 8px;
     min-width: 350px;
+    width: min-content;
+    gap: 10px;
+    
+}
+.formulario-agregar-producto{
+  color: var(--text);
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 20px 0px 0px 0px;
+    border-radius: 8px;
     width: min-content;
     gap: 10px;
 }
@@ -576,6 +588,19 @@ td p{
     flex-direction: column;
 
   }
+  .formulario-agregar-producto{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     padding: 0;
+     width: 100%;
+    }
+  .formulario-agregar-producto button{
+     width: fit-content;
+    }
+    .formulario-agregar-producto input{
+     width: fit-content;
+    }
   .content-section{
     min-width: none;
     justify-content: center;

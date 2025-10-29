@@ -1,6 +1,5 @@
 export function renderClientes(dataJSON) {
     const tbody = document.querySelector("#ContainerClientes tbody");
-    console.log(dataJSON)
     if (!tbody) return;
     tbody.innerHTML = "";
      if (dataJSON.status !== 200) {

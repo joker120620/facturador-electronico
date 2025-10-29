@@ -442,7 +442,7 @@ if (btnAgregarCliente) {
       const precioProducto = (capturarItem("precio_producto")?.value || "").trim();
       
 
-      if (!idProducto || !nombreProducto || !precioProducto) {
+      if ( !nombreProducto || !precioProducto) {
         mostrarMensaje("Completa todos los campos");
         return;
       }
@@ -662,7 +662,13 @@ if (btnAgregarCliente) {
   // Solo enlazamos si existen los botones; si no, no hacemos nada.
   function conectarAbrirCerrar() {
     const open1 = capturarItem("open-modal1");
-    if (open1) open1.addEventListener("click", () => capturarItem("modal1")?.classList.add("active"));
+    if (open1) open1.addEventListener("click", () => {capturarItem("modal1")?.classList.add("active"); 
+      capturarItem("cc_cliente").value="";
+      capturarItem("nombre_cliente").value="";
+      capturarItem("email_cliente").value="";
+      capturarItem("direccion_cliente").value="";
+      capturarItem("telefono_cliente").value="";
+    });
     const open2 = capturarItem("open-modal2");
     if (open2) open2.addEventListener("click", () => capturarItem("modal2")?.classList.add("active"));
     const open3 = capturarItem("open-modal3");
@@ -782,7 +788,6 @@ if (btnAgregarCliente) {
 
 
       const dataUser = await fetchData(`${HOST_API}/login`, { user: user, password: pass });
-      console.log(dataUser.userAppData.cedula)
       if (dataUser.userStatus) {
         //Guardar sesión en localStorage
           sessionStorage.setItem("sessionUser", JSON.stringify({
@@ -825,18 +830,29 @@ if (btnAgregarCliente) {
   });
  // ========================REGISTRAR USUARIO =======================
 
-
- capturarItem("btnRegistrarUsuario").addEventListener("click", async ()=>{
+const btnRegistrarUsuario = capturarItem("btnRegistrarUsuario")
+ btnRegistrarUsuario.addEventListener("click", async ()=>{
+   const spinnerNewUser= capturarItem("spinnerContainerRegister")
+   const btnRegistrarUsuario = capturarItem("btnRegistrarUsuario")
+   const btnVolverLogin = capturarItem("btnVolverLogin")
+   btnRegistrarUsuario.style.display="none"
+   btnVolverLogin.style.display="none"
+  spinnerNewUser.style.display="block"
  const newUserCC = capturarItem("registerCedula").value.trim();
  const newUserName = capturarItem("registerNombre").value.trim();
  const newUserEmail = capturarItem("registerCorreo").value.trim();
  const newUserPhone = capturarItem("registerTelefono").value.trim();
  const newUserPass = capturarItem("registerContrasena").value.trim();
   if(!newUserCC || !newUserEmail || !newUserName || !newUserPass || !newUserPhone){
-    
+    spinnerNewUser.style.display="none"
+    btnRegistrarUsuario.style.display="block"
+   btnVolverLogin.style.display="block"
     mostrarMensaje("Datos Incompletos!")
   }else{
     if(!validarEmail(newUserEmail) || !validarNumero(newUserPhone) || !validarNumero(newUserCC)){
+      spinnerNewUser.style.display="none"
+      btnRegistrarUsuario.style.display="block"
+      btnVolverLogin.style.display="block"
       mostrarMensaje("Datos invalidos")
     }else{
       const response = await fetchData(`${HOST_API}/registerUser`, {
@@ -846,8 +862,14 @@ if (btnAgregarCliente) {
         correo : newUserEmail, 
         telefono : newUserPhone});
       if(response){
+        btnRegistrarUsuario.style.display="block"
+        btnVolverLogin.style.display="block"
+        spinnerNewUser.style.display="none"
         mostrarMensaje("Registro Exitoso!")
       }else{
+        btnRegistrarUsuario.style.display="block"
+        btnVolverLogin.style.display="block"
+        spinnerNewUser.style.display="none"
         mostrarMensaje("Error del servidor")
       }
       mostrarSeccion(ContainerLogin);
@@ -860,12 +882,16 @@ if (btnAgregarCliente) {
 
 /////====================== RECUPERAR CONTRASEÑA =======================
  capturarItem("btnEnviarCodigoRecovery").addEventListener("click", async ()=>{
+  const spinnerRePass= capturarItem("spinnerContainerRecover")
+  //spinnerRePass.style.display="block"
   const emailOrPhoneRecovery = capturarItem("inputRecoverUser").value.trim();
   if(!validarEmail(emailOrPhoneRecovery) && !validarNumero(emailOrPhoneRecovery)){
+    spinnerRePass.style.display="none"
     mostrarMensaje("Correo o usuario inválido")
   }else{
     const response = await fetchData(`${HOST_API}/recoveryPassword`, { cedulaOCorreo: emailOrPhoneRecovery});
     if(response.status == 200){
+      spinnerRePass.style.display="none"
       mostrarMensaje(response.mensaje);
       capturarItem("step2RecoveryPass").style.display = "block";
       capturarItem("step1RecoveryPass").style.display = "none";
@@ -873,10 +899,12 @@ if (btnAgregarCliente) {
       capturarItem("btnVerificarCodigoPass").addEventListener("click", async ()=>{
         const inputCodigo = capturarItem("inputRecoveryCodePass").value.trim();
         if(inputCodigo == ""){
+          spinnerRePass.style.display="none"
         mostrarMensaje("Ingresa el código enviado")
         }else{
           const response = await fetchData(`${HOST_API}/verifyRecoveryCodePass`, { codigo: inputCodigo, cedulaOCorreo: emailOrPhoneRecovery});
           if(response.status == 200){
+            spinnerRePass.style.display="none"
             mostrarMensaje(response.mensaje);
             capturarItem("step3RecoveryPass").style.display = "block";
             capturarItem("step2RecoveryPass").style.display = "none";

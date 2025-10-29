@@ -1,7 +1,6 @@
 export function renderProductos(dataJSON) {
     const tbody = document.querySelector("#ContainerProductos tbody");
     if (!tbody) return;
-    console.log(dataJSON);
     tbody.innerHTML = "";
      if (dataJSON.status !== 200) {
       const fila = document.createElement("tr");
