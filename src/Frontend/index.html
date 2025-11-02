@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,7 @@
         <h1 class="title">Facturador Electronico</h1>
     </header>
     <main id="main-content">
-        <section id="ContainerLogin" class="content-section" >
+        <section id="ContainerLogin" class="content-section">
 
             <!-- ====================== LOGIN ====================== -->
             <div class="formulario-agregar">
@@ -49,7 +49,7 @@
 
         </section>
 
-        <section id="ContainerRegister" class="content-section" >
+        <section id="ContainerRegister" class="content-section">
 
             <!-- ====================== REGISTRAR USUARIO ====================== -->
             <div class="formulario-agregar">
@@ -74,6 +74,9 @@
 
                 <label for="registerTelefono">Teléfono</label>
                 <input type="tel" id="registerTelefono" placeholder="Ingrese su número telefónico">
+
+                <label for="registerDireccion">Direccion</label>
+                <input type="tel" id="registerDireccion" placeholder="Ingrese su Direccion">
 
                 <label for="registerContrasena">Contraseña</label>
                 <input type="password" id="registerContrasena" placeholder="Cree una contraseña">
@@ -269,61 +272,99 @@
                     </table>
                     <div class="modal" id="modal1">
                         <div class="formulario-agregar-cliente">
-                            <h2>Agregar Cliente</h2>
+                            <h2>Agregar O Editar Cliente</h2>
                             <div class="formulario-agregar">
+                                <input type="number" id="id_cliente" style="display: none;">
                                 <div class="formulario-agregar-items">
-                                    <label for="cc_cliente">Cédula / CC</label>
-                                <input type="number" id="cc_cliente" placeholder="CC">
+                                     <label for="tipo_documento_cliente">Tipo de documento</label>
+                                    <select id="tipo_documento_cliente">
+                                        <option value="">Seleccione</option>
+                                        <option value="3">Cédula de ciudadanía</option>
+                                        <option value="6">NIT</option>
+                                        <option value="4">Cédula de extranjería</option>
+                                    </select>
+                                    <label for="cedula_cliente">Cédula / NIT</label>
+                                    <input type="number" id="cedula_cliente" placeholder="Número de identificación">
 
-                                <label for="nombre_cliente">Nombre</label>
-                                <input type="text" id="nombre_cliente" placeholder="Nombre">
+                                    <label for="digito_verificacion_cliente">Dígito de verificación</label>
+                                    <input type="text" id="digito_verificacion_cliente" maxlength="2" disabled>
 
+                                    <label for="nombre_cliente">Nombre / Razón social</label>
+                                    <input type="text" id="nombre_cliente" placeholder="Nombre completo o empresa">
                                 </div>
-                                <div class="formulario-agregar-items">
-                                    <label for="email_cliente">Correo electrónico</label>
-                                <input type="email" id="email_cliente" placeholder="Email" class="input-largo">
-
-                                </div>
-                                
-
-                                
 
                                 <div class="formulario-agregar-items">
+                                    <label for="correo_cliente">Correo electrónico</label>
+                                    <input type="email" id="correo_cliente" placeholder="Email" class="input-largo">
+
+                                    <label for="telefono_cliente">Teléfono</label>
+                                    <input type="text" id="telefono_cliente" placeholder="Teléfono">
+
                                     <label for="direccion_cliente">Dirección</label>
-                                <input type="text" id="direccion_cliente" placeholder="Dirección">
+                                    <input type="text" id="direccion_cliente" placeholder="Dirección completa">
+                                </div>
 
-                                <label for="telefono_cliente">Teléfono</label>
-                                <input type="text" id="telefono_cliente" placeholder="Teléfono">
+                                <div class="formulario-agregar-items">
+                                   
 
+                                    <label for="tipo_organizacion_cliente">Tipo de organización</label>
+                                    <select id="tipo_organizacion_cliente">
+                                        <option value="">Seleccione</option>
+                                        <option value="1">Persona natural</option>
+                                        <option value="2">Persona Juridica</option>
+                                        <option value="3">Sociedad</option>
+                                    </select>
+
+                                    <label for="regimen_tributario_cliente">Régimen tributario</label>
+                                    <select id="regimen_tributario_cliente">
+                                        <option value="">Seleccione</option>
+                                        <option value="21">Responsable de IVA</option>
+                                        <option value="22">No responsable de IVA</option>
+                                    </select>
+                                    <label for="municipio_cliente">Municipio</label>
+                                    <select id="municipio_cliente">
+                                        <option value="">Seleccione un municipio</option>
+                                        <option value="11001">Bogotá D.C.</option>
+                                        <option value="05001">Medellín</option>
+                                        <option value="76001">Cali</option>
+                                        <option value="08001">Barranquilla</option>
+                                        <option value="13001">Cartagena</option>
+                                        <!-- Agrega más municipios según necesites -->
+                                    </select>
+                                </div>
+
+                                <div class="formulario-agregar-items">
+                                    <label for="razon_social_cliente">Razón social</label>
+                                    <input type="text" id="razon_social_cliente" placeholder="Razón social (si aplica)">
+
+                                    <label for="nombre_comercial_cliente">Nombre comercial</label>
+                                    <input type="text" id="nombre_comercial_cliente"
+                                        placeholder="Nombre comercial (si aplica)">
                                 </div>
 
                                 <div class="footer-modal-factura">
                                     <button id="btnAgregarCliente" class="btn-verde">Guardar</button>
-                                <button class="btn-rojo" data-close="modal1" id="btnCerrarModal1">Cerrar</button>
-                                <div class="modal" id="modalLoading">
-                                    <div class="modal-loading-content">
-                                        <div class="spinner"></div>
-                                        <p>Cargando, por favor espere...</p>
+                                    <button class="btn-rojo" data-close="modal1" id="btnCerrarModal1">Cerrar</button>
+
+                                    <div class="modal" id="modalLoading">
+                                        <div class="modal-loading-content">
+                                            <div class="spinner"></div>
+                                            <p>Cargando, por favor espere...</p>
+                                        </div>
                                     </div>
                                 </div>
-
-                                </div>
-
-                                
-
-                                
                             </div>
                         </div>
                     </div>
-                   
+
 
 
 
                 </div>
-                 <div class="footer-content">
-                        <button id="open-modal1" class="btn-verde">Agregar Cliente</button>
+                <div class="footer-content">
+                    <button id="open-modal1" class="btn-verde">Agregar Cliente</button>
 
-                    </div>
+                </div>
 
             </div>
 
@@ -406,7 +447,7 @@
 
 
                                 </div>
-                                <div  class="formulario-agregar-items">
+                                <div class="formulario-agregar-items">
                                     <label for="fecha_factura">Fecha</label>
                                     <input type="text" id="fecha_factura" placeholder="Fecha" disabled>
                                     <label for="total_factura">Total</label>
@@ -428,15 +469,15 @@
                             </div>
                         </div>
                     </div>
-                    
+
 
 
 
                 </div>
                 <div class="footer-content">
-                        <button id="open-modal2" class="btn-verde">Enviar Facturas</button>
+                    <button id="open-modal2" class="btn-verde">Enviar Facturas</button>
 
-                    </div>
+                </div>
 
             </div>
         </section>
@@ -509,15 +550,15 @@
                             </div>
                         </div>
                     </div>
-                    
+
 
 
 
                 </div>
                 <div class="footer-content">
-                        <button id="open-modal3" class="btn-verde">Agregar Producto</button>
+                    <button id="open-modal3" class="btn-verde">Agregar Producto</button>
 
-                    </div>
+                </div>
 
             </div>
         </section>

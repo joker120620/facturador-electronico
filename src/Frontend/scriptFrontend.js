@@ -6,7 +6,7 @@ import { renderProductos } from "./srcFrontEnd/renderProductos.js";
 import { renderFacturas } from "./srcFrontEnd/renderFacturas.js";
 import { renderClientes } from "./srcFrontEnd/renderClientes.js";
 //================================================================
-const HOST_API = "https://facturador-electronico-production.up.railway.app"; //"http://localhost:3000" 
+const HOST_API =  "http://localhost:3000" //"https://facturador-electronico-production.up.railway.app";
 
 document.addEventListener("DOMContentLoaded", async () => {
     // ====================== MENÚ NAVEGACIÓN ======================
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ====================== PEDIR DATOS Clientes  ======================
   const pedirDatosClientes = async () => {
     const session = await JSON.parse(sessionStorage.getItem("sessionUser"));
-    const usuarioId = await session.data.id;
+    const usuarioId = await session.data.id_usuario;
     const dataClientes = await fetchDataWithToken(`${HOST_API}/getClient`, { usuario_id: usuarioId });
     return dataClientes
 
@@ -312,9 +312,9 @@ function recharged(){
 
  // ====================== CLIENTES ======================
 window.editarCliente = function (id) {
-  console.log(dataJSON.clientes)
+  console.log(dataJSON)
   // Asegurarse de que el ID sea numérico (por si viene como string)
-  const cliente = dataJSON.clientes.find(c => c.id === Number(id));
+  const cliente = dataJSON.clientes.find(c => c.id_cliente === Number(id));
 
   if (!cliente) {
     mostrarMensaje("Cliente no encontrado");
@@ -324,19 +324,35 @@ window.editarCliente = function (id) {
   // Capturar los inputs del formulario
   const el = capturarItem("modal1");
   if (!el) return;
+  const idCliente = capturarItem("id_cliente")
+const cedulaInput = capturarItem("cedula_cliente");
+const dvInput = capturarItem("digito_verificacion_cliente");
+const nombreInput = capturarItem("nombre_cliente");
+const correoInput = capturarItem("correo_cliente");
+const telefonoInput = capturarItem("telefono_cliente");
+const direccionInput = capturarItem("direccion_cliente");
+const tipoDocumentoInput = capturarItem("tipo_documento_cliente");
+const tipoOrganizacionInput = capturarItem("tipo_organizacion_cliente");
+const regimenInput = capturarItem("regimen_tributario_cliente");
+const municipioInput = capturarItem("municipio_cliente");
+const razonSocialInput = capturarItem("razon_social_cliente");
+const nombreComercialInput = capturarItem("nombre_comercial_cliente");
 
-  const ccInput = capturarItem("cc_cliente");
-  const nombreInput = capturarItem("nombre_cliente");
-  const emailInput = capturarItem("email_cliente");
-  const direccionInput = capturarItem("direccion_cliente");
-  const telefonoInput = capturarItem("telefono_cliente");
+// Rellenar los campos con los datos del cliente
+if(idCliente) idCliente.value = cliente.id_cliente
+if (cedulaInput) cedulaInput.value = cliente.cedula_cliente || "";
+if (dvInput) dvInput.value = cliente.digito_verificacion_cliente || "";
+if (nombreInput) nombreInput.value = cliente.nombre_cliente || "";
+if (correoInput) correoInput.value = cliente.correo_cliente || "";
+if (telefonoInput) telefonoInput.value = cliente.telefono_cliente || "";
+if (direccionInput) direccionInput.value = cliente.direccion_cliente || "";
+if (tipoDocumentoInput) tipoDocumentoInput.value = cliente.tipo_documento_id_cliente || "";
+if (tipoOrganizacionInput) tipoOrganizacionInput.value = cliente.tipo_organizacion_id_cliente || "";
+if (regimenInput) regimenInput.value = cliente.regimen_tributario_id_cliente || "";
+if (municipioInput) municipioInput.value = cliente.municipio_id_cliente || "";
+if (razonSocialInput) razonSocialInput.value = cliente.razon_social_cliente || "";
+if (nombreComercialInput) nombreComercialInput.value = cliente.nombre_comercial_cliente || "";
 
-  // Rellenar los campos
-  if (ccInput) ccInput.value = cliente.cedula || "";
-  if (nombreInput) nombreInput.value = cliente.nombre || "";
-  if (emailInput) emailInput.value = cliente.correo || "";
-  if (direccionInput) direccionInput.value = cliente.direccion || "";
-  if (telefonoInput) telefonoInput.value = cliente.telefono || "";
 
   // Mostrar modal
   el.classList.add("active");
@@ -358,52 +374,124 @@ window.editarCliente = function (id) {
   };
 
   // Guardar o editar cliente
+  const cedulaInput = document.getElementById("cedula_cliente");
+const dvInput = document.getElementById("digito_verificacion_cliente");
+const tipoDocumentoInput = document.getElementById("tipo_documento_cliente");
+
+// Función para calcular el dígito de verificación según la DIAN
+function calcularDV(nit) {
+  if (!nit || isNaN(nit)) return "";
+  const pesos = [71, 67, 59, 53, 47, 43, 41, 37, 29, 23, 19, 17, 13, 7, 3];
+  let nitStr = nit.toString().split("").reverse();
+  let suma = 0;
+
+  for (let i = 0; i < nitStr.length; i++) {
+    suma += parseInt(nitStr[i]) * pesos[i];
+  }
+
+  const resto = suma % 11;
+  return resto > 1 ? 11 - resto : resto;
+}
+
+// Evento al cambiar el tipo de documento
+tipoDocumentoInput.addEventListener("change", () => {
+  console.log("cambio")
+  dvInput.disabled = true;
+  const tipoDoc = parseInt(tipoDocumentoInput.value);
+
+  if (tipoDoc === 6) {
+    // Si es NIT, habilita el campo DV
+    dvInput.disabled = false;
+    capturarItem("tipo_organizacion_cliente").value ="2"
+    dvInput.value = calcularDV(cedulaInput.value);
+
+    // Calcula automáticamente el DV cuando cambie el número
+    cedulaInput.addEventListener("input", () => {
+      dvInput.value = calcularDV(cedulaInput.value);
+    });
+  } else {
+    // Si no es NIT, limpia y deshabilita el campo DV
+    dvInput.value = "";
+    dvInput.disabled = true;
+    capturarItem("tipo_organizacion_cliente").value =""
+  }
+});
+  
 const btnAgregarCliente = capturarItem("btnAgregarCliente");
 if (btnAgregarCliente) {
   btnAgregarCliente.addEventListener("click", async () => {
-    const cc = (capturarItem("cc_cliente")?.value || "").trim();
-    const nombre = (capturarItem("nombre_cliente")?.value || "").trim();
-    const email = (capturarItem("email_cliente")?.value || "").trim();
-    const direccion = (capturarItem("direccion_cliente")?.value || "").trim();
-    const telefono = (capturarItem("telefono_cliente")?.value || "").trim();
+    const idCliente = capturarItem("id_cliente").value
+    const cedulaInput = Number(capturarItem("cedula_cliente").value);
+    const dvInput = capturarItem("digito_verificacion_cliente").value;
+    const nombreInput = capturarItem("nombre_cliente").value;
+    const correoInput = capturarItem("correo_cliente").value;
+    const telefonoInput = capturarItem("telefono_cliente").value;
+    const direccionInput = capturarItem("direccion_cliente").value;
+    const tipoDocumentoInput = capturarItem("tipo_documento_cliente").value;
+    const tipoOrganizacionInput = capturarItem("tipo_organizacion_cliente").value;
+    const regimenInput = capturarItem("regimen_tributario_cliente").value;
+    const municipioInput = capturarItem("municipio_cliente").value;
+    const razonSocialInput = capturarItem("razon_social_cliente").value;
+    const nombreComercialInput = capturarItem("nombre_comercial_cliente").value;
 
-    if (!cc || !nombre || !email || !direccion || !telefono) {
+    if (!cedulaInput  || !nombreInput || !correoInput || !direccionInput || !telefonoInput || !tipoDocumentoInput || !tipoOrganizacionInput || !regimenInput || !municipioInput ) {
       mostrarMensaje("Por favor completa todos los campos");
       return;
     }
-    if (!validarNumero(cc)) { mostrarMensaje("El CC debe ser numérico"); return; }
-    if (!validarEmail(email)) { mostrarMensaje("El correo no es válido"); return; }
+    if (!validarNumero(cedulaInput)) { mostrarMensaje("El CC debe ser numérico"); return; }
+    if (!validarEmail(correoInput)) { mostrarMensaje("El correo no es válido"); return; }
+    
+    
 
     // Buscar cliente existente
-    const idx = dataJSON.clientes.findIndex(c => c.cedula === cc);
+    const idx = dataJSON.clientes.some(c => Number(c.id_cliente) === Number(idCliente));
+    console.log(idx)
 
-    if (idx >= 0) {
+    if (idx) {
       // Editar existente
-      
+      alert("existe")
+
 
       const response = await fetchDataWithToken(`${HOST_API}/updateClient`, {
-        "id": dataJSON.clientes[idx].id,
-        "cedula": cc,
-        "nombre": nombre,
-        "telefono": telefono,
-        "direccion": direccion,
-        "correo": email
+        id_cliente: idCliente,
+        cedula_cliente: cedulaInput ,
+        digito_verificacion_cliente: dvInput ,
+        nombre_cliente: nombreInput,
+        correo_cliente: correoInput ,
+        telefono_cliente: telefonoInput ,
+        direccion_cliente: direccionInput ,
+        tipo_documento_id_cliente: tipoDocumentoInput ,
+        tipo_organizacion_id_cliente: tipoOrganizacionInput ,
+        regimen_tributario_id_cliente: regimenInput ,
+        municipio_id_cliente: municipioInput ,
+        razon_social_cliente: razonSocialInput ,
+        nombre_comercial_cliente: nombreComercialInput 
       });
-      
-      if (response){
+
+      if (response) {
         mostrarMensaje(response.mensaje);
       }
       updateDataViwer()
     } else {
       // Agregar nuevo
-      const response = await fetchDataWithToken(`${HOST_API}/addClient`, {
-        "cedula": cc,
-        "nombre": nombre,
-        "telefono": telefono,
-        "direccion": direccion,
-        "correo": email
-      });
-      if (response){
+      const peticionData = {
+        cedula: cedulaInput ,
+        digito_verificacion: dvInput,
+        nombre: nombreInput ,
+        correo: correoInput ,
+        telefono: telefonoInput ,
+        direccion: direccionInput ,
+        tipo_documento_id: tipoDocumentoInput ,
+        tipo_organizacion_id: tipoOrganizacionInput,
+        regimen_tributario_id : regimenInput,
+        municipio_id: municipioInput,
+        razon_social: razonSocialInput || "",
+        nombre_comercial: nombreComercialInput || ""
+        
+      }
+      console.log(peticionData)
+      const response = await fetchDataWithToken(`${HOST_API}/addClient`, peticionData);
+      if (response) {
         mostrarMensaje(response.mensaje);
       }
       updateDataViwer()
@@ -545,7 +633,7 @@ if (btnAgregarCliente) {
       const tbody = document.querySelector("#ContainerClientes tbody");
       if (!tbody) return;
       const filtrados = dataJSON.clientes.filter(c =>
-        c.nombre.toLowerCase().includes(texto) || c.cedula.includes(texto)
+        c.nombre_cliente.toLowerCase().includes(texto) || c.cedula_cliente.includes(texto)
       );
       btnBuscarCliente.addEventListener("click", () => {
         console.log(filtrados)
@@ -589,7 +677,7 @@ if (btnAgregarCliente) {
       const tbody = document.querySelector("#ContainerProductos tbody");
       if (!tbody) return;
       const filtrados = dataJSON.productos.filter(p =>
-        p.nombre.toLowerCase().includes(texto) || p.codigo.includes(texto)
+        p.nombre.toLowerCase().includes(texto) || p.precio.includes(texto)
       );
       btnBuscarProducto.addEventListener("click", () => {
         if (filtrados.length === 0) {
@@ -604,12 +692,12 @@ if (btnAgregarCliente) {
         filtrados.forEach(p => {
           const fila = document.createElement("tr");
           fila.innerHTML = `
-          <td>${p.codigo}</td>
+          <td>${p.id}</td>
           <td>${p.nombre}</td>
-          <td>${p.descripcion}</td>
+          <td>${p.precio}</td>
           <td class="options-table">
-            <button class="btn-azul" onclick="verProducto('${p.codigo}')">Ver</button>
-            <button class="btn-rojo" onclick="eliminarProducto('${p.codigo}')">Eliminar</button>
+            <button class="btn-azul" onclick="verProducto('${p.id}')">Ver</button>
+            <button class="btn-rojo" onclick="eliminarProducto('${p.id}')">Eliminar</button>
           </td>`;
           tbody.appendChild(fila);
         });
@@ -626,8 +714,9 @@ if (btnAgregarCliente) {
       const texto = (capturarItem("buscarFactura")?.value || "").trim().toLowerCase();
       const tbody = document.querySelector("#ContainerFacturas tbody");
       if (!tbody) return;
+      console.log(dataJSON)
       const filtrados = dataJSON.facturas.filter(f =>
-        f.cliente.toLowerCase().includes(texto) || f.codigo.includes(texto)
+        f.cliente.toLowerCase().includes(texto) || f.cliente_cedula.includes(texto)
       );
       btnBuscarFactura.addEventListener("click", () => {
         if (filtrados.length === 0) {
@@ -663,11 +752,19 @@ if (btnAgregarCliente) {
   function conectarAbrirCerrar() {
     const open1 = capturarItem("open-modal1");
     if (open1) open1.addEventListener("click", () => {capturarItem("modal1")?.classList.add("active"); 
-      capturarItem("cc_cliente").value="";
+      capturarItem("id_cliente").value ="";
+      capturarItem("cedula_cliente").value="";
+      capturarItem("digito_verificacion_cliente").value="";
       capturarItem("nombre_cliente").value="";
-      capturarItem("email_cliente").value="";
-      capturarItem("direccion_cliente").value="";
-      capturarItem("telefono_cliente").value="";
+     capturarItem("correo_cliente").value="";
+    capturarItem("telefono_cliente").value="";
+    capturarItem("direccion_cliente").value="";
+    capturarItem("tipo_documento_cliente").value="";
+    capturarItem("tipo_organizacion_cliente").value="";
+     capturarItem("regimen_tributario_cliente").value="";
+     capturarItem("municipio_cliente").value="";
+     capturarItem("razon_social_cliente").value="";
+    capturarItem("nombre_comercial_cliente").value="";
     });
     const open2 = capturarItem("open-modal2");
     if (open2) open2.addEventListener("click", () => capturarItem("modal2")?.classList.add("active"));
@@ -714,7 +811,7 @@ if (btnAgregarCliente) {
           actualPass : passwordUser,
           newPass : newPass
         });
-        if(response){
+        if(response.status == 200){
           mostrarConfirm(response.mensaje + "\n Se cerrara la sesión para aplicar los cambios", (ok)=>{
             if(ok){
               mostrarSeccion(ContainerLogin);
@@ -727,6 +824,8 @@ if (btnAgregarCliente) {
             }
           
         })
+      }else{
+        mostrarMensaje(response.mensaje)
       }
       }
         
@@ -842,8 +941,9 @@ const btnRegistrarUsuario = capturarItem("btnRegistrarUsuario")
  const newUserName = capturarItem("registerNombre").value.trim();
  const newUserEmail = capturarItem("registerCorreo").value.trim();
  const newUserPhone = capturarItem("registerTelefono").value.trim();
+ const newUserDireccion = capturarItem("registerDireccion").value.trim();
  const newUserPass = capturarItem("registerContrasena").value.trim();
-  if(!newUserCC || !newUserEmail || !newUserName || !newUserPass || !newUserPhone){
+  if(!newUserCC || !newUserEmail || !newUserName || !newUserPass || !newUserPhone || !newUserDireccion){
     spinnerNewUser.style.display="none"
     btnRegistrarUsuario.style.display="block"
    btnVolverLogin.style.display="block"
@@ -860,7 +960,8 @@ const btnRegistrarUsuario = capturarItem("btnRegistrarUsuario")
         contrasena :newUserPass, 
         nombre : newUserName, 
         correo : newUserEmail, 
-        telefono : newUserPhone});
+        telefono : newUserPhone,
+        direccion: newUserDireccion});
       if(response){
         btnRegistrarUsuario.style.display="block"
         btnVolverLogin.style.display="block"

@@ -164,6 +164,7 @@ a:hover {
     border-radius: 8px;
     width: min-content;
     gap: 10px;
+    margin: 0 auto;
 }
 .formulario-agregar-items {
     color: var(--text);
@@ -577,7 +578,7 @@ td p{
     padding: 0;
     border-radius: none;
   }
-    .formulario-agregar{
+.formulario-agregar{
     min-width: none;
     border: none;
     width: 100%;

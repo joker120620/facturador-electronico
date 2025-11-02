@@ -97,29 +97,45 @@ client.on("message", async msg => {
     await client.sendMessage(numero, "📄 Texto Extraido:\n```" + body.split("--")[0].trim(body.replace("Titulo:", "").replace("Texto:", "")) + "```");
     await client.sendMessage(numero, "Desea realizar la factura con estos Datos?");
 
-    client.on("message", async msg2 => {
+    // === Escucha la respuesta del usuario ===
+const handler = async msg2 => {
+  if (msg2.from === numero && msg2.body.toLowerCase() === "si") {
+    await client.sendMessage(numero, "Generando factura...");
+    // Extraer información estructurada
+    const datosFactura = extraerJSONdelTexto(infoFactura);
+    console.log("Datos Extraidos de la Factura");
+    console.log(datosFactura);
+    try {
+      const response = await fetchData(`${HOST_API}/addFacturaByName`, datosFactura);
+      console.log(response)
+      await client.sendMessage(
+        numero,
+        "Informacion:\n```" + JSON.stringify(response.mensaje + " \n  Esta es la factura: ",  null, 2) + "```"
+      );
+       // Crear el objeto MessageMedia
+    const pdfMedia = new MessageMedia('application/pdf', response.pdfBase64, 'factura.pdf');
+    // Enviar el PDF
+    await client.sendMessage(numero, pdfMedia);
 
-      if (msg2.from === numero && msg2.body.toLowerCase() === "si") {
-        await client.sendMessage(numero, "Generando factura...");
-        // Extraer información estructurada
-        const datosFactura = extraerJSONdelTexto(infoFactura);
-        console.log("Datos Extraidos de la Factura");
-        console.log(datosFactura);
-        try{
-          const response = await fetchData(`${HOST_API}/addFacturaByName`,
-          datosFactura
-        );
-        await client.sendMessage(numero, "Informacion:\n```" + JSON.stringify(response.mensaje, null, 2) + "```");
+    console.log('📄 PDF enviado correctamente');
+    } catch (error) {
+      console.error("Error al enviar datos al servidor:", error);
+      await client.sendMessage(
+        numero,
+        "⚠️ Hubo un error al procesar la factura. Inténtalo de nuevo."
+      );
+    }
 
-        }catch(error){
-          console.error("Error al enviar datos al servidor:", error);
-          await client.sendMessage(numero, "⚠️ Hubo un error al procesar la factura. Inténtalo de nuevo.");
-        }
-        
+    // Desactiva el listener al finalizar
+    client.removeListener("message", handler);
+  } else if (msg2.from === numero && msg2.body.toLowerCase() === "cancelar") {
+    await client.sendMessage(numero, "Proceso de facturación cancelado.");
+    client.removeListener("message", handler);
+  }
+};
 
-      }
-
-    });
+// Activa el listener temporalmente
+client.on("message", handler);
 ///===================================BASIC COMMANDS=============================
 
   } else if (body === "Hola") {

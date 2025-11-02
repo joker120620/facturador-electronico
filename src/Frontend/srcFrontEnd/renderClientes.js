@@ -13,14 +13,14 @@ export function renderClientes(dataJSON) {
       dataJSON.clientes.forEach(cliente => {
       const fila = document.createElement("tr");
       fila.innerHTML = `
-        <td><p>Cedula: </p>${cliente.cedula}</td>
-        <td><p>Nombre: </p>${cliente.nombre}</td>
-        <td><p>Correo: </p>${cliente.correo}</td>
-        <td><p>Direccion: </p>${cliente.direccion}</td>
-        <td><p>Telefono: </p>${cliente.telefono}</td>
+        <td><p>Cedula: </p>${cliente.cedula_cliente}</td>
+        <td><p>Nombre: </p>${cliente.nombre_cliente}</td>
+        <td><p>Correo: </p>${cliente.correo_cliente}</td>
+        <td><p>Direccion: </p>${cliente.direccion_cliente}</td>
+        <td><p>Telefono: </p>${cliente.telefono_cliente}</td>
         <td class="options-table">
-          <button class="btn-azul" onclick="editarCliente('${cliente.id}')">Editar</button>
-          <button class="btn-rojo" onclick="eliminarCliente('${cliente.id}')">Eliminar</button>
+          <button class="btn-azul" onclick="editarCliente('${cliente.id_cliente}')">Editar</button>
+          <button class="btn-rojo" onclick="eliminarCliente('${cliente.id_cliente}')">Eliminar</button>
         </td>`;
       tbody.appendChild(fila);
     });
