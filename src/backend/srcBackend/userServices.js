@@ -429,7 +429,6 @@ export async function addProducto({ usuario_id_producto, nombre_producto, descri
       WHERE id_producto = ?
     `;
     await connectionDB.query(sqlUpdate, [codigo, nuevoId]);
-
     return nuevoId;
   } catch (error) {
     console.error("Error al agregar producto:", error);
