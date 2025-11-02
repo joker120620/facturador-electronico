@@ -38,7 +38,7 @@ const app = express();
 // =================== CONFIGURAR CORS ===================
 const allowedOrigins = [
   "http://127.0.0.1:5500", // Live Server (VS Code)
-  "http://localhost:5173", // Vite
+  "http://localhost:4000", // Vite
   "http://localhost:3000", // Dev
   "https://joker120620.github.io", // GitHub Pages
   "https://front-web.up.railway.app", // front
