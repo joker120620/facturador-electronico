@@ -170,10 +170,10 @@ app.post("/registerUser", async (req, res) => {
     };
 
     const id = await addUsuario(payload);
-    res.status(200).json({ mensaje: "Usuario registrado correctamente", id });
+    res.status(200).json({ status: 200, mensaje: "Usuario registrado correctamente", id });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ mensaje: "Error al registrar usuario" });
+    res.status(500).json({ status : 500 , mensaje: "Error al registrar usuario" });
   }
 });
 
@@ -674,23 +674,16 @@ app.post("/getProduct", verificarToken, async (req, res) => {
 app.post("/addProduct", verificarToken, async (req, res) => {
   try {
     const usuario_id = req.user.id;
-    const { nombre, precio, descripcion, codigo } = req.body;
-
+    const { nombre, precio, descripcion } = req.body;
     if (!nombre || !precio) {
       return res.status(400).json({ mensaje: "Faltan datos obligatorios: nombre o precio" });
     }
 
     // Enviar ambos esquemas en el payload
     const payload = {
-      usuario_id,
       usuario_id_producto: usuario_id,
-      nombre,
       nombre_producto: nombre,
-      descripcion,
       descripcion_producto: descripcion,
-      codigo,
-      codigo_producto: codigo,
-      precio,
       precio_producto: precio
     };
 

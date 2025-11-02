@@ -72,7 +72,7 @@ export async function addUsuario({ cedula, contrasena, nombre, correo, telefono,
 
   const sql = `
     INSERT INTO tbl_usuarios (cedula_usuario, contrasena_usuario, nombre_usuario, correo_usuario, telefono_usuario, direccion_usuario, rol_usuario)
-    VALUES (?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
   `;
 
   const [result] = await connectionDB.query(sql, [cedula, hashedPassword, nombre, correo, telefono, direccion, rol]);
@@ -407,14 +407,30 @@ export async function getProductosByUsuario(usuario_id) {
 }
 
 // Agregar nuevo producto
-export async function addProducto({ usuario_id, nombre, descripcion = null, codigo = null, precio }) {
+export async function addProducto({ usuario_id_producto, nombre_producto, descripcion_producto = null, precio_producto }) {
   try {
-    const sql = `
-      INSERT INTO tbl_productos (usuario_id_producto, nombre_producto, descripcion_producto, codigo_producto, precio_producto)
-      VALUES (?, ?, ?, ?, ?)
+    // Insertar sin el código
+    const sqlInsert = `
+      INSERT INTO tbl_productos 
+      (usuario_id_producto, nombre_producto, descripcion_producto, precio_producto)
+      VALUES (?, ?, ?, ?)
     `;
-    const [result] = await connectionDB.query(sql, [usuario_id, nombre, descripcion, codigo, precio]);
-    return result.insertId;
+    const [result] = await connectionDB.query(sqlInsert, [usuario_id_producto, nombre_producto, descripcion_producto, precio_producto]);
+
+    const nuevoId = result.insertId;
+
+    // Generar código basado en el ID (4 dígitos)
+    const codigo = `P${String(nuevoId).padStart(4, '0')}`;
+
+    // Actualizar el producto con el código
+    const sqlUpdate = `
+      UPDATE tbl_productos
+      SET codigo_producto = ?
+      WHERE id_producto = ?
+    `;
+    await connectionDB.query(sqlUpdate, [codigo, nuevoId]);
+
+    return nuevoId;
   } catch (error) {
     console.error("Error al agregar producto:", error);
     throw error;

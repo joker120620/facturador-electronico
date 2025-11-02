@@ -1,5 +1,4 @@
 export function renderUserApp(data) {
-  console.log(data)
   // Renderizar la aplicación de usuario con los datos proporcionados
   const container = document.getElementById("container-user-data");
   container.innerHTML = ""; // Limpiar contenido previo

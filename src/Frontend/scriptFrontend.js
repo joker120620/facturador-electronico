@@ -6,7 +6,7 @@ import { renderProductos } from "./srcFrontEnd/renderProductos.js";
 import { renderFacturas } from "./srcFrontEnd/renderFacturas.js";
 import { renderClientes } from "./srcFrontEnd/renderClientes.js";
 //================================================================
-const HOST_API =  "http://localhost:3000" //"https://facturador-electronico-production.up.railway.app";
+const HOST_API = "https://facturador-electronico-production.up.railway.app"  //"http://localhost:3000" //;//
 
 document.addEventListener("DOMContentLoaded", async () => {
     // ====================== MENÚ NAVEGACIÓN ======================
@@ -119,7 +119,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     data = await pedirDatosClientes();// recargar datos al iniciar sesión
     if(data.status == 403){
       mostrarMensaje("Session cerrada");
+      capturarItem("menu-section").style.display = "none"
       mostrarSeccion(ContainerLogin);
+      
     }else{
       renderClientes(data);
       if (!data.clientes) {
@@ -132,6 +134,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     if(data.status == 403){
       mostrarMensaje("Session cerrada");
+      capturarItem("menu-section").style.display = "none"
       mostrarSeccion(ContainerLogin);
     }else{
       renderProductos(data);
@@ -145,6 +148,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     data = await pedirDatosFacturas();
     if(data.status == 403){
       mostrarMensaje("Session cerrada");
+      capturarItem("menu-section").style.display = "none"
       mostrarSeccion(ContainerLogin);
     }else{
       renderFacturas(data);
@@ -962,7 +966,7 @@ const btnRegistrarUsuario = capturarItem("btnRegistrarUsuario")
         correo : newUserEmail, 
         telefono : newUserPhone,
         direccion: newUserDireccion});
-      if(response){
+      if(response.status ==200){
         btnRegistrarUsuario.style.display="block"
         btnVolverLogin.style.display="block"
         spinnerNewUser.style.display="none"
