@@ -47,7 +47,7 @@ client.on("ready", async () => {
 
   // Avisar al backend que el bot está activo
   try {
-    const response = await fetchData("http://localhost:3000/statusbot", { entity: "bot", status: true });
+    const response = await fetchData(`${HOST_API}/statusbot`, { entity: "bot", status: true });
     console.log(response.msj);
   } catch (error) {
     console.error("⚠️ No se pudo notificar al backend:", error.message);
