@@ -6,7 +6,7 @@ import { renderProductos } from "./srcFrontEnd/renderProductos.js";
 import { renderFacturas } from "./srcFrontEnd/renderFacturas.js";
 import { renderClientes } from "./srcFrontEnd/renderClientes.js";
 //================================================================
-const HOST_API = "https://facturador-electronico-production.up.railway.app"  //"http://localhost:3000" //;//
+const HOST_API = "http://localhost:3000" //;//"https://facturador-electronico-production.up.railway.app"  //
 
 document.addEventListener("DOMContentLoaded", async () => {
     // ====================== MENÚ NAVEGACIÓN ======================

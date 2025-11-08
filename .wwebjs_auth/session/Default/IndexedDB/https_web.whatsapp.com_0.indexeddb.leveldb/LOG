@@ -1,9 +1,0 @@
-2025/11/07-19:04:46.645 18dc Reusing MANIFEST C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/11/07-19:04:46.662 18dc Recovering log #609
-2025/11/07-19:04:46.669 18dc Reusing old log C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000609.log 
-2025/11/07-19:04:46.669 18dc Delete type=2 #533
-2025/11/07-19:04:46.669 18dc Delete type=2 #606
-2025/11/07-19:04:46.669 18dc Delete type=2 #607
-2025/11/07-19:04:46.669 18dc Delete type=2 #608
-2025/11/07-19:04:46.669 18dc Delete type=2 #610
-2025/11/07-19:04:53.060 1878 Manual compaction at level-0 from '\x00l\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00m\x00\x00\x00' @ 0 : 0; will stop at (end)
