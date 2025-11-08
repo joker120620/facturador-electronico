@@ -1,6 +1,26 @@
 -- --------------------------------------------------------
 -- 📦 Base de datos: db_facturabot
 -- --------------------------------------------------------
+
+-- --------------------------------------------------------
+-- Tabla tbl_usuarios
+-- --------------------------------------------------------
+CREATE TABLE tbl_usuarios (
+  id_usuario int(11) NOT NULL AUTO_INCREMENT,
+  cedula_usuario varchar(20) NOT NULL,
+  contrasena_usuario varchar(255) NOT NULL,
+  nombre_usuario varchar(100) NOT NULL,
+  correo_usuario varchar(100) NOT NULL,
+  telefono_usuario varchar(20) DEFAULT NULL,
+  direccion_usuario varchar(255) DEFAULT NULL,
+  rol_usuario varchar(50) DEFAULT 'usuario',
+  estado_usuario tinyint(1) DEFAULT 1,
+  fecha_registro_usuario timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (id_usuario),
+  UNIQUE KEY unique_cedula (cedula_usuario),
+  UNIQUE KEY unique_correo (correo_usuario)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- --------------------------------------------------------
 -- Tabla tbl_clientes
 -- --------------------------------------------------------
@@ -23,25 +43,6 @@ CREATE TABLE tbl_clientes (
   UNIQUE KEY unique_cedula_cliente (cedula_cliente),
   KEY fk_cliente_usuario (usuario_id_cliente),
   CONSTRAINT fk_cliente_usuario FOREIGN KEY (usuario_id_cliente) REFERENCES tbl_usuarios (id_usuario) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
--- Tabla tbl_usuarios
--- --------------------------------------------------------
-CREATE TABLE tbl_usuarios (
-  id_usuario int(11) NOT NULL AUTO_INCREMENT,
-  cedula_usuario varchar(20) NOT NULL,
-  contrasena_usuario varchar(255) NOT NULL,
-  nombre_usuario varchar(100) NOT NULL,
-  correo_usuario varchar(100) NOT NULL,
-  telefono_usuario varchar(20) DEFAULT NULL,
-  direccion_usuario varchar(255) DEFAULT NULL,
-  rol_usuario varchar(50) DEFAULT 'usuario',
-  estado_usuario tinyint(1) DEFAULT 1,
-  fecha_registro_usuario timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (id_usuario),
-  UNIQUE KEY unique_cedula (cedula_usuario),
-  UNIQUE KEY unique_correo (correo_usuario)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -120,5 +121,3 @@ CREATE TABLE tbl_factura_detalle (
   CONSTRAINT fk_detalle_factura FOREIGN KEY (factura_id_detalle) REFERENCES tbl_facturas (id_factura) ON DELETE CASCADE,
   CONSTRAINT fk_detalle_producto FOREIGN KEY (producto_id_detalle) REFERENCES tbl_productos (id_producto) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-COMMIT;

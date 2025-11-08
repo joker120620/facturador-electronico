@@ -1,22 +1,9 @@
-2025/11/02-09:50:09.018 2640 Reusing MANIFEST C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/11/02-09:50:09.019 2640 Recovering log #420
-2025/11/02-09:50:09.092 2640 Reusing old log C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000420.log 
-2025/11/02-09:50:11.335 3608 Level-0 table #429: started
-2025/11/02-09:50:11.358 3608 Level-0 table #429: 581801 bytes OK
-2025/11/02-09:50:11.360 3608 Delete type=0 #420
-2025/11/02-09:50:11.360 3608 Manual compaction at level-0 from '\x00d\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00e\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/11/02-09:50:16.173 2640 Compacting 1@1 + 5@2 files
-2025/11/02-09:50:16.351 2640 Generated table #430@1: 66281 keys, 2261858 bytes
-2025/11/02-09:50:16.483 2640 Generated table #431@1: 31088 keys, 2190382 bytes
-2025/11/02-09:50:16.584 2640 Generated table #432@1: 17127 keys, 2160957 bytes
-2025/11/02-09:50:16.724 2640 Generated table #433@1: 58773 keys, 2194418 bytes
-2025/11/02-09:50:16.946 2640 Generated table #434@1: 97294 keys, 2249576 bytes
-2025/11/02-09:50:16.955 2640 Generated table #435@1: 2134 keys, 52011 bytes
-2025/11/02-09:50:16.955 2640 Compacted 1@1 + 5@2 files => 11109202 bytes
-2025/11/02-09:50:16.956 2640 compacted to: files[ 0 0 6 0 0 0 0 ]
-2025/11/02-09:50:16.957 2640 Delete type=2 #422
-2025/11/02-09:50:16.957 2640 Delete type=2 #423
-2025/11/02-09:50:16.957 2640 Delete type=2 #424
-2025/11/02-09:50:16.957 2640 Delete type=2 #425
-2025/11/02-09:50:16.957 2640 Delete type=2 #426
-2025/11/02-09:50:16.957 2640 Delete type=2 #429
+2025/11/07-19:04:46.645 18dc Reusing MANIFEST C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/11/07-19:04:46.662 18dc Recovering log #609
+2025/11/07-19:04:46.669 18dc Reusing old log C:\Users\USUARIO\Documents\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000609.log 
+2025/11/07-19:04:46.669 18dc Delete type=2 #533
+2025/11/07-19:04:46.669 18dc Delete type=2 #606
+2025/11/07-19:04:46.669 18dc Delete type=2 #607
+2025/11/07-19:04:46.669 18dc Delete type=2 #608
+2025/11/07-19:04:46.669 18dc Delete type=2 #610
+2025/11/07-19:04:53.060 1878 Manual compaction at level-0 from '\x00l\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00m\x00\x00\x00' @ 0 : 0; will stop at (end)

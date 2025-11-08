@@ -840,7 +840,7 @@ app.post("/addFacturaByName", async (req, res) => {
     }else {
       res.status(201).json({
       status: 201,
-      mensaje: `error${cliente.nombre}`,
+      mensaje: `error ${cliente.nombre}`,
       factura_id,
       productos_no_encontrados: productosNoEncontrados,
       total_calculado: totalCalculado})

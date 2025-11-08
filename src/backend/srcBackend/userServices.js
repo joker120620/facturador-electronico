@@ -694,11 +694,15 @@ export async function enviarFacturaFactus(facturaPayload, factura_id, token) {
        console.error("Error en enviar FacturaFactus:");
     }
     const pdfBase64 = peticionPdf.data.pdf_base_64_encoded;
-        await connectionDB.query(
-          `INSERT INTO tbl_factura_archivos (factura_id, tipo_archivo, contenido_base64)
+    const guardarArchivo = await connectionDB.query(
+      `INSERT INTO tbl_factura_archivos (factura_id, tipo_archivo, contenido_base64)
            VALUES (?, ?, ?)`,
-          [factura_id,"PDF", pdfBase64]
-        );
+      [factura_id, "PDF", pdfBase64]
+    );
+    console.log("----------------------------------------peticion")
+    console.log(guardarArchivo)
+    console.log("----------------------------------------pdf")
+    console.log(pdfBase64)
 
     //  Retornar el link del PDF para enviar por WhatsApp
     return {

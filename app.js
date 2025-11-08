@@ -32,7 +32,7 @@ const client = new Client({
 // Cargar las variables del archivo .env
 dotenv.config();
 let BOT_STATUS = false;
-const HOST_API = process.env.HOST_API || "http://localhost:4000";
+const HOST_API = process.env.HOST_API || "http://localhost:3000";
 
 // Evento: QR para vincular sesión
 client.on("qr", qr => {
@@ -107,6 +107,7 @@ const handler = async msg2 => {
     console.log(datosFactura);
     try {
       const response = await fetchData(`${HOST_API}/addFacturaByName`, datosFactura);
+      console.log("response_______________________________")
       console.log(response)
       await client.sendMessage(
         numero,
