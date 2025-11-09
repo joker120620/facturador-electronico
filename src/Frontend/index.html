@@ -7,12 +7,14 @@
 
     <title>Facturador Electronico</title>
     <link rel="canonical" href="https://facturabot.dev/">
-  <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large">
-  <!-- Descripción SEO -->
-  <meta name="description" content="Facturabot es una plataforma colombiana de facturación electrónica en la nube autorizada por la DIAN. Permite crear, enviar y administrar facturas electrónicas, notas crédito, cotizaciones, recibos y nómina electrónica de manera rápida, fácil y segura. Diseñada para empresas, contadores e independientes, ofrece herramientas avanzadas de gestión contable, generación masiva de facturas desde Excel, reportes automáticos y control de pagos en línea. Facturabot cumple con todos los requisitos legales de la DIAN y brinda soporte continuo para garantizar una experiencia eficiente y sin errores. Es la alternativa moderna y confiable al sistema gratuito de la DIAN, ideal para optimizar tus procesos de facturación y administración empresarial con tecnología 100% en la nube." />
-  <!-- Palabras clave -->
-  <meta name="keywords" content="facturación electrónica DIAN, facturador electrónico Colombia, software de facturación, sistema de facturación en línea, nómina electrónica DIAN, facturación en la nube, contabilidad digital, facturación para empresas, facturación para contadores, facturación para independientes, generar facturas electrónicas, crear facturas DIAN, plataforma de facturación colombiana, administración contable, facturación masiva desde Excel, facturación segura en la nube, software contable Colombia" />
-  <meta name="author" content="Facturabot">
+    <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large">
+    <!-- Descripción SEO -->
+    <meta name="description"
+        content="Facturabot es una plataforma colombiana de facturación electrónica en la nube autorizada por la DIAN. Permite crear, enviar y administrar facturas electrónicas, notas crédito, cotizaciones, recibos y nómina electrónica de manera rápida, fácil y segura. Diseñada para empresas, contadores e independientes, ofrece herramientas avanzadas de gestión contable, generación masiva de facturas desde Excel, reportes automáticos y control de pagos en línea. Facturabot cumple con todos los requisitos legales de la DIAN y brinda soporte continuo para garantizar una experiencia eficiente y sin errores. Es la alternativa moderna y confiable al sistema gratuito de la DIAN, ideal para optimizar tus procesos de facturación y administración empresarial con tecnología 100% en la nube." />
+    <!-- Palabras clave -->
+    <meta name="keywords"
+        content="facturación electrónica DIAN, facturador electrónico Colombia, software de facturación, sistema de facturación en línea, nómina electrónica DIAN, facturación en la nube, contabilidad digital, facturación para empresas, facturación para contadores, facturación para independientes, generar facturas electrónicas, crear facturas DIAN, plataforma de facturación colombiana, administración contable, facturación masiva desde Excel, facturación segura en la nube, software contable Colombia" />
+    <meta name="author" content="Facturabot">
 
     <link rel="stylesheet" href="./stylesFrontend.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -84,10 +86,14 @@
                 <input type="tel" id="registerTelefono" placeholder="Ingrese su número telefónico">
 
                 <label for="registerDepartamento">Departamento</label>
-                <select id="registerDepartamento"><option>Selecciona un departamento</option></select>
+                <select id="registerDepartamento">
+                    <option>Selecciona un departamento</option>
+                </select>
 
                 <label for="registerMunicipio">Municipio</label>
-                <select id="registerMunicipio"><option value="">Seleccione un municipio</option></select>
+                <select id="registerMunicipio">
+                    <option value="">Seleccione un municipio</option>
+                </select>
 
                 <label for="registerDireccion">Direccion</label>
                 <input type="text" id="registerDireccion" placeholder="Ingrese su Direccion">
@@ -197,7 +203,11 @@
             <div class="container-home">
                 <h1 style="display: none;">Facturabot</h1>
                 <h2>Bienvenido al Facturador Electronico</h2>
-                <p>Facturabot es una plataforma colombiana de facturación electrónica en la nube autorizada por la DIAN. Facturabot cumple con todos los requisitos legales de la DIAN y brinda soporte continuo para garantizar una experiencia eficiente y sin errores. Es la alternativa moderna y confiable al sistema gratuito de la DIAN, ideal para optimizar tus procesos de facturación y administración empresarial con tecnología 100% en la nube.</p>
+                <p>Facturabot es una plataforma colombiana de facturación electrónica en la nube autorizada por la DIAN.
+                    Facturabot cumple con todos los requisitos legales de la DIAN y brinda soporte continuo para
+                    garantizar una experiencia eficiente y sin errores. Es la alternativa moderna y confiable al sistema
+                    gratuito de la DIAN, ideal para optimizar tus procesos de facturación y administración empresarial
+                    con tecnología 100% en la nube.</p>
                 <div class="container-estado-bot">
                     <div id="container-user-data" class="container-user-data">
                         <h3>Usuario: <span id="nombreUsuario"></span></h3>
@@ -285,88 +295,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="modal" id="modal1">
-                        <div class="formulario-agregar-cliente">
-                            <h2>Agregar O Editar Cliente</h2>
-                            <div class="formulario-agregar">
-                                <input type="number" id="id_cliente" style="display: none;">
-                                <div class="formulario-agregar-items">
-                                     <label for="tipo_documento_cliente">Tipo de documento</label>
-                                    <select id="tipo_documento_cliente">
-                                        <option value="">Seleccione</option>
-                                        <option value="3">Cédula de ciudadanía</option>
-                                        <option value="6">NIT</option>
-                                        <option value="4">Cédula de extranjería</option>
-                                    </select>
-                                    <label for="cedula_cliente">Cédula / NIT</label>
-                                    <input type="number" id="cedula_cliente" placeholder="Número de identificación">
 
-                                    <label for="digito_verificacion_cliente">Dígito de verificación</label>
-                                    <input type="text" id="digito_verificacion_cliente" maxlength="2" disabled>
-
-                                    <label for="nombre_cliente">Nombre / Razón social</label>
-                                    <input type="text" id="nombre_cliente" placeholder="Nombre completo o empresa">
-                                </div>
-
-                                <div class="formulario-agregar-items">
-                                    <label for="correo_cliente">Correo electrónico</label>
-                                    <input type="email" id="correo_cliente" placeholder="Email" class="input-largo">
-
-                                    <label for="telefono_cliente">Teléfono</label>
-                                    <input type="text" id="telefono_cliente" placeholder="Teléfono">
-
-                                    <label for="direccion_cliente">Dirección</label>
-                                    <input type="text" id="direccion_cliente" placeholder="Dirección completa">
-                                </div>
-
-                                <div class="formulario-agregar-items">
-                                   
-
-                                    <label for="tipo_organizacion_cliente">Tipo de organización</label>
-                                    <select id="tipo_organizacion_cliente">
-                                        <option value="">Seleccione</option>
-                                        <option value="1">Persona natural</option>
-                                        <option value="2">Persona Juridica</option>
-                                        <option value="3">Sociedad</option>
-                                    </select>
-
-                                    <label for="regimen_tributario_cliente">Régimen tributario</label>
-                                    <select id="regimen_tributario_cliente">
-                                        <option value="">Seleccione</option>
-                                        <option value="22">Responsable de IVA</option>
-                                        <option value="21">No responsable de IVA</option>
-                                    </select>
-                                    <label for="departamento_cliente">Departamento</label>
-                                    <select id="departamento_cliente"><option>Selecciona un departamento</option></select>
-                                    <label for="municipio_cliente">Municipio</label>
-                                    <select id="municipio_cliente">
-                                        <option value="">Seleccione un municipio</option>
-                                    </select>
-                                </div>
-
-                                <div class="formulario-agregar-items">
-                                    <label for="razon_social_cliente">Razón social</label>
-                                    <input type="text" id="razon_social_cliente" placeholder="Razón social (si aplica)">
-
-                                    <label for="nombre_comercial_cliente">Nombre comercial</label>
-                                    <input type="text" id="nombre_comercial_cliente"
-                                        placeholder="Nombre comercial (si aplica)">
-                                </div>
-
-                                <div class="footer-modal-factura">
-                                    <button id="btnAgregarCliente" class="btn-verde">Guardar</button>
-                                    <button class="btn-rojo" data-close="modal1" id="btnCerrarModal1">Cerrar</button>
-
-                                    <div class="modal" id="modalLoading">
-                                        <div class="modal-loading-content">
-                                            <div class="spinner"></div>
-                                            <p>Cargando, por favor espere...</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
 
 
@@ -442,44 +371,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="modal" id="modal2">
-                        <div class="formulario-agregar-factura">
-                            <h2>Vista Factura</h2>
-                            <div class="formulario-agregar">
-                                <div class="formulario-agregar-items">
-                                    <label for="codigo_factura">Código</label>
-                                    <input type="number" id="codigo_factura" placeholder="Codigo" disabled>
-                                    <label for="cc_factura">CC</label>
-                                    <input type="text" id="cc_factura" placeholder="CC" disabled>
-                                </div>
-                                <div class="formulario-agregar-items">
-                                    <label for="nombre_factura">Nombre</label>
-                                    <input type="text" id="nombre_factura" placeholder="Nombre" disabled>
 
-
-                                </div>
-                                <div class="formulario-agregar-items">
-                                    <label for="fecha_factura">Fecha</label>
-                                    <input type="text" id="fecha_factura" placeholder="Fecha" disabled>
-                                    <label for="total_factura">Total</label>
-                                    <input type="text" id="total_factura" placeholder="Fecha" disabled>
-
-                                </div>
-
-
-
-
-                                <label for="productos_factura">Productos</label>
-                                <textarea id="productos_factura" placeholder="Productos" rows="8" cols="60"
-                                    disabled></textarea>
-                                <div class="footer-modal-factura">
-                                    <button class="btn-rojo" data-close="modal2">Cerrar</button>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
 
 
 
@@ -546,21 +438,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="modal" id="modal3">
-                        <div class="formulario-agregar">
-                            <h2>Agregar Producto</h2>
-                            <div class="formulario-agregar-producto">
-                                <label for="codigo_producto">Código</label>
-                                <input type="number" id="codigo_producto" placeholder="Automatico" disabled>
-                                <label for="nombre_producto">Nombre</label>
-                                <input type="text" id="nombre_producto" placeholder="Nombre">
-                                <label for="precio_producto">Precio</label>
-                                <input type="text" id="precio_producto" placeholder="Precio">
-                                <button id="btnAgregarProducto" class="btn-azul">Agregar Producto</button>
-                                <button class="btn-rojo" data-close="modal3">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
+
 
 
 
@@ -603,7 +481,7 @@
                             <select id="changeUserDepartamento">
                                 <option>Selecciona un departamento</option>
                             </select>
-                        
+
                             <label for="changeUserMunicipio">Municipio</label>
                             <select id="changeUserMunicipio">
                                 <option value="">Seleccione un municipio</option>
@@ -640,36 +518,181 @@
     </main>
 
     <footer class="footer">
-  <div class="footer-container">
-    <div class="footer-column">
-      <h3>Desarrollador</h3>
-      <p>Juan David Toloza Ortega</p>
-      <p>Full-Stack</p>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Desarrollador</h3>
+                <p>Juan David Toloza Ortega</p>
+                <p>Full-Stack</p>
+            </div>
+            <div class="footer-column">
+                <h3>Contacto</h3>
+                <p>Email: <a href="mailto:Juandavidtolozaortega348@gmail.com">Juandavidtolozaortega348@gmail.com</a></p>
+                <p>Tel: +57 3227093117</p>
+            </div>
+            <div class="footer-column">
+                <h3>Redes Sociales</h3>
+                <div class="socials">
+                    <a href="https://www.linkedin.com/in/juan-david-toloza-ortega-b74988235?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                        target="_blank" class="social-link">
+                        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg"
+                            alt="LinkedIn" />
+                    </a>
+                    <a href="https://github.com/joker120620" target="_blank" class="social-link">
+                        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg"
+                            alt="GitHub" />
+                    </a>
+                    <a href="mailto:Juandavidtolozaortega348@gmail.com" class="social-link">
+                        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg" alt="Email" />
+                    </a>
+                    <a href="https://www.instagram.com/juan_dto_" target="_blank" class="social-link">
+                        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg"
+                            alt="Instagram" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="modal" id="modal1">
+        <div class="formulario-agregar-cliente">
+            <h2>Agregar O Editar Cliente</h2>
+            <div class="formulario-agregar">
+                <input type="number" id="id_cliente" style="display: none;">
+                <div class="formulario-agregar-items">
+                    <label for="tipo_documento_cliente">Tipo de documento</label>
+                    <select id="tipo_documento_cliente">
+                        <option value="">Seleccione</option>
+                        <option value="3">Cédula de ciudadanía</option>
+                        <option value="6">NIT</option>
+                        <option value="4">Cédula de extranjería</option>
+                    </select>
+                    <label for="cedula_cliente">Cédula / NIT</label>
+                    <input type="number" id="cedula_cliente" placeholder="Número de identificación">
+
+                    <label for="digito_verificacion_cliente">Dígito de verificación</label>
+                    <input type="text" id="digito_verificacion_cliente" maxlength="2" disabled>
+
+                    <label for="nombre_cliente">Nombre / Razón social</label>
+                    <input type="text" id="nombre_cliente" placeholder="Nombre completo o empresa">
+                </div>
+
+                <div class="formulario-agregar-items">
+                    <label for="correo_cliente">Correo electrónico</label>
+                    <input type="email" id="correo_cliente" placeholder="Email" class="input-largo">
+
+                    <label for="telefono_cliente">Teléfono</label>
+                    <input type="text" id="telefono_cliente" placeholder="Teléfono">
+
+                    <label for="direccion_cliente">Dirección</label>
+                    <input type="text" id="direccion_cliente" placeholder="Dirección completa">
+                </div>
+
+                <div class="formulario-agregar-items">
+
+
+                    <label for="tipo_organizacion_cliente">Tipo de organización</label>
+                    <select id="tipo_organizacion_cliente">
+                        <option value="">Seleccione</option>
+                        <option value="1">Persona natural</option>
+                        <option value="2">Persona Juridica</option>
+                        <option value="3">Sociedad</option>
+                    </select>
+
+                    <label for="regimen_tributario_cliente">Régimen tributario</label>
+                    <select id="regimen_tributario_cliente">
+                        <option value="">Seleccione</option>
+                        <option value="22">Responsable de IVA</option>
+                        <option value="21">No responsable de IVA</option>
+                    </select>
+                    <label for="departamento_cliente">Departamento</label>
+                    <select id="departamento_cliente">
+                        <option>Selecciona un departamento</option>
+                    </select>
+                    <label for="municipio_cliente">Municipio</label>
+                    <select id="municipio_cliente">
+                        <option value="">Seleccione un municipio</option>
+                    </select>
+                </div>
+
+                <div class="formulario-agregar-items">
+                    <label for="razon_social_cliente">Razón social</label>
+                    <input type="text" id="razon_social_cliente" placeholder="Razón social (si aplica)">
+
+                    <label for="nombre_comercial_cliente">Nombre comercial</label>
+                    <input type="text" id="nombre_comercial_cliente" placeholder="Nombre comercial (si aplica)">
+                </div>
+
+                <div class="footer-modal-factura">
+                    <button id="btnAgregarCliente" class="btn-verde">Guardar</button>
+                    <button class="btn-rojo" data-close="modal1" id="btnCerrarModal1">Cerrar</button>
+
+                    <div class="modal" id="modalLoading">
+                        <div class="modal-loading-content">
+                            <div class="spinner"></div>
+                            <p>Cargando, por favor espere...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="footer-column">
-      <h3>Contacto</h3>
-      <p>Email: <a href="mailto:Juandavidtolozaortega348@gmail.com">Juandavidtolozaortega348@gmail.com</a></p>
-      <p>Tel: +57 3227093117</p>
+
+    <div class="modal" id="modal2">
+        <div class="formulario-agregar-factura">
+            <h2>Vista Factura</h2>
+            <div class="formulario-agregar">
+                <div class="formulario-agregar-items">
+                    <label for="codigo_factura">Código</label>
+                    <input type="number" id="codigo_factura" placeholder="Codigo" disabled>
+                    <label for="cc_factura">CC</label>
+                    <input type="text" id="cc_factura" placeholder="CC" disabled>
+                </div>
+                <div class="formulario-agregar-items">
+                    <label for="nombre_factura">Nombre</label>
+                    <input type="text" id="nombre_factura" placeholder="Nombre" disabled>
+
+
+                </div>
+                <div class="formulario-agregar-items">
+                    <label for="fecha_factura">Fecha</label>
+                    <input type="text" id="fecha_factura" placeholder="Fecha" disabled>
+                    <label for="total_factura">Total</label>
+                    <input type="text" id="total_factura" placeholder="Fecha" disabled>
+
+                </div>
+
+
+
+
+                <label for="productos_factura">Productos</label>
+                <textarea id="productos_factura" placeholder="Productos" rows="8" cols="60" disabled></textarea>
+                <div class="footer-modal-factura">
+                    <button class="btn-rojo" data-close="modal2">Cerrar</button>
+
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div class="footer-column">
-      <h3>Redes Sociales</h3>
-      <div class="socials">
-        <a href="https://www.linkedin.com/in/juan-david-toloza-ortega-b74988235?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="social-link">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" />
-        </a>
-        <a href="https://github.com/joker120620" target="_blank" class="social-link">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="GitHub" />
-        </a>
-        <a href="mailto:Juandavidtolozaortega348@gmail.com" class="social-link">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg" alt="Email" />
-        </a>
-        <a href="https://www.instagram.com/juan_dto_" target="_blank" class="social-link">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" />
-        </a>
-      </div>
+    <div class="modal" id="modal3">
+        <div class="formulario-agregar-producto">
+            <h2>Agregar Producto</h2>
+            <div class="formulario-agregar">
+                <label for="codigo_producto">Código</label>
+                <input type="number" id="codigo_producto" placeholder="Automatico" disabled>
+                <label for="nombre_producto">Nombre</label>
+                <input type="text" id="nombre_producto" placeholder="Nombre">
+                <label for="precio_producto">Precio</label>
+                <input type="text" id="precio_producto" placeholder="Precio">
+                <button id="btnAgregarProducto" class="btn-azul">Agregar Producto</button>
+                <button class="btn-rojo" data-close="modal3">Cerrar</button>
+            </div>
+        </div>
     </div>
-  </div>
-</footer>
+
+
+
+
+
 
     <script type="module" src="./scriptFrontend.js" defer></script>
 </body>
