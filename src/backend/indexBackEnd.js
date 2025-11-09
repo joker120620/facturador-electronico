@@ -152,7 +152,7 @@ app.post("/login", async (req, res) => {
 // ====================== REGISTRAR NUEVOS USUARIOS ======================
 //endpoint de registro de usuarios
 app.post("/registerUser", async (req, res) => {
-  const { cedula, contrasena, nombre, correo, telefono, direccion } = req.body;
+  const { cedula, contrasena, nombre, correo, telefono, direccion, municipio_id } = req.body;
 
   if (!cedula || !contrasena || !nombre || !correo || !direccion) {
     return res.status(400).json({ mensaje: "Faltan datos obligatorios" });
@@ -166,7 +166,8 @@ app.post("/registerUser", async (req, res) => {
       nombre, nombre_usuario: nombre,
       correo, correo_usuario: correo,
       telefono, telefono_usuario: telefono,
-      direccion, direccion_usuario: direccion
+      direccion, direccion_usuario: direccion,
+      municipio_id : municipio_id
     };
 
     const id = await addUsuario(payload);
@@ -181,7 +182,7 @@ app.post("/registerUser", async (req, res) => {
 app.post("/updateDataUser", verificarToken, async (req, res) => {
   try {
     const usuario_id_token = req.user.id; // viene del token
-    const { nombre, correo, telefono, actualPass, newPass } = req.body;
+    const { nombre, correo, telefono, actualPass, municipio_id , newPass  } = req.body;
 
     // Validación de campos obligatorios
     if (!nombre || !correo) {
@@ -217,7 +218,8 @@ app.post("/updateDataUser", verificarToken, async (req, res) => {
         telefono, telefono_usuario: telefono,
         nuevaContrasena: newPass,
         contrasena_usuario: newPass,
-        contrasena: newPass
+        contrasena: newPass,
+        municipio_id : municipio_id
       };
 
       const filasAfectadas = await updateUsuarioCompleto(usuario_id_token, payloadUpdate);
@@ -239,7 +241,8 @@ app.post("/updateDataUser", verificarToken, async (req, res) => {
       cedula_usuario: usuario.cedula_usuario ?? usuario.cedula,
       nombre, nombre_usuario: nombre,
       correo, correo_usuario: correo,
-      telefono, telefono_usuario: telefono
+      telefono, telefono_usuario: telefono,
+      municipio_id : municipio_id
     };
 
     const filasAfectadas = await updateUsuarioCompleto(usuario_id_token, payloadUpdateBasic);

@@ -36,21 +36,21 @@ const HOST_API = process.env.HOST_API || "http://localhost:3000";
 
 // Evento: QR para vincular sesión
 client.on("qr", qr => {
-  console.log("📱 Escanea este código QR:");
+  console.log(" Escanea este código QR:");
   qrcode.generate(qr, { small: true });
 });
 
 // Evento: Bot listo
 client.on("ready", async () => {
   BOT_STATUS = true;
-  console.log("✅ Bot iniciado y conectado correctamente.");
+  console.log("Bot iniciado y conectado correctamente.");
 
   // Avisar al backend que el bot está activo
   try {
     const response = await fetchData(`${HOST_API}/statusbot`, { entity: "bot", status: true });
     console.log(response.msj);
   } catch (error) {
-    console.error("⚠️ No se pudo notificar al backend:", error.message);
+    console.error(" No se pudo notificar al backend:", error.message);
   }
 });
 
@@ -94,7 +94,7 @@ client.on("message", async msg => {
     const numeroCliente = body.match(/userPeticion\s*:\s*(\d{6,15})/);
     console.log("Número Cliente Extraído:", numeroCliente ? numeroCliente[1] : "No encontrado");
     const numero = "57"+numeroCliente[1] + "@c.us";
-    await client.sendMessage(numero, "📄 Texto Extraido:\n```" + body.split("--")[0].trim(body.replace("Titulo:", "").replace("Texto:", "")) + "```");
+    await client.sendMessage(numero, "Texto Extraido:\n```" + body.split("--")[0].trim(body.replace("Titulo:", "").replace("Texto:", "")) + "```");
     await client.sendMessage(numero, "Desea realizar la factura con estos Datos?");
 
     // === Escucha la respuesta del usuario ===
@@ -118,7 +118,7 @@ const handler = async msg2 => {
     // Enviar el PDF
     await client.sendMessage(numero, pdfMedia);
 
-    console.log('📄 PDF enviado correctamente');
+    console.log(' PDF enviado correctamente');
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
       await client.sendMessage(
@@ -129,7 +129,7 @@ const handler = async msg2 => {
 
     // Desactiva el listener al finalizar
     client.removeListener("message", handler);
-  } else if (msg2.from === numero && msg2.body.toLowerCase() === "cancelar") {
+  } else if (msg2.from === numero && msg2.body.toLowerCase() == "cancelar") {
     await client.sendMessage(numero, "Proceso de facturación cancelado.");
     client.removeListener("message", handler);
   }
@@ -140,7 +140,7 @@ client.on("message", handler);
 ///===================================BASIC COMMANDS=============================
 
   } else if (body === "Hola") {
-    msg.reply(`👋 ¡Hola ${user.pushname || "amigo"}! ¿En qué puedo ayudarte hoy?`);
+    msg.reply(` ¡Hola ${user.pushname || "amigo"}! ¿En qué puedo ayudarte hoy?`);
   }
   else if (body === "Foto") {
     const media = await MessageMedia.fromUrl("https://cdn.memegenerator.es/imagenes/memes/full/2/81/2813751.jpg");
@@ -156,7 +156,7 @@ client.on("message", handler);
   }
   else if (body === "Servidor") {
     const response = await fetchData(`${HOST_API}/token`);
-    await msg.reply("📡 Token del servidor:\n```" + JSON.stringify(response.access_token, null, 2) + "```");
+    await msg.reply("Token del servidor:\n```" + JSON.stringify(response.access_token, null, 2) + "```");
   }
 });
 

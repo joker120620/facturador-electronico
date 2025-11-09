@@ -66,16 +66,16 @@ export async function getUsersLogin(user, pass) {
 }
 
 // Crear nuevo usuario con contraseña encriptada
-export async function addUsuario({ cedula, contrasena, nombre, correo, telefono, direccion, rol = "usuario" }) {
+export async function addUsuario({ cedula, contrasena, nombre, correo, telefono, direccion, rol = "usuario" , municipio_id}) {
   // Encriptar la contraseña antes de guardarla
   const hashedPassword = await bcrypt.hash(contrasena, 10); // 10 = salt rounds
 
   const sql = `
-    INSERT INTO tbl_usuarios (cedula_usuario, contrasena_usuario, nombre_usuario, correo_usuario, telefono_usuario, direccion_usuario, rol_usuario)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO tbl_usuarios (cedula_usuario, contrasena_usuario, nombre_usuario, correo_usuario, telefono_usuario, direccion_usuario, rol_usuario , municipio_id_usuario)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  const [result] = await connectionDB.query(sql, [cedula, hashedPassword, nombre, correo, telefono, direccion, rol]);
+  const [result] = await connectionDB.query(sql, [cedula, hashedPassword, nombre, correo, telefono, direccion, rol , municipio_id]);
   return result.insertId;
 }
 // Obtener usuario por ID
@@ -85,7 +85,7 @@ export async function getUsuarioById(id) {
 }
 
 /////actualizar datos de usuario// 
-export async function updateUsuarioCompleto(id, { cedula, nombre, correo, telefono, nuevaContrasena }) {
+export async function updateUsuarioCompleto(id, { cedula, nombre, correo, telefono, nuevaContrasena , municipio_id}) {
   let sql, params;
 
   // Si se actualiza la contraseña
@@ -93,18 +93,18 @@ export async function updateUsuarioCompleto(id, { cedula, nombre, correo, telefo
     const hashedPassword = await bcrypt.hash(nuevaContrasena, 10);
     sql = `
       UPDATE tbl_usuarios
-      SET cedula_usuario = ?, nombre_usuario = ?, correo_usuario = ?, telefono_usuario = ?, contrasena_usuario = ?
+      SET cedula_usuario = ?, nombre_usuario = ?, correo_usuario = ?, telefono_usuario = ?, contrasena_usuario = ? , municipio_id_usuario = ?
       WHERE id_usuario = ?
     `;
-    params = [cedula, nombre, correo, telefono, hashedPassword, id];
+    params = [cedula, nombre, correo, telefono, hashedPassword, municipio_id, id];
   } else {
     // Si no se cambia la contraseña
     sql = `
       UPDATE tbl_usuarios
-      SET cedula_usuario = ?, nombre_usuario = ?, correo_usuario = ?, telefono_usuario = ?
+      SET cedula_usuario = ?, nombre_usuario = ?, correo_usuario = ?, telefono_usuario = ?, municipio_id_usuario = ?
       WHERE id_usuario = ?
     `;
-    params = [cedula, nombre, correo, telefono, id];
+    params = [cedula, nombre, correo, telefono, municipio_id, id];
   }
 
   const [result] = await connectionDB.query(sql, params);
@@ -542,6 +542,7 @@ export async function generarFacturaElectronicaByIdFactura(id_factura) {
         u.telefono_usuario,
         u.correo_usuario,
         u.direccion_usuario,
+        u.municipio_id_usuario,
         c.id_cliente,
         c.cedula_cliente,
         c.digito_verificacion_cliente,
@@ -624,7 +625,7 @@ export async function generarFacturaElectronicaByIdFactura(id_factura) {
         address: factura.direccion_usuario || "Sin dirección",
         phone_number: factura.telefono_usuario,
         email: factura.correo_usuario,
-        municipality_id: factura.municipio_id_cliente || 980
+        municipality_id: factura.municipio_id_usuario || 980
       },
       customer: {
         identification: factura.cedula_cliente,
@@ -694,6 +695,8 @@ export async function enviarFacturaFactus(facturaPayload, factura_id, token) {
        console.error("Error en enviar FacturaFactus:");
     }
     const pdfBase64 = peticionPdf.data.pdf_base_64_encoded;
+    console.log("========================================================")
+    console.log(pdfBase64.substring(0, 100));
     const guardarArchivo = await connectionDB.query(
       `INSERT INTO tbl_factura_archivos (factura_id, tipo_archivo, contenido_base64)
            VALUES (?, ?, ?)`,

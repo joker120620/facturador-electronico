@@ -5,8 +5,9 @@ import { renderUserApp } from "./srcFrontEnd/renderUserApp.js";
 import { renderProductos } from "./srcFrontEnd/renderProductos.js";
 import { renderFacturas } from "./srcFrontEnd/renderFacturas.js";
 import { renderClientes } from "./srcFrontEnd/renderClientes.js";
+import { renderMunicipios } from "./srcFrontEnd/renderMunicipios.js"
 //================================================================
-const HOST_API = "http://localhost:3000" //;//"https://facturador-electronico-production.up.railway.app"  //
+const HOST_API = "https://facturador-electronico-production.up.railway.app"  //"http://localhost:3000" //;//
 
 document.addEventListener("DOMContentLoaded", async () => {
     // ====================== MENÚ NAVEGACIÓN ======================
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const ContainerLogin = capturarItem("ContainerLogin");
   const ContainerRegister =capturarItem("ContainerRegister");
   const ContainerRecoveryPass = capturarItem("ContainerRecoverPass");
+  const mainSection = capturarItem("menu-section");
   const btnSalir = capturarItem("btnMenuSalir");
   function ocultarMainBtn (){
     const mainSections = document.querySelectorAll(".menu-section");
@@ -31,12 +33,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
   function mostrarSeccion(seccion) {
-    [ContainerClientes, ContainerFacturas, ContainerProductos, ContainerHome, ContainerLogin , ContainerAjustes , ContainerRegister , ContainerRecoveryPass].forEach(s =>
+    [ContainerClientes, ContainerFacturas, ContainerProductos, ContainerHome, ContainerLogin , ContainerAjustes , ContainerRegister , ContainerRecoveryPass, mainSection].forEach(s =>
       s && s.classList.add("content-section-disabled")
     );
     
     seccion && seccion.classList.remove("content-section-disabled");
-    capturarItem("menu-section").style.display = "block"
     
   }
 
@@ -79,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const dataClientes = await fetchDataWithToken(`${HOST_API}/getClient`, { usuario_id: usuarioId });
     return dataClientes
 
-  }
+  }  
 
   // ====================== PEDIR DATOS PRODUCTOS  ======================
   const pedirDatosProductos = async () => {
@@ -104,11 +105,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const divEstadoBot = capturarItem("estadoBot");
     let responseStatus = await fetchData(`${HOST_API}/statusbot`, { entity: "client" });
     if (responseStatus.statusBotServer) {
-      divEstadoBot.textContent = "Conectado"
+      divEstadoBot.innerHTML = ""
+      divEstadoBot.innerHTML = `<div class="div-svg-status-bot"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#FFFFFF"><path d="M186.67-120q-27.5 0-47.09-19.58Q120-159.17 120-186.67v-586.66q0-27.5 19.58-47.09Q159.17-840 186.67-840h586.66q12 0 22 4.5t17 10.83l-54 54v-2.66H186.67v586.66h586.66V-504L840-570.67v384q0 27.5-19.58 47.09Q800.83-120 773.33-120H186.67ZM461-285.33 237.67-508.67l46.66-46.66L461-378.67l377-377 47 46.34-424 424Z"/></svg></div><p>Conectado</p>`
     } else {
-      divEstadoBot.textContent = "Desconectado"
+      divEstadoBot.innerHTML = ""
+      divEstadoBot.innerHTML = `<div class="div-svg-status-bot-2"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#FFFFFF"><path d="M479.99-280q15.01 0 25.18-10.15 10.16-10.16 10.16-25.17 0-15.01-10.15-25.18-10.16-10.17-25.17-10.17-15.01 0-25.18 10.16-10.16 10.15-10.16 25.17 0 15.01 10.15 25.17Q464.98-280 479.99-280Zm-31.32-155.33h66.66V-684h-66.66v248.67ZM480.18-80q-82.83 0-155.67-31.5-72.84-31.5-127.18-85.83Q143-251.67 111.5-324.56T80-480.33q0-82.88 31.5-155.78Q143-709 197.33-763q54.34-54 127.23-85.5T480.33-880q82.88 0 155.78 31.5Q709-817 763-763t85.5 127Q880-563 880-480.18q0 82.83-31.5 155.67Q817-251.67 763-197.46q-54 54.21-127 85.84Q563-80 480.18-80Zm.15-66.67q139 0 236-97.33t97-236.33q0-139-96.87-236-96.88-97-236.46-97-138.67 0-236 96.87-97.33 96.88-97.33 236.46 0 138.67 97.33 236 97.33 97.33 236.33 97.33ZM480-480Z"/></svg></div><p>Desconectado</p>`
     }
-
+ 
     setTimeout(changeStatusBot, 10000); // cada 10 segundos
   }
 
@@ -121,9 +124,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       mostrarMensaje("Session cerrada");
       capturarItem("menu-section").style.display = "none"
       mostrarSeccion(ContainerLogin);
+      capturarItem("menu-section").style.display = "none"
+      
       
     }else{
       renderClientes(data);
+      renderMunicipios("addCliente");
       if (!data.clientes) {
         data.clientes = [];
       }
@@ -356,6 +362,7 @@ if (regimenInput) regimenInput.value = cliente.regimen_tributario_id_cliente || 
 if (municipioInput) municipioInput.value = cliente.municipio_id_cliente || "";
 if (razonSocialInput) razonSocialInput.value = cliente.razon_social_cliente || "";
 if (nombreComercialInput) nombreComercialInput.value = cliente.nombre_comercial_cliente || "";
+renderMunicipios()
 
 
   // Mostrar modal
@@ -790,14 +797,16 @@ if (btnAgregarCliente) {
   const btnChancgeUserData = capturarItem("btnChangeDataUser");
   
   if(btnChancgeUserData){
+    renderMunicipios("actUser")
     btnChancgeUserData.addEventListener("click", async ()=>{
       
     const newName = capturarItem("changeUserName").value.trim();
     const newEmail = capturarItem("changeUserEmail").value.trim();
     const newPhone = capturarItem("changeUserPhone").value.trim();
     const passwordUser = capturarItem("changeUserPass").value.trim();
+    const newMunici = capturarItem("changeUserMunicipio").value.trim();
     const newPass = capturarItem("changeUserNewPass").value.trim();
-    if(!newName || !newEmail || !newPhone || !passwordUser){
+    if(!newName || !newEmail || !newPhone || !passwordUser || !newMunici){
       mostrarMensaje("Datos Incompletos!")
     }else{
       if(!validarEmail(newEmail) || !validarNumero(newPhone)){
@@ -813,6 +822,7 @@ if (btnAgregarCliente) {
           correo : newEmail,
           telefono : newPhone,
           actualPass : passwordUser,
+          municipio_id: newMunici,
           newPass : newPass
         });
         if(response.status == 200){
@@ -839,6 +849,7 @@ if (btnAgregarCliente) {
           correo : newEmail,
           telefono : newPhone,
           actualPass : passwordUser,
+          municipio_id: newMunici
         });
         if(response){
           mostrarConfirm(response.mensaje + "\n Se cerrara la sesión para aplicar los cambios", (ok)=>{
@@ -932,7 +943,7 @@ if (btnAgregarCliente) {
     
   });
  // ========================REGISTRAR USUARIO =======================
-
+renderMunicipios("addUser");
 const btnRegistrarUsuario = capturarItem("btnRegistrarUsuario")
  btnRegistrarUsuario.addEventListener("click", async ()=>{
    const spinnerNewUser= capturarItem("spinnerContainerRegister")
@@ -945,9 +956,10 @@ const btnRegistrarUsuario = capturarItem("btnRegistrarUsuario")
  const newUserName = capturarItem("registerNombre").value.trim();
  const newUserEmail = capturarItem("registerCorreo").value.trim();
  const newUserPhone = capturarItem("registerTelefono").value.trim();
+ const newUserMunici = capturarItem("registerMunicipio").value.trim();
  const newUserDireccion = capturarItem("registerDireccion").value.trim();
  const newUserPass = capturarItem("registerContrasena").value.trim();
-  if(!newUserCC || !newUserEmail || !newUserName || !newUserPass || !newUserPhone || !newUserDireccion){
+  if(!newUserCC || !newUserEmail || !newUserName || !newUserPass || !newUserPhone || !newUserDireccion || !newUserMunici){
     spinnerNewUser.style.display="none"
     btnRegistrarUsuario.style.display="block"
    btnVolverLogin.style.display="block"
@@ -965,7 +977,9 @@ const btnRegistrarUsuario = capturarItem("btnRegistrarUsuario")
         nombre : newUserName, 
         correo : newUserEmail, 
         telefono : newUserPhone,
-        direccion: newUserDireccion});
+        direccion: newUserDireccion,
+        municipio_id: newUserMunici
+      });
       if(response.status ==200){
         btnRegistrarUsuario.style.display="block"
         btnVolverLogin.style.display="block"
@@ -1052,9 +1066,11 @@ const btnRegistrarUsuario = capturarItem("btnRegistrarUsuario")
       changeStatusBot(); // iniciar ciclo estado bot
       renderUserApp(data);
       mostrarSeccion(ContainerHome);
+      capturarItem("menu-section").style.display = "block"
     } else {
-      mostrarSeccion(ContainerLogin);
       capturarItem("menu-section").style.display = "none"
+      mostrarSeccion(ContainerLogin);
+      
 
     }
 

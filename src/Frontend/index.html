@@ -83,6 +83,12 @@
                 <label for="registerTelefono">Teléfono</label>
                 <input type="tel" id="registerTelefono" placeholder="Ingrese su número telefónico">
 
+                <label for="registerDepartamento">Departamento</label>
+                <select id="registerDepartamento"><option>Selecciona un departamento</option></select>
+
+                <label for="registerMunicipio">Municipio</label>
+                <select id="registerMunicipio"><option value="">Seleccione un municipio</option></select>
+
                 <label for="registerDireccion">Direccion</label>
                 <input type="text" id="registerDireccion" placeholder="Ingrese su Direccion">
 
@@ -199,9 +205,9 @@
                         <h3>Telefono: <span id="telefonoUsuario"></span></h3>
                         <h3>Telefono del BOT: <span id="telefonoBot">0987654321</span></h3>
                     </div>
-                    <div id="container-actions-bot">
+                    <div id="container-actions-bot" class="container-actions-bot">
                         <h2>Estado del bot</h2>
-                        <p id="estadoBot">Error</p>
+                        <div id="estadoBot"></div>
 
                         <div>
                             <p>Telefono Bot: 314 3251673</p>
@@ -327,18 +333,14 @@
                                     <label for="regimen_tributario_cliente">Régimen tributario</label>
                                     <select id="regimen_tributario_cliente">
                                         <option value="">Seleccione</option>
-                                        <option value="21">Responsable de IVA</option>
-                                        <option value="22">No responsable de IVA</option>
+                                        <option value="22">Responsable de IVA</option>
+                                        <option value="21">No responsable de IVA</option>
                                     </select>
+                                    <label for="departamento_cliente">Departamento</label>
+                                    <select id="departamento_cliente"><option>Selecciona un departamento</option></select>
                                     <label for="municipio_cliente">Municipio</label>
                                     <select id="municipio_cliente">
                                         <option value="">Seleccione un municipio</option>
-                                        <option value="11001">Bogotá D.C.</option>
-                                        <option value="05001">Medellín</option>
-                                        <option value="76001">Cali</option>
-                                        <option value="08001">Barranquilla</option>
-                                        <option value="13001">Cartagena</option>
-                                        <!-- Agrega más municipios según necesites -->
                                     </select>
                                 </div>
 
@@ -596,6 +598,17 @@
                             <input type="tel" id="changeUserPhone" name="telefono"
                                 placeholder="Ingrese su número de teléfono">
                         </div>
+                        <div class="form-group">
+                            <label for="changeUserDepartamento">Departamento</label>
+                            <select id="changeUserDepartamento">
+                                <option>Selecciona un departamento</option>
+                            </select>
+                        
+                            <label for="changeUserMunicipio">Municipio</label>
+                            <select id="changeUserMunicipio">
+                                <option value="">Seleccione un municipio</option>
+                            </select>
+                        </div>
 
                         <div class="form-group">
                             <label for="changeUserPass">Contraseña actual:</label>
@@ -626,9 +639,37 @@
         </section>
     </main>
 
-    <footer style="display:none;justify-content: center;">
-        <h2>Desarrollado por Juan David Toloza Ortega</h2>
-    </footer>
+    <footer class="footer">
+  <div class="footer-container">
+    <div class="footer-column">
+      <h3>Desarrollador</h3>
+      <p>Juan David Toloza Ortega</p>
+      <p>Full-Stack</p>
+    </div>
+    <div class="footer-column">
+      <h3>Contacto</h3>
+      <p>Email: <a href="mailto:Juandavidtolozaortega348@gmail.com">Juandavidtolozaortega348@gmail.com</a></p>
+      <p>Tel: +57 3227093117</p>
+    </div>
+    <div class="footer-column">
+      <h3>Redes Sociales</h3>
+      <div class="socials">
+        <a href="https://www.linkedin.com/in/juan-david-toloza-ortega-b74988235?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="social-link">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" />
+        </a>
+        <a href="https://github.com/joker120620" target="_blank" class="social-link">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="GitHub" />
+        </a>
+        <a href="mailto:Juandavidtolozaortega348@gmail.com" class="social-link">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg" alt="Email" />
+        </a>
+        <a href="https://www.instagram.com/juan_dto_" target="_blank" class="social-link">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" />
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
 
     <script type="module" src="./scriptFrontend.js" defer></script>
 </body>
