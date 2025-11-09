@@ -16,6 +16,7 @@ import {
   updateCliente,
   deleteCliente,
   getFacturasByUsuario,
+  getFilePdfDatabase,
   addFacturaCompleta,
   deleteFactura,
   addProducto,
@@ -631,7 +632,22 @@ app.post("/getFacturas", verificarToken, async (req, res) => {
     res.status(500).json({ status: 500, mensaje: "Error interno del servidor" });
   }
 });
+//========================OBTENER ARCHIVO PSF DE FACTURAS ==============
+app.post("/downloadfile", verificarToken , async (req , res )=> {
+  const usuario_id = req.user.id;
+  const { id_factura } = req.body;
+  try {
+    const pdfFile = await getFilePdfDatabase(usuario_id, id_factura)
+    if(!pdfFile){
+      return res.status(404).json({status: 404, mensaje: "No se encontraron facturas" });
+    }
+    res.status(200).json({ status: 200, "cliente" : pdfFile.nombre_cliente , "pdfFile":  pdfFile.contenido_base64 });
+  }catch{
+     console.error("Error al obtener pdf:", error);
+    res.status(500).json({ status: 500, mensaje: "Error interno del servidor" });
+  }
 
+})
 // ====================== ELIMINAR FACTURAS ======================
 app.post("/deleteFactura", verificarToken, async (req, res) => {
   try {

@@ -528,7 +528,38 @@ export async function getProductoByNombreTolerante(nombre, usuario_id) {
     return null;
   }
 }
+//====================GET FILE PDF ==========================
+export async function getFilePdfDatabase(id_usuario, id_factura) {
+  try {
+      const sql = `SELECT 
+    a.id_archivo,
+    a.factura_id,
+    a.tipo_archivo,
+    a.url_archivo,
+    a.contenido_base64,
+    a.fecha_creacion,
+    c.nombre_cliente
+FROM tbl_factura_archivos AS a
+INNER JOIN tbl_facturas AS f 
+    ON f.id_factura = a.factura_id
+INNER JOIN tbl_clientes AS c 
+    ON c.id_cliente = f.cliente_id_factura
+WHERE a.factura_id = ? 
+  AND f.usuario_id_factura = ?`
+  const [facturaRows] = await connectionDB.query(sql,  [id_factura , id_usuario]);
+    if (facturaRows.length === 0) return undefined;
+    const factura = facturaRows[0];
+    return factura
+    
+  } catch (error) {
+    console.error("Error al obtener factura pdf", error);
+    throw error;
 
+    
+  }
+  
+  
+}
 // ====================== FACTUS API ======================
 export async function generarFacturaElectronicaByIdFactura(id_factura) {
   try {

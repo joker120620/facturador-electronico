@@ -175,32 +175,58 @@ a:hover {
 .menu {
     display: flex;
     justify-content: space-around;
-    margin: 0 auto;
     list-style: none;
     padding: 10px;
     margin: 0;
-    
+}
+
+.menu li {
+    display: flex;
+    align-items: center;
+}
+.menu li:hover{
+  
+
 }
 
 .menu button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #00B4DC;
-    padding: 10px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
     color: white;
     border: none;
-
-}
-
-.menu li:hover {
     border-radius: 8px;
-    transform: translateY(-5px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+    overflow: hidden;
+    position: relative;
+    width: 120px;
+    height: 45px;
 }
-.menu button:hover{
-    cursor: pointer;
 
+.menu button svg {
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    position: absolute;
+}
+
+.menu button .text-span-menu {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    position: absolute;
+}
+
+/* Hover: el ícono sube y desaparece, el texto entra */
+.menu button:hover svg {
+    transform: translateY(-40px);
+    opacity: 0;
+}
+
+.menu button:hover .text-span-menu {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 
@@ -762,6 +788,7 @@ td p{
   }
   .menu{
     gap: 5px;
+    font-size: 10px;
   }
   .menu li{
     display: flex;
@@ -772,9 +799,9 @@ td p{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0;
+    padding: 5;
 
-    width: 50px;
+    width: 60px;
     height: 50px;
 
   }

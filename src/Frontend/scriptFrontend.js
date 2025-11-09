@@ -7,7 +7,7 @@ import { renderFacturas } from "./srcFrontEnd/renderFacturas.js";
 import { renderClientes } from "./srcFrontEnd/renderClientes.js";
 import { renderMunicipios } from "./srcFrontEnd/renderMunicipios.js"
 //================================================================
-const HOST_API = "https://facturador-electronico-production.up.railway.app"  //"http://localhost:3000" //;//
+const HOST_API = "http://localhost:3000" //;//"https://facturador-electronico-production.up.railway.app"  //
 
 document.addEventListener("DOMContentLoaded", async () => {
     // ====================== MENÚ NAVEGACIÓN ======================
@@ -70,7 +70,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   });
   
-
 //////=====================
   const session = sessionStorage.getItem("sessionUser");
   // ====================== PEDIR DATOS Clientes  ======================
@@ -167,6 +166,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
 
   }
+
 
 ////btn actualizar de la barra de busqueda
 
@@ -574,6 +574,16 @@ if (btnAgregarCliente) {
     });
   }
 
+///=======================FUNCION DESCARGAR ARCHIVO=================
+window.downloadFile = async function (id_factura) {
+    const response = await fetchDataWithToken(`${HOST_API}/downloadfile`, { id_factura });
+    const link = document.createElement("a");
+    link.href = "data:application/pdf;base64," + response.pdfFile;
+    link.download = `${response.cliente}_Fact_${id_factura}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
   // ====================== FACTURAS ======================
   window.verFactura = function (codigo) {
     
