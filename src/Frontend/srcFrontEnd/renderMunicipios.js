@@ -1,5 +1,5 @@
 export  function renderMunicipios(option) {
-    fetch("./srcFrontend/municipios.json")
+    fetch("srcFrontEnd/municipios.json")
         .then(r => r.json())
         .then(d => {
              let dep  
